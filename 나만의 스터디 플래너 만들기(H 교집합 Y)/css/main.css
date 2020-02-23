@@ -1,0 +1,29 @@
+@font-face { font-family: 'BRBA_B'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/BRBA_B.woff') format('woff'); font-weight: normal; font-style: normal; }
+
+@font-face { font-family: 'SDMiSaeng'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SDMiSaeng.woff') format('woff'); font-weight: normal; font-style: normal; }
+
+@font-face { font-family: 'YiSunShinDotumM'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YiSunShinDotumM.woff') format('woff'); font-weight: normal; font-style: normal; }
+
+@font-face { font-family: 'GoyangIlsan'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GoyangIlsan.woff') format('woff'); font-weight: normal; font-style: normal;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+ /* background: radial-gradient(white, #FFA328);*/
+  background-image: url('  https://live.staticflickr.com/65535/49000661446_0391667246_h.jpg');
+  /*
+  https://live.staticflickr.com/65535/49000657526_90696dfcbb_h.jpg(에펠탑 확대)
+  https://live.staticflickr.com/65535/49000661446_0391667246_h.jpg(커피 반투명)
+  */
+}
+
+ .container {
+ 	 text-align: center;
+   position: absolute;
+ }
+
+  p{
+    	text-align: center;
+    	font-family: 'GoyangIlsan', sans-serif;
+    	font-size: 14;
+    }

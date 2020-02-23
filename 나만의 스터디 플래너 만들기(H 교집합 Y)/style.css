@@ -60,6 +60,7 @@
       }
 
       .button {
+        font-family: 'Nanum Gothic', sans-serif;
         display: inline-block;
         border-radius: 10px;
         border-color: #7F574A;
@@ -98,7 +99,7 @@
          opacity: 1;
          right: 0;
        }
-      
+
       .plan-time {
         width: 15%;
         background-color: #BDBDBD;
@@ -127,11 +128,10 @@
         #reflectionTable > tr > td {
           border: 1px solid black;
         }
-      
+
         #timeTable > tr > td {
           border: 1px solid black;
           text-align: right;
         }
 
         @font-face { font-family: 'BRBA_B'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/BRBA_B.woff') format('woff'); font-weight: normal; font-style: normal; }
-

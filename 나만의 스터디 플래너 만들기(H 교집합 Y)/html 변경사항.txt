@@ -1,0 +1,52 @@
+1. 태그 추가(웹폰트 링크)
+
+<link href="https://fonts.googleapis.com/css?family=Gaegu|Nanum+Gothic|Nanum+Myeongjo|Nanum+Pen+Script|Noto+Serif+KR|Poor+Story|Yeon+Sung&display=swap" rel="stylesheet">
+
+
+
+2. 라이브러리 교체(고화질 관련..)
+
+(주석 처리하거나 아예 삭제해주세여)
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+
+(추가)
+<script src = "https://rawgit.com/eKoopmans/html2canvas/develop/dist/html2canvas.min.js"></script>
+
+
+
+3. 태그 위치 변경
+
+<script src = "planner.js"></script>
+-> </body> 다음으로 이동
+
+
+
+4. 태그 추가(모바일에서 끌땅 되게 하는 라이브러리라고 하더라고여..)
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+
+
+5. 태그 추가(폰트 변경 기능)
+
+(여백 색상 정하기 밑에)
+<div class = "button">
+    글꼴 정하기 <!-- 글꼴은 다른 걸로 해도 됩니다 -->
+    <select name = "fonts" onchange = "changeFont()" id = "mySelect">
+      <option value = "Nanum Gothic">나눔고딕</option>
+      <option value = "Nanum Myeongjo">나눔명조</option>
+      <option value = 'Nanum Pen Script'>나눔펜 뭐시기</option>
+      <option value = 'Noto Serif KR'>노토 세리프가 뭐임</option>
+      <option value = 'Gaegu'>개구</option>
+      <option value = 'Yeon Sung'>연성</option>
+      <option value = 'Poor Story'>불쌍한 이야기</option>
+    </select>
+  </div>
+
+
+
+6. 태그 변경(모서리 둥글둥글)
+
+(caption 검색해서 table이랑 caption 태그 찾아주시면 됩니당)
+<table border = "1" summary = "sbs" id = "tagBox" style = "flex-grow: 1; table-layout: fixed; margin-left: 30px; margin-right: 50px; background-color: white; padding: 10px; border: 2px solid transparent; border-radius: 10px;" class = "droppable_tagBox">
+      <caption style = "height: 50px; line-height: 50px; background-color: brown; margin-bottom: 10px; border: 2px solid transparent; border-radius: 10px; color: white; vertical-align: middle; font-size: 20px;">기능</caption>

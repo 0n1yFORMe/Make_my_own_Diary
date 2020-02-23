@@ -92,7 +92,7 @@ body {
       var body = document.getElementsByTagName('body')[0];
     	//$(body).animate({opacity: '0'}, {complete: d(body)}, 'slow');
 			body.outerHTML = '<h1 class = "container">Study Planner <br> Only For You</h1>'
-   		setTimeout('window.open("mainPlanner.html", "_self")', 2000);
+   		setTimeout('window.open("mainPlanner.php", "_self")', 2000);
     });
 
   }

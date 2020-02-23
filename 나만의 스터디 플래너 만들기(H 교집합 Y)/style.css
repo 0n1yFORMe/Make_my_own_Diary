@@ -40,7 +40,9 @@
       /* 웹 전체의 스타일을 정해준다고 보면 될 듯. 폰트, 배경 */
       body {
         font-family: 'Nanum Gothic', sans-serif;
-        background: radial-gradient(white, #7F574A);
+        /*이 부분이 제작 화면 배경 색을 바꾸는 건데 주석에 있는 게 본래 색이고
+        색을 밝게 바꿨어요!!*/
+        background: radial-gradient(white, /*#7F574A*/#906f64);
         height: 98%;
       }
 
@@ -59,15 +61,16 @@
         margin: 10px 10px 10px 0;
       }
 
+/* 이 부분이 제작 화면에 버튼(예를 들어 중간저장 등...)을 나타내는 건데 배경 색을
+밝게 바꿔서 그거에 맞게 색을 좀 바꿨어요!! 솔직히 큰 색 차이는 없을 거에요!(주석에 있는게 본래 색) */
       .button {
-        font-family: 'Nanum Gothic', sans-serif;
         display: inline-block;
         border-radius: 10px;
-        border-color: #7F574A;
+        border-color: /*#7F574A*/#906f64;
         text-align: center;
         transition: all 0.5s;
         cursor: pointer;
-        background-color: #7F574A;
+        background-color: /*#7F574A*/#8e685b;
         color: white;
         padding: 5px 12px;
         text-decoration: none;

@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-family: 'GoyangIlsan', sans-serif;
  /* background: radial-gradient(white, #FFA328);*/
   background-image: url('../images/background.jpg');
   background-position : center;
@@ -27,24 +27,42 @@ body {
     font-size: 0.7em;
     color:#5D5D5D;
  }
- .logintitle{
-    font-family: 'BRBA_B';
-    font-size: 1em;
-    color:#000;
+ .codedescript{
+   font-size: 0.4em;
  }
+ .form-control{
+   width:100%;
+   height:8%;
+   font-size:60%;
+ }
+ .btn{
+   height:8%;
+   width:47%;
+   font-size: 0.5em;
+   padding-top:5%;
+   padding-bottom:5%;
+   padding-left:0;
+   padding-right:0;
+ }
+ label{
+   font-size: 0.7em;
+   padding-bottom: 0.1em;
+ }
+
  @media ( max-width: 576px ) {
    body {
-     font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-family: 'GoyangIlsan', sans-serif;
     /* background: radial-gradient(white, #FFA328);*/
      background-image: url('../images/background.jpg');
      background-position : center;
-     background-repeat : no-repeat;
-     background-size:cover;
    }
-   .logintitle{
-     text-align: center;
-      font-family: 'BRBA_B';
-      font-size: 2em;
-      color:#000;
+   .btn{
+     padding-top:2%;
+     padding-bottom:2%;
+     padding-left:0;
+     padding-right:0;
+   }
+   .drawsvg{
+     margin-top:60%;
    }
  }

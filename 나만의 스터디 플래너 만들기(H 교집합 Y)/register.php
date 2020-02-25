@@ -2,8 +2,7 @@
   <head>
     <meta charset = "utf-8">
      <link href="https://fonts.googleapis.com/css?family=Sunflower:300,700&display=swap" rel="stylesheet">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no,
-     maximum-scale=1.0, minimum-scale=1.0">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
      <!-- Bootstrap CSS -->
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
      <link href="css/main.css" rel="stylesheet"> <!-- main.css에 추가 효과 모아두었습니다.-->
@@ -39,7 +38,7 @@
   <body>
     <div class="container">
         <div class="row">
-            <div class="col-sm" id="left"> <!-- 왼쪽 내용들입니다-->
+            <div class="col-sm" id="left" style="background-color:#00ff0000;"> <!-- 왼쪽 내용들입니다-->
               <div class="drawsvg">
                 <svg version="1.1" viewBox="0 0 700 300">
                   <symbol id="fade-text">
@@ -55,26 +54,30 @@
             </div>
               <div class="descript">이 사이트에서는 자신만의 <strong>스터디 플래너</strong>를 제작할 수 있습니다!</div>
               <div class="descript"><b>회원가입</b>을 누르고 나만의 스터디 플래너를 제작해보세요!!</div>
-              <div class="descript"> <b>어디서나 계정만 있다면</b> 내가 만들었던 디자인을 인쇄, 수정할 수 있어요 <br> Copyright ⓒ 2020. 0nlyF0RMe All Rights Reserved.</div>
+              <div class="descript"> <b>어디서나 계정만 있다면</b> 내가 만들었던 디자인을 인쇄, 수정할 수 있어요 </div>
               <br><br>
             </div>
             <div class="col-md-5 col-md-offset-1" style="background-color:white; border-radius:5px; padding:45px; box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;"> <!-- 오른쪽 내용들입니다-->
               <div class="row">
                 <div class="col-sm">
-                  로그인
+                  회원가입
                   <div class="login-form">
                      <form>
                         <div class="form-group">
                           <br>
                            <label>UserName</label>
-                           <input type="text" class="form-control" id="username" placeholder="Username">
+                           <input type="text" class="form-control" id="username" placeholder="20자 이내">
                         </div>
                         <div class="form-group">
                            <label>Password</label>
-                           <input type="password" class="form-control" id="password" placeholder="Password">
+                           <input type="password" class="form-control" id="password" placeholder="20자 이내의 숫자, 영어 조합 필수">
                         </div>
-                        <button type="submit" id="btn" class="btn btn-black">로그인</button>
-                        <button type="button" class="btn btn-secondary" onclick="location.href = 'http://3.17.25.159/register.php'">회원가입</button>
+                        <div class="form-group">
+                           <label>Password 재입력</label>
+                           <input type="password" class="form-control" id="re_password" placeholder="Password 재입력">
+                        </div>
+                        <button type="button" class="btn btn-black" onclick ="location.href='http://3.17.25.159/index.php'">로그인 화면으로</button>
+                        <button type="submit" class="btn btn-secondary">회원가입</button>
                       </form>
                     <div class="codedescript">아이디, 비밀번호를 까먹으셨나요? <a href="#">여기로</a></div>
                     <br>
@@ -92,7 +95,7 @@
         <script>
 
       window.onload = function() {
-        const startBtn = document.querySelector("#btn");
+        const startBtn = document.querySelector("#start_btn");
 
         startBtn.addEventListener("click", function() {
           var body = document.getElementsByTagName('body')[0];

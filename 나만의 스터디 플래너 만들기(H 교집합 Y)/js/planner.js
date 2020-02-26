@@ -247,6 +247,8 @@ function changeFont() {
   */
 
   $('td').css("font-family", fFamily);
+  $('#myselect').css("font-family", fFamily);
+  //도대체 왜 안되는 것일까 -> stackoverflow에 검색해보니 해결책이 없다...
   //$('td').css("font-size", fSize);
 
 }

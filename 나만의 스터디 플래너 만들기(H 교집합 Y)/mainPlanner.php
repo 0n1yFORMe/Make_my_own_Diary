@@ -33,18 +33,18 @@
       요소를 삭제하기 위해서는 기능란 위로 드래그하세요!
     </header>
 
-    <div class="button">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div>
+    <div class="button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div>
 
-    <div class = "button">
+    <div class = "button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">
     글꼴 정하기 <!-- 글꼴은 다른 걸로 해도 됩니다 -->
-    <select name = "fonts" onchange = "changeFont()" id = "mySelect">
-      <option value = "Nanum Gothic">나눔고딕</option>
-      <option value = "Nanum Myeongjo">나눔명조</option>
-      <option value = 'Nanum Pen Script'>나눔펜 뭐시기</option>
-      <option value = 'Noto Serif KR'>노토 세리프가 뭐임</option>
-      <option value = 'Gaegu'>개구</option>
-      <option value = 'Yeon Sung'>연성</option>
-      <option value = 'Poor Story'>불쌍한 이야기</option>
+    <select name = "fonts" onchange = "changeFont()" id = "mySelect" style="">
+      <option value = "Nanum Gothic" style="font-family:'Nanum Gothic';">나눔고딕</option>
+      <option value = "Nanum Myeongjo" style="font-family:'Nanum Myeongjo';">나눔명조</option>
+      <option value = 'Nanum Pen Script' style="font-family:'Nanum Pen Script';">나눔펜 뭐시기</option>
+      <option value = 'Noto Serif KR' style="font-family:'Noto Serif KR';">노토 세리프가 뭐임</option>
+      <option value = 'Gaegu' style="font-family:'Gaegu';">개구</option>
+      <option value = 'Yeon Sung' style="font-family:'Yeon Sung';">연성</option>
+      <option value = 'Poor Story' style="font-family:'Poor Story';">불쌍한 이야기</option>
     </select>
   </div>
 
@@ -57,8 +57,8 @@
      </div>
 
 
-      <table border = "1" summary = "sbs" id = "tagBox" style = "flex-grow: 1; table-layout: fixed; margin-left: 30px; margin-right: 50px; background-color: white; padding: 10px; border: 2px solid transparent; border-radius: 10px;" class = "droppable_tagBox">
-        <caption style = "height: 50px; line-height: 50px; background-color: brown; margin-bottom: 10px; border: 2px solid transparent; border-radius: 10px; color: white; vertical-align: middle; font-size: 20px;">기능</caption>
+      <table border = "1" summary = "sbs" id = "tagBox" style = "flex-grow: 1; table-layout: fixed; margin-left: 30px; margin-right: 50px; background-color: white; padding: 10px; border: 2px solid transparent; border-radius: 10px; box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;" class = "droppable_tagBox">
+        <caption style = "height: 50px; line-height: 50px; background-color: brown; margin-bottom: 10px; border: 2px solid transparent; border-radius: 10px; color: white; vertical-align: middle; font-size: 20px; box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">기능</caption>
         <tbody>
           <tr id="hover">
             <td style = "border-bottom: black 2px dotted; padding: 10px; border-top: 0;">
@@ -398,7 +398,7 @@
 
     </div>
     <footer style = "text-align: center; margin-top: 50px; font-size: 15px;">
-      Copyright ©H⋂Y. All Rights Reserved.
+      Copyright ⓒ 2020. 0nlyF0RMe All Rights Reserved.
     </footer>
 
   </body>

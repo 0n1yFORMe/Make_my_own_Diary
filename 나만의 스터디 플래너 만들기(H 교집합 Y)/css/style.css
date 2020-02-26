@@ -76,6 +76,7 @@
         text-decoration: none;
         font-size: 15px;
         margin: 4px 2px;
+        box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;
              }
 
       .button span {
@@ -135,7 +136,7 @@
 
         #timeTable > tr > td {
           border: 1px solid black;
-          text-align: right;
+          text-align: center;
         }
 
         @font-face { font-family: 'BRBA_B'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/BRBA_B.woff') format('woff'); font-weight: normal; font-style: normal; }

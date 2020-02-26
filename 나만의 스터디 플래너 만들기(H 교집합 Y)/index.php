@@ -89,15 +89,19 @@
             </div>
          </div>
        </div>
-        <script>
-
+     </div>
+     <style media="screen">
+     h1{
+       font-family: 'BRBA_B', cursive;
+     }
+     </style>
+      <script>
       window.onload = function() {
         const startBtn = document.querySelector("#btn");
-
         startBtn.addEventListener("click", function() {
           var body = document.getElementsByTagName('body')[0];
         	//$(body).animate({opacity: '0'}, {complete: d(body)}, 'slow');
-    			body.outerHTML = '<h1 class = "container">Study Planner <br> Only For You</h1>'
+    			body.outerHTML = '<h1 class="container" style="text-align:center;">Study Planner<br> Only For You<br></h1>'
        		setTimeout('window.open("mainPlanner.php", "_self")', 2000);
         });
       }

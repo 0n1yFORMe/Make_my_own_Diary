@@ -2,8 +2,14 @@
 
 // inTagBox: 기능 박스에 있는 파츠들(이미 A4 위에 놓여있는 애들은 포함 x), 속성: 자기를 복제해서 드래그되게 하되 이상한 데 가면 제자리로 돌아옴.(revert)
 $( ".inTagBox" ).draggable({
-  revert: "invalid",
-  helper: "clone"
+   revert: "invalid",
+   helper: "clone"
+   //싸우자 개발자놈 이 버그가 몇 년ㄴ째인데 여태 안 고친 거지? 나쁜ㄴㅅㄴㅇㄴㄹ
+});
+
+$( "#accordion" ).accordion({
+  collapsible: true,
+  heightStyle: "content"
 });
 
 
@@ -43,6 +49,14 @@ $( ".droppable_mainBox" ).droppable({
       var child = $(newClone).children('table');
       child.addClass('resizable');
     }
+    else if ($.inArray('weekPlan', newClone.prop('classList')) != -1) {
+      var child = $(newClone).children('table');
+      child.addClass('resizable');
+    }
+    else if ($.inArray('logo', newClone.prop('classList')) != -1) {
+      var child = $(newClone).children('img');
+      child.addClass('resizable');
+    }
     else newClone.addClass('resizable');
 
 
@@ -75,14 +89,21 @@ $("#hover").hover(function() {
   $("#example").hide();
 });
 
+$( "#accordion" ).accordion({
+  collapsible: true,
+  heightStyle: "auto" //조금 생각해봐야...
+});
+
 // <----------------------------------------- 자바스크립트 함수 영역 --------------------------------------------------->
 
 
-const classList = ['studyTime', 'phrase', 'date', 'sticker', 'plan', 'reflection', 'time-table', 'memo', 'd-day', 'anything'];
+const classList = ['studyTime', 'phrase', 'date', 'sticker', 'plan', 'reflection', 'time-table', 'memo', 'd-day', 'anything-text', 'anything-table', 'anything-img', 'weekPlan', 'sun', 'night', 'shine-time', 'waterdrop_time', 'logo'];
 let children = []; //a4지 위에 배치된 파츠들
 
 let eleList; // 불러오기로 불러온 내용
 let newCloneList; // 불러온 내용으로 만든 파츠들
+
+let bgColor = "#B3001F"; // 여백 색깔
 
 
 // 표에서 버튼 누르면 행 추가하는 거
@@ -116,7 +137,7 @@ function getElementList() {
   children = [];
 
   for(i=0; i<c.length; i++) {
-    if(c[i].tagName == 'TD')
+    if(c[i].tagName == 'SPAN')
     children.push(c[i]);
   }
 
@@ -173,15 +194,18 @@ function getElementList() {
 
         newList.push(width, height);
 
-        // 뉴리스트에 들어가는 거: 클래스명, 가로, 세로, left, top, 행(또는 이름)
+        // 뉴리스트에 들어가는 거: 클래스명, 가로, 세로, left, top, (선택)(행 또는 이름 또는 이미지 링크 또는 ...)
 
         //console.log('if cleared '+classList[k]);
         newList.push(child.style.left, child.style.top);
         if(currentClass == 'plan' || currentClass == 'reflection')
-        newList.push($(childObject).children()[0].childElementCount);
+          newList.push($(childObject).children()[0].childElementCount);
 
-        if(currentClass == 'anything')
-        newList.push(child.innerText);
+        if(currentClass == 'anything-text')
+          newList.push(child.innerText);
+
+        if(currentClass == 'logo')
+          newList.push(child.src);
 
         newList.push('/');
         elementList.push(newList);
@@ -197,7 +221,8 @@ function getElementList() {
 
   }
 
-  elementList.push(document.querySelector("#colorPicker").value);
+  // elementList.push(document.querySelector("#colorPicker").value);
+  elementList.push(bgColor);
 
 // className, width, height, left, top, (column)
   /*
@@ -246,7 +271,7 @@ function changeFont() {
   }
   */
 
-  $('td').css("font-family", fFamily);
+  $('span').css("font-family", fFamily);
   $('#myselect').css("font-family", fFamily);
   //도대체 왜 안되는 것일까 -> stackoverflow에 검색해보니 해결책이 없다...
   //$('td').css("font-size", fSize);
@@ -305,12 +330,14 @@ function read() {
   var reader = new FileReader();
   reader.readAsText(files[0]);
 
+  let settingColor;
+
   reader.onload = function(event) {
     //console.log('File content:', event.target.result);
 
     const mainBox = document.querySelector("#mainBox");
 
-    $(mainBox).children('td').remove();
+    $(mainBox).children('span').remove();
 
 
     eleList = event.target.result.split(',/,');
@@ -319,9 +346,11 @@ function read() {
       eleList[i] = eleList[i].split(',');
     }
 
-    const bgColor = eleList.pop();
-    document.querySelector("#colorPicker").value = bgColor;
-    document.querySelector("#mainBox").style.backgroundColor = bgColor;
+    settingColor = eleList.pop().toString();
+    console.log("settingColor is "+settingColor);
+    colorPicker.addColor(settingColor, 0);
+    colorPicker.removeColor(1);
+    document.querySelector("#mainBox").style.backgroundColor = settingColor;
     if(eleList.length === 0) return false;
 
     if(eleList[eleList.length - 1].indexOf('/') != -1)
@@ -383,8 +412,12 @@ function read() {
             }
             break;
 
-          case("anything"):
+          case("anything-text"):
             newCloneList[i].innerHTML = eleList[i][5];
+            break;
+
+          case("logo"):
+            newCloneList[i].src = eleList[i][5];
             break;
         }
       }
@@ -419,24 +452,25 @@ function read() {
 function addNewTag() {
   var value = prompt('기능의 내용을 입력하세요.')
   if(value == "" || value == null) return 0;
-  var newClone = document.querySelector('#anything').cloneNode(true);
+  var newClone = document.querySelector('#anything-text').cloneNode(true);
 
   newClone.style.display = "";
-  newClone.children[0].innerHTML = value;
-  document.querySelector('#tagBox').children[1].appendChild(newClone);
+  newClone.removeAttribute("id");
+  newClone.children[0].innerHTML = value; //이 부분을 바꿔야 함.
+  document.querySelector('#favorite').appendChild(newClone);
 
   $( ".inTagBox" ).draggable({
     revert: "invalid",
     helper: "clone"
   });
 
-  alert("하단에 추가되었습니다.");
+  alert("추가되었습니다.");
 }
 
 // <----------------------------------------- 실행 영역 --------------------------------------------------->
 
 // 여백 색상
-document.querySelector("#colorPicker").addEventListener("change", watchColorPicker, false);
+// document.querySelector("#colorPicker").addEventListener("change", watchColorPicker, false);
 
 // pdf 저장 버튼
 document.querySelector('#savePDF').addEventListener('click', savePDF);
@@ -453,4 +487,21 @@ document.querySelector('#addNewTag').addEventListener('click', addNewTag);
 // 예시 동영상 버튼
 document.querySelector('#video').addEventListener('click', function() {
   window.open("https://youtu.be/s_Gw9Y71V7k", "_blank");
+});
+
+document.querySelector('#weekPlanTable').style.height = "200px";
+
+var colorPicker = new iro.ColorPicker('#iroColorPicker', {
+  // Set the size of the color picker
+  width: 100,
+  // Set the initial color to pure red
+  color: "#B3001F"
+});
+
+colorPicker.on('color:change', function(color) {
+  // log the current color as a HEX string
+  // console.log(color.hexString);
+  bgColor = color.hexString;
+  document.querySelector("#mainBox").style.backgroundColor = bgColor;
+  document.querySelector("caption").style.backgroundColor = bgColor;
 });

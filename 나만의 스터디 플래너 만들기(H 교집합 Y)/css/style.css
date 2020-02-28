@@ -24,6 +24,8 @@
 
         float: left;
         margin: 10px 10px 10px 0;
+
+        z-index: 3;
      }
 
 
@@ -54,6 +56,7 @@
         padding-bottom: 15px;
         float: left;
         margin: 10px 10px 10px 0;
+        z-index: 3;
 
       }
 
@@ -137,6 +140,40 @@
         #timeTable > tr > td {
           border: 1px solid black;
           text-align: center;
+        }
+
+        #weekPlan > tr > td {
+          border: 1px solid black;
+          text-align: center;
+        }
+
+        #accordion {
+          font-family: 'Nanum Gothic', sans-serif;
+          font-size: 1em;
+        }
+        .accordion-title {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+
+        .plan-day {
+          height: 30%;
+          background-color: #BDBDBD;
+        }
+
+        .logo {
+          filter: grayscale(100%);
+          z-index: 2;
+        }
+
+        .logo > div > img {
+          opacity: 0.33;
+        }
+
+        .logo > img {
+          opacity: 0.33;
         }
 
         @font-face { font-family: 'BRBA_B'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/BRBA_B.woff') format('woff'); font-weight: normal; font-style: normal; }

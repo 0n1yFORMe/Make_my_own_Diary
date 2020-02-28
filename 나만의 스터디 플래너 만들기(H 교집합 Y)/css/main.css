@@ -1,0 +1,73 @@
+@font-face { font-family: 'BRBA_B'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/BRBA_B.woff') format('woff'); font-weight: normal; font-style: normal; }
+
+@font-face { font-family: 'SDMiSaeng'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SDMiSaeng.woff') format('woff'); font-weight: normal; font-style: normal; }
+
+@font-face { font-family: 'YiSunShinDotumM'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YiSunShinDotumM.woff') format('woff'); font-weight: normal; font-style: normal; }
+
+@font-face { font-family: 'GoyangIlsan'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GoyangIlsan.woff') format('woff'); font-weight: normal; font-style: normal;
+}
+
+body {
+  font-family: 'BRBA_B';
+ /* background: radial-gradient(white, #FFA328);*/
+  background-image: url('../images/background.jpg');
+  background-position : center;
+  background-size: 97%;
+}
+
+ .container {
+   position: absolute;
+   top:50%; left:50%;
+   transform: translate(-50%, -50%);
+ }
+
+ .descript{
+   text-align: center;
+    font-family: 'GoyangIlsan', sans-serif;
+    font-size: 0.7em;
+    color:#5D5D5D;
+ }
+ .codedescript{
+   font-family: 'GoyangIlsan', sans-serif;
+   font-size: 0.4em;
+ }
+ .form-control{
+   font-family: 'GoyangIlsan', sans-serif;
+   width:100%;
+   height:8%;
+   font-size:60%;
+ }
+ .btn{
+   font-family: 'GoyangIlsan', sans-serif;
+   height:8%;
+   width:47%;
+   font-size: 0.5em;
+   padding-top:5%;
+   padding-bottom:5%;
+   padding-left:0;
+   padding-right:0;
+ }
+ label{
+   font-family: 'GoyangIlsan', sans-serif;
+   font-size: 0.7em;
+   padding-bottom: 0.1em;
+ }
+
+ @media ( max-width: 576px ) {
+   body {
+    /* background: radial-gradient(white, #FFA328);*/
+     background-image: url('../images/background.jpg');
+     background-position : center;
+     background-repeat: no-repeat;
+     background-size: cover;
+   }
+   .btn{
+     padding-top:2%;
+     padding-bottom:2%;
+     padding-left:0;
+     padding-right:0;
+   }
+   .drawsvg{
+     margin-top:60%;
+   }
+ }

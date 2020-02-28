@@ -1,0 +1,64 @@
+변경사항
+
+1. index.html
+  가. #start_btn {border: 3px solid (#7F574A; -> #8e685b;)}
+    제작 화면의 배경을 밝게 하는 과정에서 버튼 색이 어두워서 밝게 
+   바꿨어요!
+
+  나. #start_btn:hover {background-color: (#7F574A; -> #8e685b;)}
+     위와 같은 이유로 마우스 포인터가 버튼 위에 올려졌을 때 색을 
+    변하게 하는 효과를 위해 같은 색으로 바꿨어요!
+
+2. mainPlanner.html
+  가. <h1 style = "font-family: 'BRBA_B'; font-size: 30px; text-shadow: 2px 2px 2px gray;">나만의 스터디 플래너 만들기</h1>
+  -> <h1 style = "font-family: 'BRBA_B'; font-size: 30px; text-shadow: 2px 2px 2px gray; text-align: center;">나만의 스터디 플래너 만들기</h1>
+    가운데 정렬하기 위해서 원래 코드 style에  "text-align: center;"를 추가 했어요!
+
+  나. <header style = "margin-bottom: 15px;">
+  -> <header style = "margin-bottom: 15px; text-align: center; font-size: 18px;">
+    1) 가운데 정렬하게 위해서 원래 코드 style에 "text-align: cener;를 추가 했어요!
+    2) 가운데 정렬을 하니까 빈 느낌이 들고 글씨가 작다는 생각이 들어서
+     원래 코드 style에 "font-size: 18px"를 넣어서 글씨 크기를 키우고 
+     시각적으로 보기 좋게 했어요!
+  
+   다. 왼쪽 작업란(A4 절반)에서 <b>붉은색 부분</b>(인쇄 여백)을 제외한 <b>흰색 부분</b>에
+       추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요!<br>
+       요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요!<br>
+       요소를 삭제하기 위해서는 기능란 위로 드래그하세요!
+
+   ->  왼쪽 작업란(A4 절반)에서 <b>붉은색 부분</b>(인쇄 여백)을 제외한 <b>흰색 부분</b>에 <br>
+        추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요!<br>
+        요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요!<br>
+        요소를 삭제하기 위해서는 기능란 위로 드래그하세요!
+    
+      설명 부분 첫 번째 줄을 두 개로 나눠서 원래 코드 중 <br>을 추가해
+     줄바꿈으로 읽기 좋게 정리했어요! 
+
+    라. <td class = "plan-time">&nbsp;</td> 
+        <td class = "plan-time">10</td>
+    ->  <td class = "plan-time">&nbsp;</td> 
+        <td class = "plan-time" style = "text-align: center;">10</td> 
+       time-table 가로(분을 나타내는) 부분에 숫자들을 가운데 정렬하기 위해서 10부터 60까지
+      style = "text-align: center;"를 추가했어요!
+
+    마. <td class = "plan-time">6</td>
+    -> <td class = "plan-time" style = "text-align: center;">6</td>
+      time-table 세로(시를 나타내는) 부분에 숫자들을 가운데 정렬하기 위해서 6부터 2까지
+     style = "text-align: center;"를 추가했어요!
+
+3. style.css
+  가. body { background: radial-gradient(white, #7F574A);}
+  -> body { background: radial-gradient(white, #906f64);}
+    배경 부분을 밝게 조정하기 위해서 #7F574A를 #906f64로 바꿨어요!!
+
+  나. .button { border-color: #7F574A; }
+  -> .button { border-color: #906f64; }
+    배경 부분을 밝게 조정하는 과정에서 버튼 색이 너무 진하게 나와서 
+   #7F574A를 #906f64로 바꿨어요!(이건 버튼 그림자 부분!)
+
+  다. .button { background-color: #7F574A; } 
+  -> .button { background-color: #8e685b; }
+    배경 부분을 밝게 조정하는 과정에서 버튼 색이 너무 진하게 나와서 
+   #7F574A를 #8e685b로 바꿨어요!(이건 버튼 배경 부분!)  
+
+     

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang = "kr">
   <head>
     <meta charset = "utf-8">
@@ -9,7 +9,7 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
+
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -22,27 +22,27 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
 
       <script src = "planner.js"></script>
-      
+
   </head>
   <body>
 
-    
+
     <div style = "display: flex;">
       <button class="button" id = "saveTxt"> <span>중간 저장하기 </span></button>
 <button class="button" id = "savePDF"> <span>pdf로 저장하기 </span></button>
       <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
     </div>
 
-    <h1 style = "font-family: 'BRBA_B'; font-size: 30px; text-shadow: 2px 2px 2px gray;">나만의 스터디 플래너 만들기</h1>
+    <h1 style = "font-family: 'BRBA_B'; font-size: 30px; text-shadow: 2px 2px 2px gray; text-align: center; ">나만의 스터디 플래너 만들기</h1>
     <header style = "margin-bottom: 20px;">
       왼쪽 작업란(A4 절반)에서 <b>붉은색 부분</b>(인쇄 여백)을 제외한 <b>흰색 부분</b>에 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요!<br>
       요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요!<br>
       요소를 삭제하기 위해서는 기능란 위로 드래그하세요!
     </header>
-    
+
     <div class="button">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div>
-    
-  
+
+
     <div class = "align">
     <div id = "mainBox" style = "width: 148.5mm; height: 210mm; min-width: 148.5mm; background-color: brown; display: flex; align-items: center; justify-content: center; margin: 0;">
       <div id = "realMainBox" class = "droppable_mainBox" style = "width: 125.1mm; height: 203.2mm; background-color: white; border: 2px solid black; ">
@@ -164,21 +164,21 @@
 
           <tr>
             <td class = "inTagBox elements time-table"> Time-Table <br>
-              
+
               <table border = "1" summary = "sbs" style = "flex-grow: 1; table-layout: fixed; width: 200px; height: 50px;">
                 <tbody id = "timeTable">
 
                   <tr>
                     <td class = "plan-time">&nbsp;</td>
-                    <td class = "plan-time">10</td>
-                    <td class = "plan-time">20</td>
-                    <td class = "plan-time">30</td>
-                    <td class = "plan-time">40</td>
-                    <td class = "plan-time">50</td>
-                    <td class = "plan-time">60</td>
+                    <td class = "plan-time" style = "text-align: center;">10</td>
+                    <td class = "plan-time" style = "text-align: center;">20</td>
+                    <td class = "plan-time" style = "text-align: center;">30</td>
+                    <td class = "plan-time" style = "text-align: center;">40</td>
+                    <td class = "plan-time" style = "text-align: center;">50</td>
+                    <td class = "plan-time" style = "text-align: center;">60</td>
                   </tr>
                   <tr>
-                    <td class = "plan-time">6</td>
+                    <td class = "plan-time" style = "text-align: center;">6</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -188,7 +188,7 @@
                   </tr>
 
                   <tr>
-                    <td class = "plan-time">7</td>
+                    <td class = "plan-time" style = "text-align: center;">7</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -198,7 +198,7 @@
                   </tr>
 
                   <tr>
-                    <td class = "plan-time"> 8</td>
+                    <td class = "plan-time" style = "text-align: center;"> 8</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -207,7 +207,7 @@
                     <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class = "plan-time">9 </td>
+                    <td class = "plan-time" style = "text-align: center;">9 </td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -216,7 +216,7 @@
                     <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class = "plan-time">10</td>
+                    <td class = "plan-time" style = "text-align: center;">10</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -225,7 +225,7 @@
                     <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class = "plan-time">11</td>
+                    <td class = "plan-time" style = "text-align: center;">11</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -234,7 +234,7 @@
                     <td>&nbsp;</td>
                   </tr>
                    <tr>
-                    <td class = "plan-time">12</td>
+                    <td class = "plan-time" style = "text-align: center;">12</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -243,7 +243,7 @@
                     <td>&nbsp;</td>
                   </tr>
                    <tr>
-                    <td class = "plan-time">1</td>
+                    <td class = "plan-time" style = "text-align: center;">1</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -252,7 +252,7 @@
                     <td>&nbsp;</td>
                   </tr>
                    <tr>
-                    <td class = "plan-time">2</td>
+                    <td class = "plan-time" style = "text-align: center;">2</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -261,7 +261,7 @@
                     <td>&nbsp;</td>
                   </tr>
                    <tr>
-                    <td class = "plan-time">3</td>
+                    <td class = "plan-time" style = "text-align: center;">3</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -270,7 +270,7 @@
                     <td>&nbsp;</td>
                   </tr>
                    <tr>
-                    <td class = "plan-time">4</td>
+                    <td class = "plan-time" style = "text-align: center;">4</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -279,7 +279,7 @@
                     <td>&nbsp;</td>
                   </tr>
                    <tr>
-                    <td class = "plan-time">5</td>
+                    <td class = "plan-time" style = "text-align: center;">5</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -288,7 +288,7 @@
                     <td>&nbsp;</td>
                   </tr>
                    <tr>
-                    <td class = "plan-time">6</td>
+                    <td class = "plan-time" style = "text-align: center;">6</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -297,7 +297,7 @@
                     <td>&nbsp;</td>
                   </tr>
                    <tr>
-                    <td class = "plan-time">7</td>
+                    <td class = "plan-time" style = "text-align: center;">7</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -306,7 +306,7 @@
                     <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class = "plan-time">8</td>
+                    <td class = "plan-time" style = "text-align: center;">8</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -315,7 +315,7 @@
                     <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class = "plan-time">9</td>
+                    <td class = "plan-time" style = "text-align: center;">9</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -324,7 +324,7 @@
                     <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class = "plan-time">10</td>
+                    <td class = "plan-time" style = "text-align: center;">10</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -333,7 +333,7 @@
                     <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class = "plan-time">11</td>
+                    <td class = "plan-time" style = "text-align: center;">11</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -342,7 +342,7 @@
                     <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class = "plan-time">12</td>
+                    <td class = "plan-time" style = "text-align: center;">12</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -351,7 +351,7 @@
                     <td>&nbsp;</td>
                   </tr>
                    <tr>
-                    <td class = "plan-time">1</td>
+                    <td class = "plan-time" style = "text-align: center;">1</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -360,7 +360,7 @@
                     <td>&nbsp;</td>
                   </tr>
                    <tr>
-                    <td class = "plan-time">2</td>
+                    <td class = "plan-time" style = "text-align: center;">2</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -397,5 +397,5 @@
     </footer>
 
   </body>
- 
+
 </html>

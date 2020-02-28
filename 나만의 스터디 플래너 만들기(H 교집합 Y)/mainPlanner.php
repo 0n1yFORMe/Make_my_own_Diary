@@ -2,8 +2,18 @@
 <html lang = "kr">
   <head>
     <meta charset = "utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
 
     <title>나만의 스터디 플래너 만들기</title>
+
+    <script>
+
+       alert("왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요! 요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요! 요소를 삭제하기 위해서는 기능란 위로 드래그하세요!")
+
+    </script>
 
     <link href="https://fonts.googleapis.com/css?family=Gaegu|Nanum+Gothic|Nanum+Myeongjo|Nanum+Pen+Script|Noto+Serif+KR|Poor+Story|Yeon+Sung&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -23,15 +33,6 @@
       <button class="button" id = "savePDF"> <span>pdf로 저장하기 </span></button>
       <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
     </div>
-
-    <!--가운데 정렬을 하고 설명 부분을 폰트 18px로 바꾼 후 설명 첫 번째 부분을 줄바꿈해서 시각적으로 보기 좋도록 했어요!-->
-    <h1 style = "font-family: 'BRBA_B'; font-size: 30px; text-shadow: 2px 2px 2px gray; text-align: center;">나만의 스터디 플래너 만들기</h1>
-    <header style = "margin-bottom: 15px; text-align: center; font-size: 18px;">
-      왼쪽 작업란(A4 절반)에서 <b>붉은색 부분</b>(인쇄 여백)을 제외한 <b>흰색 부분</b>에 <br>
-      추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요!<br>
-      요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요!<br>
-      요소를 삭제하기 위해서는 기능란 위로 드래그하세요!
-    </header>
 
     <!-- <div class="button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div> -->
 

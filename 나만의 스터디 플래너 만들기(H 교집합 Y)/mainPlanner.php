@@ -31,17 +31,25 @@
     <?php
       session_cache_expire(1);
       session_start();
-      if(!isset($_SESSION['username'])){
+      $sessionusername = $_SESSION['username'];
+      if(!isset($sessionusername)){
         header ('Location: index.php');
       }
      ?>
     <div style = "display: flex;">
+      <button class="button" onclick="location.href = 'http://3.17.25.159/logout.php'">
+        <span> <?php
+              echo "로그인 정보 : ".$_SESSION['username'];
+            ?></span>
+      </button>
+      <button class="button" id = "saveTxt"> <span>파일로 중간 저장 </span></button>
+      <button class="button" id = "saveTxttoserver"> <span>서버에 중간 저장 </span></button>
       <?php
-        echo "로그인 정보 : ".$_SESSION['username'];
+      require $_SERVER["DOCUMENT_ROOT"].'/scripts/dbconnect.php';
       ?>
-      <button class="button" id = "saveTxt"> <span>중간 저장하기 </span></button>
-      <button class="button" id = "savePDF"> <span>pdf로 저장하기 </span></button>
+      <button class="button" id = "savePDF"> <span>pdf로 저장 </span></button>
       <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
+      <button class="button"> <p style = "display: inline;">서버에서 불러오기</p></button>
     </div>
     <?php
 

@@ -63,7 +63,7 @@
                 <div class="col-sm">
                   로그인
                   <div class="login-form">
-                     <form>
+                     <form action="login_check.php">
                         <div class="form-group">
                           <br>
                            <label>UserName</label>

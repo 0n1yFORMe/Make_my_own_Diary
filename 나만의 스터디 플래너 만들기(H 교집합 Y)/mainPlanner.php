@@ -11,7 +11,7 @@
 
     <script>
 
-       alert("왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요! 요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요! 요소를 삭제하기 위해서는 기능란 위로 드래그하세요!")
+       alert("*주의사항*\n왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요!\n요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요!\n요소를 삭제하기 위해서는 기능란 위로 드래그하세요!")
 
     </script>
 
@@ -28,11 +28,32 @@
   </head>
 
   <body>
+    <?php
+      session_cache_expire(1);
+      session_start();
+      $sessionusername = $_SESSION['username'];
+      if(!isset($sessionusername)){
+        header ('Location: index.php');
+      }
+     ?>
     <div style = "display: flex;">
-      <button class="button" id = "saveTxt"> <span>중간 저장하기 </span></button>
-      <button class="button" id = "savePDF"> <span>pdf로 저장하기 </span></button>
+      <button class="button" onclick="location.href = 'http://3.17.25.159/logout.php'">
+        <span> <?php
+              echo "로그인 정보 : ".$_SESSION['username'];
+            ?></span>
+      </button>
+      <button class="button" id = "saveTxt"> <span>파일로 중간 저장 </span></button>
+      <button class="button" id = "saveTxttoserver"> <span>서버에 중간 저장 </span></button>
+      <?php
+      require $_SERVER["DOCUMENT_ROOT"].'/scripts/dbconnect.php';
+      ?>
+      <button class="button" id = "savePDF"> <span>pdf로 저장 </span></button>
       <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
+      <button class="button"> <p style = "display: inline;">서버에서 불러오기</p></button>
     </div>
+    <?php
+
+    ?>
 
     <!-- <div class="button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div> -->
 

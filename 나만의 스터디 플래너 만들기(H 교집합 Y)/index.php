@@ -63,15 +63,15 @@
                 <div class="col-sm">
                   로그인
                   <div class="login-form">
-                     <form action="login_check.php">
+                     <form method="POST" action="login_check.php">
                         <div class="form-group">
                           <br>
                            <label>UserName</label>
-                           <input type="text" class="form-control" id="username" placeholder="Username">
+                           <input type="text" class="form-control" name="username" id="username" placeholder="Username">
                         </div>
                         <div class="form-group">
                            <label>Password</label>
-                           <input type="password" class="form-control" id="password" placeholder="Password">
+                           <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                         </div>
                         <button type="submit" id="btn" class="btn btn-black">로그인</button>
                         <button type="button" class="btn btn-secondary" onclick="location.href = 'http://3.17.25.159/register.php'">회원가입</button>
@@ -95,7 +95,7 @@
        font-family: 'BRBA_B', cursive;
      }
      </style>
-      <script>
+      <!-- <script>
       window.onload = function() {
         const startBtn = document.querySelector("#btn");
         startBtn.addEventListener("click", function() {
@@ -105,7 +105,7 @@
        		setTimeout('window.open("mainPlanner.php", "_self")', 2000);
         });
       }
-    </script>
+    </script> -->
     <!-- Optional Javascirpt -->
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

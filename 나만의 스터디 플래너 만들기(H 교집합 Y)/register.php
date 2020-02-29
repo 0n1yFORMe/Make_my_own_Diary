@@ -62,19 +62,19 @@
                 <div class="col-sm">
                   회원가입
                   <div class="login-form">
-                     <form>
+                     <form method="POST" action="register_check.php">
                         <div class="form-group">
                           <br>
                            <label>UserName</label>
-                           <input type="text" class="form-control" id="username" placeholder="20자 이내">
+                           <input type="text" class="form-control" name="username" id="username" placeholder="20자 이내">
                         </div>
                         <div class="form-group">
                            <label>Password</label>
-                           <input type="password" class="form-control" id="password" placeholder="20자 이내의 숫자, 영어 조합 필수">
+                           <input type="password" class="form-control" name="password" id="password" placeholder="20자 이내의 숫자, 영어 조합 필수">
                         </div>
                         <div class="form-group">
                            <label>Password 재입력</label>
-                           <input type="password" class="form-control" id="re_password" placeholder="Password 재입력">
+                           <input type="password" class="form-control" name="re_password" id="re_password" placeholder="Password 재입력">
                         </div>
                         <button type="button" class="btn btn-black" onclick ="location.href='http://3.17.25.159/index.php'">로그인 화면으로</button>
                         <button type="submit" class="btn btn-secondary">회원가입</button>

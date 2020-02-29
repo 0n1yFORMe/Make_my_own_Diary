@@ -28,11 +28,24 @@
   </head>
 
   <body>
+    <?php
+      session_cache_expire(1);
+      session_start();
+      if(!isset($_SESSION['username'])){
+        header ('Location: index.php');
+      }
+     ?>
     <div style = "display: flex;">
+      <?php
+        echo "로그인 정보 : ".$_SESSION['username'];
+      ?>
       <button class="button" id = "saveTxt"> <span>중간 저장하기 </span></button>
       <button class="button" id = "savePDF"> <span>pdf로 저장하기 </span></button>
       <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
     </div>
+    <?php
+
+    ?>
 
     <!-- <div class="button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div> -->
 

@@ -353,6 +353,7 @@ function saveTxt() {
   saveAs(blob, title+".txt");
 }
 
+
 // 중간저장 파일 읽고, 내용 잘 읽어서 파츠를 만드는 거(노가다 -.-)
 function read() {
 

@@ -10,7 +10,11 @@
     <title>나만의 스터디 플래너 만들기</title>
 
     <script>
-       alert("왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요! 요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요! 요소를 삭제하기 위해서는 기능란 위로 드래그하세요!")
+
+
+
+       alert("*주의사항*\n왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요!\n요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요!\n요소를 삭제하기 위해서는 기능란 위로 드래그하세요!")
+
 
     </script>
 
@@ -26,7 +30,9 @@
 
   </head>
 
+
   <body style="position: relative;">
+
     <?php
       session_cache_expire(1);
       session_start();
@@ -36,7 +42,10 @@
       }
      ?>
 
+
     <div style = "display: flex; z-index: 50;">
+
+   
       <button class="button" onclick="location.href = 'http://3.17.25.159/logout.php'">
         <span> <?php
               echo "로그인 정보 : ".$_SESSION['username'];
@@ -50,10 +59,15 @@
       <button class="button" id = "savePDF"> <span>pdf로 저장 </span></button>
       <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
       <button class="button"> <p style = "display: inline;">서버에서 불러오기</p></button>
+
       <button class="button" id = "zoomIn"> <p>+</p></button>
       <button class="button" id = "zoomOut"> <p>-</p></button>
       <p><span id="scale">100</span>%</p>
+
     </div>
+    <?php
+
+    ?>
 
     <!-- <div class="button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div> -->
 

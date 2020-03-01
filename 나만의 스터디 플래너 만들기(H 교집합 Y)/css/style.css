@@ -1,3 +1,17 @@
+/*
+z-index (#: 바뀔 가능성 있음)
+
+나중에 다른 거 생길까봐 틈을 하나씩 뒀다(센스 있는 코딩따위 하지 않는다)
+50 화면 상단의 버튼 및 기능 켜고 끄는 버튼: 맨 위
+10 테이블 캡션 <기능> #
+8 파츠들(이미지 제외)
+6 이미지(로고 등)
+4 기능란(파츠 상자)
+2 에이포 용지
+0 배경
+
+ */
+
 /* 표와 A4지의 테두리, 바깥여백을 정함 */
       #mainBox, #tagBox {
         border-color: black;
@@ -25,7 +39,7 @@
         float: left;
         margin: 10px 10px 10px 0;
 
-        z-index: 3;
+        z-index: 8;
      }
 
 
@@ -35,8 +49,9 @@
 
       /* 표와 A4지를 예쁘게 가로로 배열하는 건데... 쓸모없음 */
       .align {
+        min-width: fit-content;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
       }
 
       /* 웹 전체의 스타일을 정해준다고 보면 될 듯. 폰트, 배경 */
@@ -48,6 +63,11 @@
         height: 98%;
       }
 
+      p {
+        display: inline;
+        font-family: 'Nanum Gothic', sans-serif;
+      }
+
       /* tagBox 안에 들어있는 애들의 테두리와 내부 간격 */
       .elements:not(.sticker) {
         border-top:1.5px solid black;
@@ -56,7 +76,7 @@
         padding-bottom: 15px;
         float: left;
         margin: 10px 10px 10px 0;
-        z-index: 3;
+        z-index: 8;
 
       }
 
@@ -150,13 +170,57 @@
         #accordion {
           font-family: 'Nanum Gothic', sans-serif;
           font-size: 1em;
+          width: max-content; /* 걍 넣은 거고 빼도 동작은 똑같이 됨. */
+          overflow-x: visible;
         }
+
         .accordion-title {
           display: flex;
           justify-content: space-around;
           align-items: center;
           flex-wrap: wrap;
+          width: min-content;
+          min-width: 400px;
+          overflow-x: visible;
+
         }
+
+        h3 {
+          width: auto;
+          min-width: 432px;
+
+        }
+
+        #tagBox {
+          z-index: 4;
+          min-width: 420px;
+          /* right: 10%; */
+          table-layout: fixed;
+          background-color: white;
+          padding: 10px;
+          border: 2px solid transparent;
+          border-radius: 10px;
+          box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;
+        }
+
+        #tagBox > caption {
+          height: 50px;
+          line-height: 50px;
+          background-color: brown;
+          margin-bottom: 10px;
+          border: 2px solid transparent;
+          border-radius: 10px;
+          color: white;
+          vertical-align: middle;
+          font-size: 20px; /* 단위 바꿔야 함.. */
+          box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;
+          position: sticky;
+          top: 0;
+          z-index: 10;
+        }
+
+
+
 
         .plan-day {
           height: 30%;
@@ -164,16 +228,43 @@
         }
 
         .logo {
-          filter: grayscale(100%);
-          z-index: 2;
+          z-index: 6;
         }
 
         .logo > div > img {
           opacity: 0.33;
+          filter: grayscale(100%);
         }
 
         .logo > img {
           opacity: 0.33;
+          filter: grayscale(100%);
+        }
+
+        @keyframes slidein {
+          from {
+            margin-left: 120%;
+            /* right: -50%; */
+            /* width: 300% */
+          }
+
+          to {
+            margin-left: 5%;
+            /* right: 0%; */
+            /* width: 100%; */
+          }
+        }
+
+        @keyframes slideout {
+          from {
+            margin-left: 5%;
+            /* right: 0%; */
+          }
+
+          to {
+            margin-left: 120%;
+            /* right: -50%; */
+          }
         }
 
         @font-face { font-family: 'BRBA_B'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/BRBA_B.woff') format('woff'); font-weight: normal; font-style: normal; }

@@ -3,8 +3,9 @@
 // inTagBox: 기능 박스에 있는 파츠들(이미 A4 위에 놓여있는 애들은 포함 x), 속성: 자기를 복제해서 드래그되게 하되 이상한 데 가면 제자리로 돌아옴.(revert)
 $( ".inTagBox" ).draggable({
    revert: "invalid",
-   helper: "clone"
-   //싸우자 개발자놈 이 버그가 몇 년ㄴ째인데 여태 안 고친 거지? 나쁜ㄴㅅㄴㅇㄴㄹ
+   helper: "clone",
+   appendTo: "#realMainBox"
+   //ㅋsㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
 });
 
 $( "#accordion" ).accordion({
@@ -60,7 +61,7 @@ $( ".droppable_mainBox" ).droppable({
     else newClone.addClass('resizable');
 
 
-    $(this).after(newClone);
+    $(this).append(newClone);
 
     $(".resizable").resizable();
 
@@ -104,6 +105,8 @@ let eleList; // 불러오기로 불러온 내용
 let newCloneList; // 불러온 내용으로 만든 파츠들
 
 let bgColor = "#B3001F"; // 여백 색깔
+
+let tagBoxOn = false;
 
 
 // 표에서 버튼 누르면 행 추가하는 거
@@ -240,6 +243,33 @@ function watchColorPicker(event) {
   document.querySelector("caption").style.backgroundColor = targetColor;
 }
 
+// 하하하하하하하
+function changeMinWidth() {
+  /* 사용자가 300px보다 큰 이미지를 등록할 경우
+  그 이미지 크기+100px을
+  accordion이랑 태그박스의 최소 너비로 지정
+  즉 이미지 등록 기능 만들기 전까진 무쓸모 */
+}
+
+function toggleTagBox() {
+  if(tagBoxOn == true) {
+    $("#align").css("overflow-x", "hidden");
+    $("#tagBox").css("animation-name", "slideout");
+    $("#tagBox").css("animation-duration", "0.4s");
+    setTimeout('$("#tagBox").css("display", "none"); $("#functions").css("display", ""); tagBoxOn = false;', 400);
+    $("#align").css("overflow-x", "");
+
+  }
+  else {
+    $("#tagBox").css("display", "");
+    $("#functions").css("display", "none");
+    tagBoxOn = true;
+    $("#tagBox").css("animation-name", "slidein");
+    $("#tagBox").css("animation-duration", "0.5s");
+
+  }
+}
+
 // 폰트 바꾸는 거
 function changeFont() {
   var fFamily;//, fSize;
@@ -274,6 +304,7 @@ function changeFont() {
   $('span').css("font-family", fFamily);
   $('#myselect').css("font-family", fFamily);
   //도대체 왜 안되는 것일까 -> stackoverflow에 검색해보니 해결책이 없다...
+  //select 말고 다른 방법으로 구현하는 걸 검토해봅시다
   //$('td').css("font-size", fSize);
 
 }
@@ -285,7 +316,9 @@ function savePDF() {
   if(title == null) return 0;
   if(title == "") title = "plannerPDF";
 
-  html2canvas(document.querySelector("#mainBox"), {
+  $("#realMainBox").css("transform", "scale(1)");
+
+  html2canvas(document.querySelector("#realMainBox"), {
     dpi: 300,
     onrendered: function(canvas) {
       var imgData = canvas.toDataURL('image/png');
@@ -300,6 +333,8 @@ function savePDF() {
       doc.save(title + '.pdf');
     }
   });
+
+  $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")");
 }
 
 // 중간저장: getElementList 해서 구한 배열을 텍스트 파일로 저장하는 거
@@ -462,7 +497,8 @@ function addNewTag() {
 
   $( ".inTagBox" ).draggable({
     revert: "invalid",
-    helper: "clone"
+    helper: "clone",
+    appendTo: "#realMainBox"
   });
 
   alert("추가되었습니다.");
@@ -486,23 +522,41 @@ document.querySelector('#upload').addEventListener('change', read);
 document.querySelector('#addNewTag').addEventListener('click', addNewTag);
 
 // 예시 동영상 버튼
-document.querySelector('#video').addEventListener('click', function() {
-  window.open("https://youtu.be/s_Gw9Y71V7k", "_blank");
-});
+// document.querySelector('#video').addEventListener('click', function() {
+//   window.open("https://youtu.be/s_Gw9Y71V7k", "_blank");
+// });
 
 document.querySelector('#weekPlanTable').style.height = "200px";
 
-var colorPicker = new iro.ColorPicker('#iroColorPicker', {
-  // Set the size of the color picker
-  width: 100,
-  // Set the initial color to pure red
-  color: "#B3001F"
+let mainBoxScale = 1;
+
+document.querySelector("#zoomIn").addEventListener('click', function() {
+  if(mainBoxScale>=1) return;
+
+  mainBoxScale += 0.1;
+  $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")")
+  $("#scale").html(parseInt(mainBoxScale*100));
 });
 
-colorPicker.on('color:change', function(color) {
-  // log the current color as a HEX string
-  // console.log(color.hexString);
-  bgColor = color.hexString;
-  document.querySelector("#mainBox").style.backgroundColor = bgColor;
-  document.querySelector("caption").style.backgroundColor = bgColor;
+document.querySelector("#zoomOut").addEventListener('click', function() {
+  if(mainBoxScale<=0.6) return;
+
+  mainBoxScale -= 0.1;
+  $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")")
+  $("#scale").html(parseInt(mainBoxScale*100));
 });
+
+// var colorPicker = new iro.ColorPicker('#iroColorPicker', {
+//   // Set the size of the color picker
+//   width: 100,
+//   // Set the initial color to pure red
+//   color: "#B3001F"
+// });
+//
+// colorPicker.on('color:change', function(color) {
+//   // log the current color as a HEX string
+//   // console.log(color.hexString);
+//   bgColor = color.hexString;
+//   document.querySelector("#mainBox").style.backgroundColor = bgColor;
+//   document.querySelector("caption").style.backgroundColor = bgColor;
+// });

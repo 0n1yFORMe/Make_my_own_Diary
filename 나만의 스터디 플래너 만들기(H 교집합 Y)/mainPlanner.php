@@ -10,8 +10,8 @@
     <title>나만의 스터디 플래너 만들기</title>
 
     <script>
-
-       alert("왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요! 요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요! 요소를 삭제하기 위해서는 기능란 위로 드래그하세요!")
+        //임시로 주석처리함!
+       //alert("왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요! 요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요! 요소를 삭제하기 위해서는 기능란 위로 드래그하세요!")
 
     </script>
 
@@ -27,41 +27,48 @@
 
   </head>
 
-  <body>
-    <div style = "display: flex;">
-      <button class="button" id = "saveTxt"> <span>중간 저장하기 </span></button>
-      <button class="button" id = "savePDF"> <span>pdf로 저장하기 </span></button>
-      <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
+  <body style="position: relative;">
+    <div style = "display: flex; z-index: 50;">
+      <button class="button" id = "saveTxt"> <p>중간 저장하기 </p></button>
+      <button class="button" id = "savePDF"> <p>pdf로 저장하기 </p></button>
+      <button class="button"> <p>불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
+      <button class="button" id = "zoomIn"> <p>+</p></button>
+      <button class="button" id = "zoomOut"> <p>-</p></button>
+      <p><span id="scale">100</span>%</p>
     </div>
 
     <!-- <div class="button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div> -->
 
-    <div id="iroColorPicker"></div>
+    <input type="button" value="기능" onclick="toggleTagBox()" style="position: fixed; top: 0; right: 0; font-size: 20px;">
 
-    <div class = "button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">
-    글꼴 정하기 <!-- 글꼴은 다른 걸로 해도 됩니다 -->
-    <select name = "fonts" onchange = "changeFont()" id = "mySelect" style="">
-      <option value = "Nanum Gothic" style="font-family:'Nanum Gothic';">나눔고딕</option>
-      <option value = "Nanum Myeongjo" style="font-family:'Nanum Myeongjo';">나눔명조</option>
-      <option value = 'Nanum Pen Script' style="font-family:'Nanum Pen Script';">나눔펜 뭐시기</option>
-      <option value = 'Noto Serif KR' style="font-family:'Noto Serif KR';">노토 세리프가 뭐임</option>
-      <option value = 'Gaegu' style="font-family:'Gaegu';">개구</option>
-      <option value = 'Yeon Sung' style="font-family:'Yeon Sung';">연성</option>
-      <option value = 'Poor Story' style="font-family:'Poor Story';">불쌍한 이야기</option>
-    </select>
-  </div>
+
 
 
     <div class = "align">
-     <div id = "mainBox" style = "width: 148.5mm; height: 210mm; min-width: 148.5mm; background-color: brown; display: flex; align-items: center; justify-content: center; margin: 0;">
-      <div id = "realMainBox" class = "droppable_mainBox" style = "width: 125.1mm; height: 203.2mm; background-color: white; border: 2px solid black; z-index: 1;">
-
-      </div>
+     <div id = "realMainBox" class = "droppable_mainBox" style = "position: relative; width: 148.5mm; height: 210mm; min-width: 148.5mm; background-color: white; display: flex; align-items: center; justify-content: center; margin: 0; z-index: 2;">
+      <!-- <div id = "realMainBox" class = "droppable_mainBox" style = "width: 125.1mm; height: 203.2mm; background-color: white; border: 2px solid black; z-index: 1;"> -->
+      <!-- </div> -->
      </div>
 
+     <div id="functions">
+       <div id="iroColorPicker"></div>
+       <div class = "button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">
+       글꼴 정하기 <!--글꼴은 다른 걸로 해도 됩니다-->
+       <select name = "fonts" onchange = "changeFont()" id = "mySelect" style="">
+         <option value = "Nanum Gothic" style="font-family:'Nanum Gothic';">나눔고딕</option>
+         <option value = "Nanum Myeongjo" style="font-family:'Nanum Myeongjo';">나눔명조</option>
+         <option value = 'Nanum Pen Script' style="font-family:'Nanum Pen Script';">나눔손글씨 펜</option>
+         <option value = 'Noto Serif KR' style="font-family:'Noto Serif KR';">본명조</option>
+         <option value = 'Gaegu' style="font-family:'Gaegu';">개구쟁이</option>
+         <option value = 'Yeon Sung' style="font-family:'Yeon Sung';">연성체</option>
+         <option value = 'Poor Story' style="font-family:'Poor Story';">서툰 이야기</option>
+       </select>
+       </div>
+     </div>
 
-      <table border = "1" summary = "sbs" id = "tagBox" style = "flex-grow: 1; table-layout: fixed; margin-left: 30px; margin-right: 50px; background-color: white; padding: 10px; border: 2px solid transparent; border-radius: 10px; box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;" class = "droppable_tagBox">
-        <caption style = "height: 50px; line-height: 50px; background-color: brown; margin-bottom: 10px; border: 2px solid transparent; border-radius: 10px; color: white; vertical-align: middle; font-size: 20px; box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">기능</caption>
+    <div style="overflow-x: visible; overflow-y: scroll; height: 90vh; width: fit-content;">
+      <table border = "1" summary = "sbs" id = "tagBox" style = "/* style.css에 정의 */display: none;" class = "droppable_tagBox">
+        <caption style = "/* style.css에 정의 */">기능</caption>
         <tbody>
           <tr id="hover">
             <td style = "border-bottom: black 2px dotted; padding: 10px; border-top: 0;">
@@ -499,18 +506,18 @@
                 <h3>대학 로고</h3>
                 <div class="accordion-title">
                   <div>
-                    <span class = "inTagBox logo logo-seoul">&nbsp;<img src="images/s_dae.png" style="width: 300px;" alt=""></span>
+                    <span class = "inTagBox logo logo-seoul" style="display:inline-block">&nbsp;<img src="images/s_dae.png" style="width: 300px;" alt=""></span>
 
                   </div>
 
                   <div>
-                    <span class = "inTagBox logo logo-korea">&nbsp;
+                    <span class = "inTagBox logo logo-korea" style="display:inline-block">&nbsp;
                       <img src="images/k_dae.png" style="width: 300px;" alt="">
                     </span>
                   </div>
 
                   <div>
-                    <span class = "inTagBox logo logo-yonsei">&nbsp;
+                    <span class = "inTagBox logo logo-yonsei" style="display:inline-block">&nbsp;
                       <img src="images/y_dae.png" style="width: 300px;" alt="">
                       &nbsp;
                     </span>
@@ -525,9 +532,10 @@
 
         </tbody>
     </table>
+</div>
 
     </div>
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <!-- 이거 왜 넣은 건지 아는 사람..? <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /> -->
     <footer style = "text-align: center; margin-top: 50px; font-size: 15px;">
       Copyright ⓒ 2020. 0nlyF0RMe All Rights Reserved.
     </footer>

@@ -28,10 +28,29 @@
   </head>
 
   <body style="position: relative;">
+    <?php
+      session_cache_expire(1);
+      session_start();
+      $sessionusername = $_SESSION['username'];
+      if(!isset($sessionusername)){
+        header ('Location: index.php');
+      }
+     ?>
+
     <div style = "display: flex; z-index: 50;">
-      <button class="button" id = "saveTxt"> <p>중간 저장하기 </p></button>
-      <button class="button" id = "savePDF"> <p>pdf로 저장하기 </p></button>
-      <button class="button"> <p>불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
+      <button class="button" onclick="location.href = 'http://3.17.25.159/logout.php'">
+        <span> <?php
+              echo "로그인 정보 : ".$_SESSION['username'];
+            ?></span>
+      </button>
+      <button class="button" id = "saveTxt"> <span>파일로 중간 저장 </span></button>
+      <button class="button" id = "saveTxttoserver"> <span>서버에 중간 저장 </span></button>
+      <?php
+      require $_SERVER["DOCUMENT_ROOT"].'/scripts/dbconnect.php';
+      ?>
+      <button class="button" id = "savePDF"> <span>pdf로 저장 </span></button>
+      <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
+      <button class="button"> <p style = "display: inline;">서버에서 불러오기</p></button>
       <button class="button" id = "zoomIn"> <p>+</p></button>
       <button class="button" id = "zoomOut"> <p>-</p></button>
       <p><span id="scale">100</span>%</p>

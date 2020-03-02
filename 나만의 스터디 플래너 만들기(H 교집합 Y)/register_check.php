@@ -27,11 +27,13 @@
     $SID = mysqli_num_rows($SIDcheck);
     $registerdate = date('Y-m-d');
     $signup = mysqli_query($connect, "INSERT INTO users (SID, username, password, settings, registerdate) VALUES ('$SID', '$id', '$pwsh',  null, now())");
-    if($signup){
+    $makeform = mysqli_query($connect, "INSERT INTO form (SID, username, formid, formdata) VALUES ('$SID', '$id', '$SID',  null)");
+    if($signup and $makeform){
       echo "<script>alert(\"회원가입 성공! 로그인하세요\"); location.href='index.php';</script>";
     }
     else{
-        echo "<script>alert(\"회원가입 실패, 재시도\"); history.go(-1);</script>";
+        // echo "<script>alert(\"회원가입 실패, 재시도\"); history.go(-1);</script>";
+        echo mysqli_error($connect);
     }
 
 ?>

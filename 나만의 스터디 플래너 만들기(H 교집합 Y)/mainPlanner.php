@@ -45,7 +45,7 @@
 
     <div style = "display: flex; z-index: 50;">
 
-   
+
       <button class="button" onclick="location.href = 'http://3.17.25.159/logout.php'">
         <span> <?php
               echo "로그인 정보 : ".$_SESSION['username'];
@@ -53,22 +53,19 @@
       </button>
       <button class="button" id = "saveTxt"> <span>파일로 중간 저장 </span></button>
       <button class="button" id = "saveTxttoserver"> <span>서버에 중간 저장 </span></button>
-      <?php
-      require $_SERVER["DOCUMENT_ROOT"].'/scripts/dbconnect.php';
-      ?>
       <button class="button" id = "savePDF"> <span>pdf로 저장 </span></button>
       <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
-      <button class="button"> <p style = "display: inline;">서버에서 불러오기</p></button>
+      <button class="button" id = "readfromserver"> <p style = "display: inline;">서버에서 불러오기</p></button>
+      <?php
+      require $_SERVER["DOCUMENT_ROOT"].'/scripts/dbconnect.php';
+      $formserver = mysqli_query($connect, "SELECT formdata FROM form WHERE username = '$sessionusername'");
+      ?>
 
       <button class="button" id = "zoomIn"> <p>+</p></button>
       <button class="button" id = "zoomOut"> <p>-</p></button>
       <p><span id="scale">100</span>%</p>
 
     </div>
-    <?php
-
-    ?>
-
     <!-- <div class="button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div> -->
 
     <input type="button" value="기능" onclick="toggleTagBox()" style="position: fixed; top: 0; right: 0; font-size: 20px;">
@@ -575,5 +572,126 @@
   </body>
   <script src = "js/planner.js"></script>
   <script src = "js/img_src.js"></script>
+  <script src = "js/serversave.js"></script>
+  <script>
+  function readfromserver() {
+
+     var reader = '<?php echo $formserver; ?>';
+
+      //console.log('File content:', event.target.result);
+      const mainBox = document.querySelector("#realMainBox");
+
+      $(mainBox).children('span').remove();
+
+      eleList = reader.split(',/,');
+
+      for(i=0; i<eleList.length; i++) {
+        eleList[i] = eleList[i].split(',');
+      }
+
+      settingColor = eleList.pop().toString();
+      console.log("settingColor is "+settingColor);
+      colorPicker.addColor(settingColor, 0);
+      colorPicker.removeColor(1);
+      document.querySelector("#realMainBox").style.backgroundColor = settingColor;
+      if(eleList.length === 0) return false;
+
+      if(eleList[eleList.length - 1].indexOf('/') != -1)
+      eleList[eleList.length - 1].splice(eleList[eleList.length - 1].indexOf('/'));
+
+      newCloneList = Array(eleList.length);
+
+      for(i=0; i<eleList.length; i++) {
+        newCloneList[i] = document.getElementsByClassName(eleList[i][0])[0].cloneNode(true);
+
+        newCloneList[i].style.position = "absolute";
+
+        $(newCloneList[i]).addClass("draggable");
+        $(newCloneList[i]).removeClass("inTagBox");
+
+        switch(eleList[i][0]) {
+          case("plan"):
+            $(newCloneList[i]).children("table").css('width',eleList[i][1]);
+            $(newCloneList[i]).children("table").css('height',eleList[i][2]);
+            $(newCloneList[i]).children("table").addClass("resizable");
+            break;
+          case("reflection"):
+            $(newCloneList[i]).children("table").css('width',eleList[i][1]);
+            $(newCloneList[i]).children("table").css('height',eleList[i][2]);
+            $(newCloneList[i]).children("table").addClass("resizable");
+            break;
+          case("memo"):
+            $(newCloneList[i]).children("div").css('width',eleList[i][1]);
+            $(newCloneList[i]).children("div").css('height',eleList[i][2]);
+            $(newCloneList[i]).children("div").addClass("resizable");
+            break;
+          case("time-table"):
+            $(newCloneList[i]).children("table").css('width',eleList[i][1]);
+            $(newCloneList[i]).children("table").css('height',eleList[i][2]);
+            $(newCloneList[i]).children("table").addClass("resizable");
+            break;
+          default:
+            $(newCloneList[i]).css('width',eleList[i][1]);
+            $(newCloneList[i]).css('height',eleList[i][2]);
+            $(newCloneList[i]).addClass("resizable");
+        }
+
+        newCloneList[i].style.left = eleList[i][3];
+        newCloneList[i].style.top = eleList[i][4];
+
+        if(eleList[i][5]) {
+          switch(eleList[i][0]) {
+            case("plan"):
+              for(j=0; j<eleList[i][5]-3; j++) {
+                const columnClone = document.querySelector('#column').cloneNode(true);
+                $(newCloneList[i]).find('tbody').append(columnClone);
+              }
+              break;
+
+            case("reflection"):
+              for(j=0; j<eleList[i][5]-3; j++) {
+                const columnClone = document.querySelector('#column2').cloneNode(true);
+                $(newCloneList[i]).find('tbody').append(columnClone);
+              }
+              break;
+
+            case("anything-text"):
+              newCloneList[i].innerHTML = eleList[i][5];
+              break;
+
+            case("logo"):
+              newCloneList[i].src = eleList[i][5];
+              break;
+          }
+        }
+
+      }
+
+      for(i=0; i<newCloneList.length; i++) {
+        document.querySelector("#realMainBox").appendChild(newCloneList[i]);
+      }
+
+      $(".draggable").draggable({
+        revert: "invalid"
+      });
+
+      $(".resizable").resizable();
+
+
+    var input = this;
+    //console.log(this);
+
+    if(!/safari/i.test(navigator.userAgent)){
+      input.type = '';
+      input.type = 'file';
+    }
+
+
+  }
+
+  //서버에서 불러오기 버튼
+  document.querySelector('#readfromserver').addEventListener('click', readfromserver);
+  </script>
+
 
 </html>

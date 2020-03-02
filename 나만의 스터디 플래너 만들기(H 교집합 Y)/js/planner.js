@@ -136,7 +136,7 @@ function removeColumn(btn) {
 function getElementList() {
   let elementList = Array();
 
-  const c = document.getElementById("mainBox").children;
+  const c = document.getElementById("realMainBox").children;
   children = [];
 
   for(i=0; i<c.length; i++) {
@@ -355,6 +355,7 @@ function saveTxt() {
 
 
 // 중간저장 파일 읽고, 내용 잘 읽어서 파츠를 만드는 거(노가다 -.-)
+
 function read() {
 
   var files = this.files;
@@ -371,10 +372,9 @@ function read() {
   reader.onload = function(event) {
     //console.log('File content:', event.target.result);
 
-    const mainBox = document.querySelector("#mainBox");
+    const mainBox = document.querySelector("#realMainBox");
 
     $(mainBox).children('span').remove();
-
 
     eleList = event.target.result.split(',/,');
 
@@ -386,7 +386,7 @@ function read() {
     console.log("settingColor is "+settingColor);
     colorPicker.addColor(settingColor, 0);
     colorPicker.removeColor(1);
-    document.querySelector("#mainBox").style.backgroundColor = settingColor;
+    document.querySelector("#realMainBox").style.backgroundColor = settingColor;
     if(eleList.length === 0) return false;
 
     if(eleList[eleList.length - 1].indexOf('/') != -1)
@@ -461,7 +461,7 @@ function read() {
     }
 
     for(i=0; i<newCloneList.length; i++) {
-      document.querySelector("#mainBox").appendChild(newCloneList[i]);
+      document.querySelector("#realMainBox").appendChild(newCloneList[i]);
     }
 
     $(".draggable").draggable({
@@ -475,12 +475,6 @@ function read() {
 
   var input = this;
   //console.log(this);
-
-  if(!/safari/i.test(navigator.userAgent)){
-    input.type = '';
-    input.type = 'file';
-  }
-
 
 }
 
@@ -517,6 +511,8 @@ document.querySelector('#saveTxt').addEventListener('click', saveTxt);
 
 // 불러오기 버튼
 document.querySelector('#upload').addEventListener('change', read);
+
+//서버에서 불러오기 버튼
 
 // 새로운 기능 추가하기 버튼
 document.querySelector('#addNewTag').addEventListener('click', addNewTag);

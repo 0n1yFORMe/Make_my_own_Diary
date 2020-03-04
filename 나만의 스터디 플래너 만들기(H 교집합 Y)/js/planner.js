@@ -476,6 +476,11 @@ function read() {
   var input = this;
   //console.log(this);
 
+  if(!/safari/i.test(navigator.userAgent)){
+    input.type = '';
+    input.type = 'file';
+  }
+
 }
 
 // 새로운 기능 추가하는 거(원리: 사실.. 기능란에 안 보이게 해놓은 파츠 하나 있어서 그거 복제해서 만듦)
@@ -557,7 +562,7 @@ colorPicker.on('color:change', function(color) {
   document.querySelector("caption").style.backgroundColor = bgColor;
 });
 
-    
+
 var loadformdata = "";
 loadformdata = $("#name").val()
 

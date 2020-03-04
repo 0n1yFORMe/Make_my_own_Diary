@@ -29,48 +29,34 @@
     <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
 
   </head>
-
-
   <body style="position: relative;">
-
-    <?php
-      session_cache_expire(1);
-      session_start();
-      $sessionusername = $_SESSION['username'];
-      if(!isset($sessionusername)){
-        header ('Location: index.php');
-      }
-     ?>
-
-
-    <div style = "display: flex; z-index: 50;">
-
-
-      <button class="button" onclick="location.href = 'http://3.17.25.159/logout.php'">
-        <span> <?php
-              echo "로그인 정보 : ".$_SESSION['username'];
-            ?></span>
-      </button>
-      <button class="button" id = "saveTxt"> <span>파일로 중간 저장 </span></button>
-      <button class="button" id = "saveTxttoserver"> <span>서버에 중간 저장 </span></button>
-      <button class="button" id = "savePDF"> <span>pdf로 저장 </span></button>
-      <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
-      <button class="button" id = "readfromserver"> <p style = "display: inline;">서버에서 불러오기</p></button>
-      <?php
-      require $_SERVER["DOCUMENT_ROOT"].'/scripts/dbconnect.php';
-      $formserver = mysqli_query($connect, "SELECT formdata FROM form WHERE username = '$sessionusername'");
-      $formserverrow = mysqli_fetch_array($formserver);
+     <?php
+       session_cache_expire(1);
+       session_start();
+       $sessionusername = $_SESSION['username'];
+       if(!isset($sessionusername)){
+         header ('Location: index.php');
+       }
+       require $_SERVER["DOCUMENT_ROOT"].'/scripts/dbconnect.php';
+       $formserver = mysqli_query($connect, "SELECT formdata FROM form WHERE username = '$sessionusername'");
+       $formserverrow = mysqli_fetch_array($formserver);
       ?>
+      <ul>
+        <li><a href="#" id= "home"><?php
+              echo $_SESSION['username']."님의 플래너";
+            ?></a></li>
+        <li style="float:right"><a href="#" onclick="location.href = 'http://3.17.25.159/logout.php'">로그아웃</a></li>
+        <li id="default" style="float:right"><a><p><span id="scale">100</span>%</p></a></li>
+        <!-- 나중에 scale 누르면 100%로 돌아오게 하는 기능 추가 할 것 -->
+        <li style="float:right"><a id = "zoomOut">-</a></li>
+        <li style="float:right"><a id = "zoomIn">+</a></li>
+        <li style="float:right"><a href="#" id = "readfromserver">서버에서 불러오기</a></li>
+        <li style="float:right"><a href="#" id = "saveTxttoserver">서버에 저장하기</a></li>
+      </ul>
 
-      <button class="button" id = "zoomIn"> <p>+</p></button>
-      <button class="button" id = "zoomOut"> <p>-</p></button>
-      <p><span id="scale">100</span>%</p>
-
-    </div>
     <!-- <div class="button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div> -->
 
     <input type="button" value="기능" onclick="toggleTagBox()" style="position: fixed; top: 0; right: 0; font-size: 20px;">
-
 
 
 
@@ -93,6 +79,11 @@
          <option value = 'Yeon Sung' style="font-family:'Yeon Sung';">연성체</option>
          <option value = 'Poor Story' style="font-family:'Poor Story';">서툰 이야기</option>
        </select>
+       </div>
+       <div>
+         <button class="button" id = "saveTxt"> <span>파일로 중간 저장 </span></button>
+         <button class="button" id = "savePDF"> <span>pdf로 저장 </span></button>
+         <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
        </div>
      </div>
 

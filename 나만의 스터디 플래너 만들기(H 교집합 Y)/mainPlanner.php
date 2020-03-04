@@ -29,47 +29,34 @@
     <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
 
   </head>
-
-
   <body style="position: relative;">
-
-    <?php
-      session_cache_expire(1);
-      session_start();
-      $sessionusername = $_SESSION['username'];
-      if(!isset($sessionusername)){
-        header ('Location: index.php');
-      }
-     ?>
-
-
-    <div style = "display: flex; z-index: 50;">
-
-
-      <button class="button" onclick="location.href = 'http://3.17.25.159/logout.php'">
-        <span> <?php
-              echo "로그인 정보 : ".$_SESSION['username'];
-            ?></span>
-      </button>
-      <button class="button" id = "saveTxt"> <span>파일로 중간 저장 </span></button>
-      <button class="button" id = "saveTxttoserver"> <span>서버에 중간 저장 </span></button>
-      <button class="button" id = "savePDF"> <span>pdf로 저장 </span></button>
-      <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
-      <button class="button" id = "readfromserver"> <p style = "display: inline;">서버에서 불러오기</p></button>
-      <?php
-      require $_SERVER["DOCUMENT_ROOT"].'/scripts/dbconnect.php';
-      $formserver = mysqli_query($connect, "SELECT formdata FROM form WHERE username = '$sessionusername'");
+     <?php
+       session_cache_expire(1);
+       session_start();
+       $sessionusername = $_SESSION['username'];
+       if(!isset($sessionusername)){
+         header ('Location: index.php');
+       }
+       require $_SERVER["DOCUMENT_ROOT"].'/scripts/dbconnect.php';
+       $formserver = mysqli_query($connect, "SELECT formdata FROM form WHERE username = '$sessionusername'");
+       $formserverrow = mysqli_fetch_array($formserver);
       ?>
+      <ul>
+        <li><a href="#" id= "home"><?php
+              echo $_SESSION['username']."님의 플래너";
+            ?></a></li>
+        <li style="float:right"><a href="#" onclick="location.href = 'http://3.17.25.159/logout.php'">로그아웃</a></li>
+        <li id="default" style="float:right"><a><p><span id="scale">100</span>%</p></a></li>
+        <!-- 나중에 scale 누르면 100%로 돌아오게 하는 기능 추가 할 것 -->
+        <li style="float:right"><a id = "zoomOut">-</a></li>
+        <li style="float:right"><a id = "zoomIn">+</a></li>
+        <li style="float:right"><a href="#" id = "readfromserver">서버에서 불러오기</a></li>
+        <li style="float:right"><a href="#" id = "saveTxttoserver">서버에 저장하기</a></li>
+      </ul>
 
-      <button class="button" id = "zoomIn"> <p>+</p></button>
-      <button class="button" id = "zoomOut"> <p>-</p></button>
-      <p><span id="scale">100</span>%</p>
-
-    </div>
     <!-- <div class="button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div> -->
 
     <input type="button" value="기능" onclick="toggleTagBox()" style="position: fixed; top: 0; right: 0; font-size: 20px;">
-
 
 
 
@@ -92,6 +79,11 @@
          <option value = 'Yeon Sung' style="font-family:'Yeon Sung';">연성체</option>
          <option value = 'Poor Story' style="font-family:'Poor Story';">서툰 이야기</option>
        </select>
+       </div>
+       <div>
+         <button class="button" id = "saveTxt"> <span>파일로 중간 저장 </span></button>
+         <button class="button" id = "savePDF"> <span>pdf로 저장 </span></button>
+         <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
        </div>
      </div>
 
@@ -559,139 +551,23 @@
             </td>
           </tr>
 
-        </tbody>
-    </table>
-</div>
-
+          </tbody>
+        </table>
+      </div>
     </div>
+    <form>
+      <input type="hidden" name="name" id="name" value="<?php echo $formserverrow[0]; ?>">
+    </form>
+
     <!-- 이거 왜 넣은 건지 아는 사람..? <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /> -->
     <footer style = "text-align: center; margin-top: 50px; font-size: 15px;">
       Copyright ⓒ 2020. 0nlyF0RMe All Rights Reserved.
-    </footer>
 
+    </footer>
   </body>
   <script src = "js/planner.js"></script>
   <script src = "js/img_src.js"></script>
   <script src = "js/serversave.js"></script>
-  <script>
-  function readfromserver() {
-
-     var reader = '<?php echo $formserver; ?>';
-
-      //console.log('File content:', event.target.result);
-      const mainBox = document.querySelector("#realMainBox");
-
-      $(mainBox).children('span').remove();
-
-      eleList = reader.split(',/,');
-
-      for(i=0; i<eleList.length; i++) {
-        eleList[i] = eleList[i].split(',');
-      }
-
-      settingColor = eleList.pop().toString();
-      console.log("settingColor is "+settingColor);
-      colorPicker.addColor(settingColor, 0);
-      colorPicker.removeColor(1);
-      document.querySelector("#realMainBox").style.backgroundColor = settingColor;
-      if(eleList.length === 0) return false;
-
-      if(eleList[eleList.length - 1].indexOf('/') != -1)
-      eleList[eleList.length - 1].splice(eleList[eleList.length - 1].indexOf('/'));
-
-      newCloneList = Array(eleList.length);
-
-      for(i=0; i<eleList.length; i++) {
-        newCloneList[i] = document.getElementsByClassName(eleList[i][0])[0].cloneNode(true);
-
-        newCloneList[i].style.position = "absolute";
-
-        $(newCloneList[i]).addClass("draggable");
-        $(newCloneList[i]).removeClass("inTagBox");
-
-        switch(eleList[i][0]) {
-          case("plan"):
-            $(newCloneList[i]).children("table").css('width',eleList[i][1]);
-            $(newCloneList[i]).children("table").css('height',eleList[i][2]);
-            $(newCloneList[i]).children("table").addClass("resizable");
-            break;
-          case("reflection"):
-            $(newCloneList[i]).children("table").css('width',eleList[i][1]);
-            $(newCloneList[i]).children("table").css('height',eleList[i][2]);
-            $(newCloneList[i]).children("table").addClass("resizable");
-            break;
-          case("memo"):
-            $(newCloneList[i]).children("div").css('width',eleList[i][1]);
-            $(newCloneList[i]).children("div").css('height',eleList[i][2]);
-            $(newCloneList[i]).children("div").addClass("resizable");
-            break;
-          case("time-table"):
-            $(newCloneList[i]).children("table").css('width',eleList[i][1]);
-            $(newCloneList[i]).children("table").css('height',eleList[i][2]);
-            $(newCloneList[i]).children("table").addClass("resizable");
-            break;
-          default:
-            $(newCloneList[i]).css('width',eleList[i][1]);
-            $(newCloneList[i]).css('height',eleList[i][2]);
-            $(newCloneList[i]).addClass("resizable");
-        }
-
-        newCloneList[i].style.left = eleList[i][3];
-        newCloneList[i].style.top = eleList[i][4];
-
-        if(eleList[i][5]) {
-          switch(eleList[i][0]) {
-            case("plan"):
-              for(j=0; j<eleList[i][5]-3; j++) {
-                const columnClone = document.querySelector('#column').cloneNode(true);
-                $(newCloneList[i]).find('tbody').append(columnClone);
-              }
-              break;
-
-            case("reflection"):
-              for(j=0; j<eleList[i][5]-3; j++) {
-                const columnClone = document.querySelector('#column2').cloneNode(true);
-                $(newCloneList[i]).find('tbody').append(columnClone);
-              }
-              break;
-
-            case("anything-text"):
-              newCloneList[i].innerHTML = eleList[i][5];
-              break;
-
-            case("logo"):
-              newCloneList[i].src = eleList[i][5];
-              break;
-          }
-        }
-
-      }
-
-      for(i=0; i<newCloneList.length; i++) {
-        document.querySelector("#realMainBox").appendChild(newCloneList[i]);
-      }
-
-      $(".draggable").draggable({
-        revert: "invalid"
-      });
-
-      $(".resizable").resizable();
-
-
-    var input = this;
-    //console.log(this);
-
-    if(!/safari/i.test(navigator.userAgent)){
-      input.type = '';
-      input.type = 'file';
-    }
-
-
-  }
-
-  //서버에서 불러오기 버튼
-  document.querySelector('#readfromserver').addEventListener('click', readfromserver);
-  </script>
 
 
 </html>

@@ -5,18 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <title>jQuery UI Dialog - Default functionality</title>
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+      <link rel="stylesheet" href="/resources/demos/style.css">
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script>
+      $( function() {
+        $( "#dialog" ).dialog();
+      } );
+      </script>
+    </head>
+    <body>
 
-
-    <title>나만의 스터디 플래너 만들기</title>
-
-    <script>
-
-
-
-       alert("*주의사항*\n왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요!\n요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요!\n요소를 삭제하기 위해서는 기능란 위로 드래그하세요!")
-
-
-    </script>
+    <div id="dialog" title="*주의사항*">
+      <p>왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에<br>추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌로 와 붙여주세요!<br>요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요!<br>요소를 삭제하기 위해서는 기능란 위에 드래그하세요!</p>
+    </div>
 
     <link href="https://fonts.googleapis.com/css?family=Gaegu|Nanum+Gothic|Nanum+Myeongjo|Nanum+Pen+Script|Noto+Serif+KR|Poor+Story|Yeon+Sung&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

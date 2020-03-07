@@ -53,7 +53,7 @@
               echo $_SESSION['username']."님의 플래너";
             ?></a></li>
         <li style="float:right"><a href="#" onclick="location.href = 'http://3.17.25.159/logout.php'">로그아웃</a></li>
-        <li id="default" style="float:right"><a><p><span id="scale">100</span>%</p></a></li>
+        <li id="default" style="float:right"><a><p><p id="scale">100</p>%</p></a></li>
         <!-- 나중에 scale 누르면 100%로 돌아오게 하는 기능 추가 할 것 -->
         <li style="float:right"><a id = "zoomOut">-</a></li>
         <li style="float:right"><a id = "zoomIn">+</a></li>
@@ -68,10 +68,15 @@
 
 
     <div class = "align">
-     <div id = "realMainBox" class = "droppable_mainBox" style = "position: relative; width: 148.5mm; height: 210mm; min-width: 148.5mm; background-color: white; display: flex; align-items: center; justify-content: center; margin: 0; z-index: 2;">
-      <!-- <div id = "realMainBox" class = "droppable_mainBox" style = "width: 125.1mm; height: 203.2mm; background-color: white; border: 2px solid black; z-index: 1;"> -->
-      <!-- </div> -->
-     </div>
+      <div style="width: 70vw; display: flex; justify-content:center; background-color: transparent; transform-origin: top;">
+        <div id = "realMainBox" class = "droppable_mainBox" style = "position: relative; width: 148.5mm; height: 210mm; min-width: 148.5mm; background-color: white; display: flex; align-items: center; justify-content: center; margin: 0; z-index: 2; transform-origin: top;">
+          <!-- 컨테이너에 배경을 줄 경우 transform-origin: center -->
+         <!-- <div id = "realMainBox" class = "droppable_mainBox" style = "width: 125.1mm; height: 203.2mm; background-color: white; border: 2px solid black; z-index: 1;"> -->
+         <!-- </div> -->
+        </div>
+
+      </div>
+
 
      <div id="functions">
        <div id="iroColorPicker"></div>
@@ -88,13 +93,13 @@
        </select>
        </div>
        <div>
-         <button class="button" id = "saveTxt"> <span>파일로 중간 저장 </span></button>
-         <button class="button" id = "savePDF"> <span>pdf로 저장 </span></button>
+         <button class="button" id = "saveTxt"> <p>파일로 중간 저장 </p></button>
+         <button class="button" id = "savePDF"> <p>pdf로 저장 </p></button>
          <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
        </div>
      </div>
 
-    <div style="overflow-x: visible; overflow-y: scroll; height: 90vh; width: fit-content;">
+    <div id="tagBoxParent" style="width: max-content; position: absolute; right: 1%; overflow-x: visible; overflow-y: scroll; height: 90vh; width: fit-content;">
       <table border = "1" summary = "sbs" id = "tagBox" style = "/* style.css에 정의 */display: none;" class = "droppable_tagBox">
         <caption style = "/* style.css에 정의 */">기능</caption>
         <tbody>
@@ -163,7 +168,7 @@
 
                   <div>
                     <span class = "inTagBox elements memo"> Memo <br>
-                      <div style = "width: 100px; height: 100px; border: 1px solid black; margin-top: 10px;"></div>
+                      <div style = "width: 100px; height: 100px; border: 1px solid black; margin-top: 10px; background-color: white;"></div>
                     </span>
                   </div>
                 </div>

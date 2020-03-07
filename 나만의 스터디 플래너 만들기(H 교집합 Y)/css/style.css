@@ -193,7 +193,7 @@ z-index (#: 바뀔 가능성 있음)
 
         #tagBox {
           z-index: 4;
-          min-width: 420px;
+          /* min-width: 420px; */
           /* right: 10%; */
           table-layout: fixed;
           background-color: white;
@@ -244,20 +244,20 @@ z-index (#: 바뀔 가능성 있음)
         @keyframes slidein {
           from {
             margin-left: 120%;
-            /* right: -50%; */
+            /* left: 150%; */
             /* width: 300% */
           }
 
           to {
-            margin-left: 5%;
-            /* right: 0%; */
+            margin-left: 0%;
+            /* right: 1%; */
             /* width: 100%; */
           }
         }
 
         @keyframes slideout {
           from {
-            margin-left: 5%;
+            margin-left: 0%;
             /* right: 0%; */
           }
 
@@ -268,3 +268,32 @@ z-index (#: 바뀔 가능성 있음)
         }
 
         @font-face { font-family: 'BRBA_B'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/BRBA_B.woff') format('woff'); font-weight: normal; font-style: normal; }
+
+        ul {
+            list-style-type: none;
+            margin-bottom: 1%;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+          }
+
+          li {
+            float: left;
+          }
+
+          li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+          }
+
+          /* Change the link color to #111 (black) on hover */
+          li a:hover {
+            background-color: #111;
+          }
+
+          #home{
+            background-color: #4CAF50;
+          }

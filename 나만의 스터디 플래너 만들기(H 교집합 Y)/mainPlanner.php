@@ -47,6 +47,13 @@
        require $_SERVER["DOCUMENT_ROOT"].'/scripts/dbconnect.php';
        $formserver = mysqli_query($connect, "SELECT formdata FROM form WHERE username = '$sessionusername'");
        $formserverrow = mysqli_fetch_array($formserver);
+
+       function encode_image($url) {
+         $img = file_get_contents($url);
+         $imgData = base64_encode($img);
+
+         return $imgData;
+       }
       ?>
       <ul>
         <li><a href="#" id= "home"><?php
@@ -515,23 +522,23 @@
                 <div class="accordion-title">
 
                   <div>
-                    <span class = "inTagBox elements"> <img src="images/cat.png" alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;오늘의 고양이 일지: </span></span>
+                    <span class = "inTagBox elements"> <img src='data:image/png;base64,<?php echo encode_image("images/cat.png");?>' alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;오늘의 고양이 일지: </span></span>
                   </div>
 
                   <div>
-                    <span class = "inTagBox elements sun"> <img src="images/img_sun_60.png" alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;: </span></span>
+                    <span class = "inTagBox elements sun"> <img src='data:image/png;base64,<?php echo encode_image("images/img_sun_60.png");?>' alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;: </span></span>
                   </div>
 
                   <div>
-                    <span class = "inTagBox elements night"> <img src="images/img_night_50.png" alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;: </span></span>
+                    <span class = "inTagBox elements night"> <img src='data:image/png;base64,<?php echo encode_image("images/img_night_50.png");?>' alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;: </span></span>
                   </div>
 
                   <div>
-                    <span class = "inTagBox elements shine-time" style="border:0;"> <span style="vertical-align: 100%;">걸린</span><img src="images/img_shine2_25.png" alt="" style="vertical-align: 130%;"><span style="vertical-align: 100%;">시간: </span></span>
+                    <span class = "inTagBox elements shine-time" style="border:0;"> <span style="vertical-align: 100%;">걸린</span><img src='data:image/png;base64,<?php echo encode_image("images/img_shine2_25.png")?>' alt="" style="vertical-align: 130%;"><span style="vertical-align: 100%;">시간: </span></span>
                   </div>
 
                   <div>
-                    <span class = "inTagBox elements waterdrop-time" style="border:0;"> <span style="vertical-align: 100%;">걸린</span><img src="images/img_waterdrop_20.png" alt="" style="vertical-align: 130%;"><span style="vertical-align: 100%;">시간: </span></span>
+                    <span class = "inTagBox elements waterdrop-time" style="border:0;"> <span style="vertical-align: 100%;">걸린</span><img src='data:image/png;base64,<?php echo encode_image("images/img_waterdrop_20.png")?>' alt="" style="vertical-align: 130%;"><span style="vertical-align: 100%;">시간: </span></span>
                   </div>
 
                 </div>
@@ -539,19 +546,19 @@
                 <h3>대학 로고</h3>
                 <div class="accordion-title">
                   <div>
-                    <span class = "inTagBox logo logo-seoul" style="display:inline-block">&nbsp;<img src="images/s_dae.png" style="width: 300px;" alt=""></span>
+                    <span class = "inTagBox logo logo-seoul" style="display:inline-block">&nbsp;<img src='data:image/png;base64,<?php echo encode_image("images/s_dae.png")?>' style="width: 300px;" alt=""></span>
 
                   </div>
 
                   <div>
                     <span class = "inTagBox logo logo-korea" style="display:inline-block">&nbsp;
-                      <img src="images/k_dae.png" style="width: 300px;" alt="">
+                      <img src='data:image/png;base64,<?php echo encode_image("images/k_dae.png")?>' style="width: 300px;" alt="">
                     </span>
                   </div>
 
                   <div>
                     <span class = "inTagBox logo logo-yonsei" style="display:inline-block">&nbsp;
-                      <img src="images/y_dae.png" style="width: 300px;" alt="">
+                      <img src='data:image/png;base64,<?php echo encode_image("images/y_dae.png")?>' style="width: 300px;" alt="">
                       &nbsp;
                     </span>
                   </div>

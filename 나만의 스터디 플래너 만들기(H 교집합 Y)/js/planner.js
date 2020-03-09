@@ -5,7 +5,6 @@ $( ".inTagBox" ).draggable({
    revert: "invalid",
    helper: "clone",
    appendTo: "#realMainBox"
-   //ㅋsㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
 });
 
 $( "#accordion" ).accordion({
@@ -17,10 +16,6 @@ $( "#accordion" ).accordion({
 // 왜 클래스로 했지 암튼 droppable이라는 건 용지 위에 파츠들(draggable)을 드롭할 수 있게 만드는 코드
 $( ".droppable_mainBox" ).droppable({
   tolerance: 'fit', //테두리 안에 완전히 들어와야 drop으로 인식(걸치는 거 허용 ㄴ)
-  classes: { // 뭔지 몰라요
-    "ui-droppable-active": "ui-state-active",
-    "ui-droppable-hover": "ui-state-hover"
-  },
   drop: function( event, ui ) { // 드롭했을 때 실행할 함수: 드래그하는 대상을 복제해서 복제한 걸 드롭하는 코드
 
     // 복제해야 하는 오브젝트인가? 아니라면 -1을 반환함
@@ -252,17 +247,19 @@ function changeMinWidth() {
 }
 
 function toggleTagBox() {
-  if(tagBoxOn == true) {
-    $("#align").css("overflow-x", "hidden");
+  if(tagBoxOn == true) { //집어넣을 때
+    $("body").css("overflow-x", "hidden");
     $("#tagBox").css("animation-name", "slideout");
     $("#tagBox").css("animation-duration", "0.4s");
-    setTimeout('$("#tagBox").css("display", "none"); $("#functions").css("display", ""); tagBoxOn = false;', 400);
-    $("#align").css("overflow-x", "");
+    setTimeout('$("#tagBox").css("display", "none");$("#tagBoxParent").css("display", "none"); tagBoxOn = false;', 400);
+    $("body").css("overflow-x", "");
 
   }
-  else {
+  else { //꺼낼 때
+    document.querySelector("#tagBoxParent").style.left = document.querySelector("#functions").offsetLeft.toString()+"px";
     $("#tagBox").css("display", "");
-    $("#functions").css("display", "none");
+    $("#tagBoxParent").css("display", "");
+    // $("#functions").css("display", "none");
     tagBoxOn = true;
     $("#tagBox").css("animation-name", "slidein");
     $("#tagBox").css("animation-duration", "0.5s");
@@ -531,36 +528,48 @@ document.querySelector('#weekPlanTable').style.height = "200px";
 
 let mainBoxScale = 1;
 
-document.querySelector("#zoomIn").addEventListener('click', function() {
+function zoomIn() { // 머리 쓰기 싫어서 함수를 두 개 썼는데 머리 쓰고 싶을 때 수정
   if(mainBoxScale>=1) return;
 
   mainBoxScale += 0.1;
-  $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")")
+  $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")");
+  $("#realMainBox").parent().css("transform", "scale("+mainBoxScale.toString()+")");
   $("#scale").html(parseInt(mainBoxScale*100));
-});
+}
 
-document.querySelector("#zoomOut").addEventListener('click', function() {
+function zoomOut() {
   if(mainBoxScale<=0.6) return;
 
   mainBoxScale -= 0.1;
-  $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")")
+  $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")");
+  $("#realMainBox").parent().css("transform", "scale("+mainBoxScale.toString()+")");
   $("#scale").html(parseInt(mainBoxScale*100));
-});
+}
+
+document.querySelector("#zoomIn").addEventListener('click', zoomIn);
+document.querySelector("#zoomOut").addEventListener('click', zoomOut);
 
 var colorPicker = new iro.ColorPicker('#iroColorPicker', {
   // Set the size of the color picker
   width: 100,
   // Set the initial color to pure red
-  color: "#B3001F"
+  color: "FFFFFF"//"#B3001F"
 });
 
 colorPicker.on('color:change', function(color) {
   // log the current color as a HEX string
   // console.log(color.hexString);
   bgColor = color.hexString;
-  document.querySelector("#mainBox").style.backgroundColor = bgColor;
+  document.querySelector("#realMainBox").style.backgroundColor = bgColor;
   document.querySelector("caption").style.backgroundColor = bgColor;
 });
+
+window.addEventListener('resize', function(){
+  document.querySelector("#tagBoxParent").style.left = document.querySelector("#functions").offsetLeft.toString()+"px";
+  // document.querySelector("#tagBox").style.width = document.querySelector("#functions").offsetWidth.toString()+'px';
+  // $(".accordion-title").css("width", document.querySelector("#functions").offsetWidth.toString()+'px');
+  // document.querySelector("h3").style.width = document.querySelector("#functions").offsetWidth.toString()+'px';
+})
 
 
 var loadformdata = "";

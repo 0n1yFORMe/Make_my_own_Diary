@@ -37,13 +37,20 @@
        require $_SERVER["DOCUMENT_ROOT"].'/scripts/dbconnect.php';
        $formserver = mysqli_query($connect, "SELECT formdata FROM form WHERE username = '$sessionusername'");
        $formserverrow = mysqli_fetch_array($formserver);
+
+       function encode_image($url) {
+         $img = file_get_contents($url);
+         $imgData = base64_encode($img);
+
+         return $imgData;
+       }
       ?>
       <ul>
         <li><a href="#" id= "home"><?php
               echo $_SESSION['username']."님의 플래너";
             ?></a></li>
         <li style="float:right"><a href="#" onclick="location.href = 'http://3.17.25.159/logout.php'">로그아웃</a></li>
-        <li id="default" style="float:right"><a><p><span id="scale">100</span>%</p></a></li>
+        <li id="default" style="float:right"><a><p><p id="scale">100</p>%</p></a></li>
         <!-- 나중에 scale 누르면 100%로 돌아오게 하는 기능 추가 할 것 -->
         <li style="float:right"><a id = "zoomOut">-</a></li>
         <li style="float:right"><a id = "zoomIn">+</a></li>
@@ -58,10 +65,15 @@
 
 
     <div class = "align">
-     <div id = "realMainBox" class = "droppable_mainBox" style = "position: relative; width: 148.5mm; height: 210mm; min-width: 148.5mm; background-color: white; display: flex; align-items: center; justify-content: center; margin: 0; z-index: 2;">
-      <!-- <div id = "realMainBox" class = "droppable_mainBox" style = "width: 125.1mm; height: 203.2mm; background-color: white; border: 2px solid black; z-index: 1;"> -->
-      <!-- </div> -->
-     </div>
+      <div style="width: 70vw; display: flex; justify-content:center; background-color: transparent; transform-origin: top;">
+        <div id = "realMainBox" class = "droppable_mainBox" style = "position: relative; width: 148.5mm; height: 210mm; min-width: 148.5mm; background-color: white; display: flex; align-items: center; justify-content: center; margin: 0; z-index: 2; transform-origin: top;">
+          <!-- 컨테이너에 배경을 줄 경우 transform-origin: center -->
+         <!-- <div id = "realMainBox" class = "droppable_mainBox" style = "width: 125.1mm; height: 203.2mm; background-color: white; border: 2px solid black; z-index: 1;"> -->
+         <!-- </div> -->
+        </div>
+
+      </div>
+
 
      <div id="functions">
        <div id="iroColorPicker"></div>
@@ -78,13 +90,13 @@
        </select>
        </div>
        <div>
-         <button class="button" id = "saveTxt"> <span>파일로 중간 저장 </span></button>
-         <button class="button" id = "savePDF"> <span>pdf로 저장 </span></button>
+         <button class="button" id = "saveTxt"> <p>파일로 중간 저장 </p></button>
+         <button class="button" id = "savePDF"> <p>pdf로 저장 </p></button>
          <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
        </div>
      </div>
 
-    <div style="overflow-x: visible; overflow-y: scroll; height: 90vh; width: fit-content;">
+    <div id="tagBoxParent" style="width: max-content; position: absolute; right: 1%; overflow-x: visible; overflow-y: scroll; height: 90vh; width: fit-content;">
       <table border = "1" summary = "sbs" id = "tagBox" style = "/* style.css에 정의 */display: none;" class = "droppable_tagBox">
         <caption style = "/* style.css에 정의 */">기능</caption>
         <tbody>
@@ -153,7 +165,7 @@
 
                   <div>
                     <span class = "inTagBox elements memo"> Memo <br>
-                      <div style = "width: 100px; height: 100px; border: 1px solid black; margin-top: 10px;"></div>
+                      <div style = "width: 100px; height: 100px; border: 1px solid black; margin-top: 10px; background-color: white;"></div>
                     </span>
                   </div>
                 </div>
@@ -500,23 +512,23 @@
                 <div class="accordion-title">
 
                   <div>
-                    <span class = "inTagBox elements"> <img src="images/cat.png" alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;오늘의 고양이 일지: </span></span>
+                    <span class = "inTagBox elements"> <img src='data:image/png;base64,<?php echo encode_image("images/cat.png");?>' alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;오늘의 고양이 일지: </span></span>
                   </div>
 
                   <div>
-                    <span class = "inTagBox elements sun"> <img src="images/img_sun_60.png" alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;: </span></span>
+                    <span class = "inTagBox elements sun"> <img src='data:image/png;base64,<?php echo encode_image("images/img_sun_60.png");?>' alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;: </span></span>
                   </div>
 
                   <div>
-                    <span class = "inTagBox elements night"> <img src="images/img_night_50.png" alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;: </span></span>
+                    <span class = "inTagBox elements night"> <img src='data:image/png;base64,<?php echo encode_image("images/img_night_50.png");?>' alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;: </span></span>
                   </div>
 
                   <div>
-                    <span class = "inTagBox elements shine-time" style="border:0;"> <span style="vertical-align: 100%;">걸린</span><img src="images/img_shine2_25.png" alt="" style="vertical-align: 130%;"><span style="vertical-align: 100%;">시간: </span></span>
+                    <span class = "inTagBox elements shine-time" style="border:0;"> <span style="vertical-align: 100%;">걸린</span><img src='data:image/png;base64,<?php echo encode_image("images/img_shine2_25.png")?>' alt="" style="vertical-align: 130%;"><span style="vertical-align: 100%;">시간: </span></span>
                   </div>
 
                   <div>
-                    <span class = "inTagBox elements waterdrop-time" style="border:0;"> <span style="vertical-align: 100%;">걸린</span><img src="images/img_waterdrop_20.png" alt="" style="vertical-align: 130%;"><span style="vertical-align: 100%;">시간: </span></span>
+                    <span class = "inTagBox elements waterdrop-time" style="border:0;"> <span style="vertical-align: 100%;">걸린</span><img src='data:image/png;base64,<?php echo encode_image("images/img_waterdrop_20.png")?>' alt="" style="vertical-align: 130%;"><span style="vertical-align: 100%;">시간: </span></span>
                   </div>
 
                 </div>
@@ -524,19 +536,19 @@
                 <h3>대학 로고</h3>
                 <div class="accordion-title">
                   <div>
-                    <span class = "inTagBox logo logo-seoul" style="display:inline-block">&nbsp;<img src="images/s_dae.png" style="width: 300px;" alt=""></span>
+                    <span class = "inTagBox logo logo-seoul" style="display:inline-block">&nbsp;<img src='data:image/png;base64,<?php echo encode_image("images/s_dae.png")?>' style="width: 300px;" alt=""></span>
 
                   </div>
 
                   <div>
                     <span class = "inTagBox logo logo-korea" style="display:inline-block">&nbsp;
-                      <img src="images/k_dae.png" style="width: 300px;" alt="">
+                      <img src='data:image/png;base64,<?php echo encode_image("images/k_dae.png")?>' style="width: 300px;" alt="">
                     </span>
                   </div>
 
                   <div>
                     <span class = "inTagBox logo logo-yonsei" style="display:inline-block">&nbsp;
-                      <img src="images/y_dae.png" style="width: 300px;" alt="">
+                      <img src='data:image/png;base64,<?php echo encode_image("images/y_dae.png")?>' style="width: 300px;" alt="">
                       &nbsp;
                     </span>
                   </div>

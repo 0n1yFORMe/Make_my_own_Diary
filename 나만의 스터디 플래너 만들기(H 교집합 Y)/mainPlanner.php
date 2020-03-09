@@ -7,18 +7,7 @@
 
     <title>나만의 스터디플래너 만들기</title>
       <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-      <link rel="stylesheet" href="/resources/demos/style.css">
-      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-      <script>
-      $( function() {
-        $( "#dialog" ).dialog({
-          width:435
-        });
-      } );
-
-      </script>
-
+      <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
 
@@ -573,6 +562,16 @@
 
     </footer>
   </body>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#dialog" ).dialog({
+      width:435
+    });
+  } );
+
+  </script>
   <script src = "js/planner.js"></script>
   <script src = "js/img_src.js"></script>
   <script src = "js/serversave.js"></script>

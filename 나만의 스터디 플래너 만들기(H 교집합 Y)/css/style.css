@@ -59,8 +59,7 @@ z-index (#: 바뀔 가능성 있음)
         font-family: 'Nanum Gothic', sans-serif;
         /*이 부분이 제작 화면 배경 색을 바꾸는 건데 주석에 있는 게 본래 색이고
         색을 밝게 바꿨어요!!*/
-        background: radial-gradient(white, /*#7F574A*/#906f64);
-        height: 98%;
+        background-color: #efefef;
       }
 
       p {
@@ -270,30 +269,32 @@ z-index (#: 바뀔 가능성 있음)
         @font-face { font-family: 'BRBA_B'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/BRBA_B.woff') format('woff'); font-weight: normal; font-style: normal; }
 
         ul {
-            list-style-type: none;
-            margin-bottom: 1%;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-          }
 
-          li {
-            float: left;
-          }
+          list-style-type: none;
+          margin-bottom: 1%;
+          padding: 0;
+          overflow: hidden;
+          background-color: #333;
+        }
 
-          li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-          }
+        li {
+          float: left;
+        }
 
-          /* Change the link color to #111 (black) on hover */
-          li a:hover {
-            background-color: #111;
-          }
+        li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
 
-          #home{
-            background-color: #4CAF50;
-          }
+        /* Change the link color to #111 (black) on hover */
+        li a:hover {
+          background-color: #111;
+        }
+
+        #home{
+          background-color: #4CAF50;
+        }
+

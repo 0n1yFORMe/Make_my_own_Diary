@@ -3,7 +3,7 @@ z-index (#: 바뀔 가능성 있음)
 
 나중에 다른 거 생길까봐 틈을 하나씩 뒀다(센스 있는 코딩따위 하지 않는다)
 50 화면 상단의 버튼 및 기능 켜고 끄는 버튼: 맨 위
-10 테이블 캡션 <기능> #
+10 테이블 캡션 <기능> # , 초반 안내문
 8 파츠들(이미지 제외)
 6 이미지(로고 등)
 4 기능란(파츠 상자)
@@ -16,7 +16,7 @@ z-index (#: 바뀔 가능성 있음)
       #mainBox, #tagBox {
         border-color: black;
         border: solid 2px;
-      }
+      }                             
 
 
 
@@ -100,6 +100,16 @@ z-index (#: 바뀔 가능성 있음)
         margin: 4px 2px;
         box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;
              }
+
+      .button-hidden {
+        background-color: #00ff0000;
+        box-shadow: 0;
+        border: 0;
+      }
+
+      .button-hidden p {
+        color: black;
+      }
 
       .button span {
         cursor: pointer;
@@ -205,7 +215,7 @@ z-index (#: 바뀔 가능성 있음)
         #tagBox > caption {
           height: 50px;
           line-height: 50px;
-          background-color: brown;
+          background-color: #41AF39;
           margin-bottom: 10px;
           border: 2px solid transparent;
           border-radius: 10px;
@@ -269,7 +279,6 @@ z-index (#: 바뀔 가능성 있음)
         @font-face { font-family: 'BRBA_B'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/BRBA_B.woff') format('woff'); font-weight: normal; font-style: normal; }
 
         ul {
-
           list-style-type: none;
           margin-bottom: 1%;
           padding: 0;
@@ -297,4 +306,39 @@ z-index (#: 바뀔 가능성 있음)
         #home{
           background-color: #4CAF50;
         }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 10; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
 
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+             /* Could be more or less, depending on screen size */
+            text-align: center;
+        }
+        #functions{
+          background-color: #fff;
+          padding-left: 3%;
+          padding-bottom: 3%;
+          color:#000;
+          border-top-left-radius:30px;
+          border-bottom-left-radius:30px;
+        }
+
+        h3{
+          font-family: 'BRBA_B';
+          font-size: 1.5em;
+        }

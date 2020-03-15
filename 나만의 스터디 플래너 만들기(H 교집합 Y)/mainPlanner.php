@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>나만의 스터디플래너 만들기</title>
-      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
       <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
@@ -56,6 +55,8 @@
         <li style="float:right"><a id = "zoomIn">+</a></li>
         <li style="float:right"><a href="#" id = "readfromserver">서버에서 불러오기</a></li>
         <li style="float:right"><a href="#" id = "saveTxttoserver">서버에 저장하기</a></li>
+        <li style="float:right"><a onclick="historyy.redo();">REDO</a></li>
+        <li style="float:right"><a onclick="historyy.undo();">UNDO</a></li>
       </ul>
 
     <!-- <div class="button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div> -->

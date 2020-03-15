@@ -1,93 +1,132 @@
 // <----------------------------------------- jQuery UI 영역 --------------------------------------------------->
 
+var originPosition; //draggable이 drag 시작할 때 값이 들어옴
+
 // inTagBox: 기능 박스에 있는 파츠들(이미 A4 위에 놓여있는 애들은 포함 x), 속성: 자기를 복제해서 드래그되게 하되 이상한 데 가면 제자리로 돌아옴.(revert)
-$( ".inTagBox" ).draggable({
-   revert: "invalid",
-   helper: "clone",
-   appendTo: "#realMainBox"
-});
+$( function() {
 
-$( "#accordion" ).accordion({
-  collapsible: true,
-  heightStyle: "content"
-});
+  $( ".inTagBox" ).draggable({
+     revert: "invalid",
+     helper: "clone",
+     appendTo: "#realMainBox"
+  });
 
-
-// 왜 클래스로 했지 암튼 droppable이라는 건 용지 위에 파츠들(draggable)을 드롭할 수 있게 만드는 코드
-$( ".droppable_mainBox" ).droppable({
-  tolerance: 'fit', //테두리 안에 완전히 들어와야 drop으로 인식(걸치는 거 허용 ㄴ)
-  drop: function( event, ui ) { // 드롭했을 때 실행할 함수: 드래그하는 대상을 복제해서 복제한 걸 드롭하는 코드
-
-    // 복제해야 하는 오브젝트인가? 아니라면 -1을 반환함
-    var isCopieable = $.inArray('inTagBox', ui.draggable.prop('classList'));
-    if(isCopieable == -1) return 0;
+  $( "#accordion" ).accordion({
+    collapsible: true,
+    heightStyle: "content"
+  });
 
 
-    // 드래그하는 대상을 복제하고 클래스 넣기
-    var newClone = $(ui.helper).clone();
-    newClone.removeClass('inTagBox').addClass('draggable');
 
-    // 표일 경우에는 표만, 메모칸일 경우에는 네모만 사이즈 조절하게 하는 코드
-    if($.inArray('memo', newClone.prop('classList')) != -1)
-    {
-      var child = $(newClone).children('div');
-      child.addClass('resizable');
+  // 왜 클래스로 했지 암튼 droppable이라는 건 용지 위에 파츠들(draggable)을 드롭할 수 있게 만드는 코드
+  $( ".droppable_mainBox" ).droppable({
+    tolerance: 'fit', //테두리 안에 완전히 들어와야 drop으로 인식(걸치는 거 허용 ㄴ)
+    drop: function(event, ui) {
+      // 복제해야 하는 오브젝트인가? 아니라면 -1을 반환함
+      var isCopieable = $.inArray('inTagBox', ui.draggable.prop('classList'));
+
+      if(isCopieable == -1) {
+        console.log("input originposition is "+ originPosition.top)
+        historyy.dragged(ui.draggable[0], originPosition);
+
+        // var element = ui.draggable[0];
+        // element.state = 'drop';
+        //
+        // historyy.push(element);
+        return 0;
+      }
+
+      // 드래그하는 대상을 복제하고 클래스 넣기
+      var newClone = $(ui.helper).clone();
+      newClone.removeClass('inTagBox').addClass('draggable');
+
+      // 표일 경우에는 표만, 메모칸일 경우에는 네모만 사이즈 조절하게 하는 코드
+      if($.inArray('memo', newClone.prop('classList')) != -1)
+      {
+        var child = $(newClone).children('div');
+        child.addClass('resizable');
+      }
+      else if ($.inArray('plan', newClone.prop('classList')) != -1) {
+        var child = $(newClone).children('table');
+        child.addClass('resizable');
+      }
+      else if ($.inArray('reflection', newClone.prop('classList')) != -1) {
+        var child = $(newClone).children('table');
+        child.addClass('resizable');
+      }
+      else if ($.inArray('time-table', newClone.prop('classList')) != -1) {
+        var child = $(newClone).children('table');
+        child.addClass('resizable');
+      }
+      else if ($.inArray('weekPlan', newClone.prop('classList')) != -1) {
+        var child = $(newClone).children('table');
+        child.addClass('resizable');
+      }
+      else if ($.inArray('logo', newClone.prop('classList')) != -1) {
+        var child = $(newClone).children('img');
+        child.addClass('resizable');
+      }
+      else newClone.addClass('resizable');
+
+      // newClone[0].state = 'add';
+      $(this).append(newClone);
+
+      var originSize;
+      $(".resizable").resizable({
+        start: function(event, ui) {
+          originSize = getSize(getType(ui.element[0]), ui.element[0]);
+        },
+        stop: function(event, ui) {
+          historyy.resized(ui.element[0], originSize);
+        }
+      });
+
+      $(".draggable").draggable({
+        start: function(event, ui) {
+          originPosition = {
+            top: ui.position.top.toString() + 'px',
+            left: ui.position.left.toString() + 'px'
+          }
+          console.log("originPosition.top is " + originPosition.top);
+        },
+        revert: 'invalid'
+      });
+
+      //draggable과 resizable 클래스를 굳이 부여하는 코드에 의문이 들지만 넘어가자
+
+      // historyy.push(newClone[0]);
+      historyy.added(newClone[0]);
+
     }
-    else if ($.inArray('plan', newClone.prop('classList')) != -1) {
-      var child = $(newClone).children('table');
-      child.addClass('resizable');
+
+  });
+
+
+  // droppable_tagBox는 원래 파츠들 있던 표! 여기로 드래그하면 삭제!
+  $(".droppable_tagBox").droppable({
+    drop: function(event, ui) {
+      var isCopieable = $.inArray('inTagBox', ui.draggable.prop('classList'));
+      if(isCopieable !== -1) return 0;
+      console.log("remove originposition is "+originPosition.top);
+      historyy.removed(ui.draggable[0], originPosition);
+      $(ui.draggable).remove();
+
+
     }
-    else if ($.inArray('reflection', newClone.prop('classList')) != -1) {
-      var child = $(newClone).children('table');
-      child.addClass('resizable');
-    }
-    else if ($.inArray('time-table', newClone.prop('classList')) != -1) {
-      var child = $(newClone).children('table');
-      child.addClass('resizable');
-    }
-    else if ($.inArray('weekPlan', newClone.prop('classList')) != -1) {
-      var child = $(newClone).children('table');
-      child.addClass('resizable');
-    }
-    else if ($.inArray('logo', newClone.prop('classList')) != -1) {
-      var child = $(newClone).children('img');
-      child.addClass('resizable');
-    }
-    else newClone.addClass('resizable');
+  });
 
+  // 마우스 올리면 예시 이미지 띄우는 거
+  $("#hover").hover(function() {
+    $("#example").show();
+  }, function() {
+    $("#example").hide();
+  });
 
-    $(this).append(newClone);
+  $( "#accordion" ).accordion({
+    collapsible: true,
+    heightStyle: "auto" //조금 생각해봐야...
+  });
 
-    $(".resizable").resizable();
-
-    $(".draggable").draggable({
-      revert: 'invalid'
-    });
-
-  }
-
-});
-
-
-// droppable_tagBox는 원래 파츠들 있던 표! 여기로 드래그하면 삭제!
-$(".droppable_tagBox").droppable({
-  drop: function(event, ui) {
-    var isCopieable = $.inArray('inTagBox', ui.draggable.prop('classList'));
-    if(isCopieable !== -1) return 0;
-    $(ui.draggable).remove();
-  }
-});
-
-// 마우스 올리면 예시 이미지 띄우는 거
-$("#hover").hover(function() {
-  $("#example").show();
-}, function() {
-  $("#example").hide();
-});
-
-$( "#accordion" ).accordion({
-  collapsible: true,
-  heightStyle: "auto" //조금 생각해봐야...
 });
 
 // <----------------------------------------- 자바스크립트 함수 영역 --------------------------------------------------->
@@ -150,6 +189,9 @@ function getElementList() {
         //뉴리스트는 현재 선택한 엘리먼트의 클래스 이름, 크기 등의 정보를 담은 배열입니다
         let newList = Array();
         newList.push(currentClass);
+
+        //함수 개선
+        /*
         let width;
         let height;
 
@@ -180,17 +222,24 @@ function getElementList() {
             childObject = $(child);
         }
 
-        $(childObject).css('margin', 0);
+        // $(childObject).css('margin', 0);
 
         width = $(childObject).css('width');
         height = $(childObject).css('height');
 
+
+
+
         if(!width) width = childObject.offsetWidth.toString() + 'px';
         if(!height) height = childObject.offsetHeight.toString() + 'px';
 
-        $(childObject).css('margin', '10px 10px 0 0');
+        */
 
-        newList.push(width, height);
+        size = getSize(getType(child), child);
+        newList.push(size.width, size.height);
+
+        // $(childObject).css('margin', '10px 10px 0 0');
+        // 왜 넣었는지 까먹어서 지움...
 
         // 뉴리스트에 들어가는 거: 클래스명, 가로, 세로, left, top, (선택)(행 또는 이름 또는 이미지 링크 또는 ...)
 
@@ -234,8 +283,7 @@ function getElementList() {
 // 여백 색 바꾸는 거
 function watchColorPicker(event) {
   targetColor = event.target.value;
-  document.querySelector("#mainBox").style.backgroundColor = targetColor;
-  document.querySelector("caption").style.backgroundColor = targetColor;
+  setColor(targetColor);
 }
 
 // 하하하하하하하
@@ -308,15 +356,19 @@ function changeFont() {
 
 // pdf 파일로 저장하는 거(html2canvas로 캡처를 떠서 jspdf 이용해서 저장)
 function savePDF() {
+
   let title = prompt("파일의 이름을 입력하세요.");
 
-  if(title == null) return 0;
+  if(title == null) return;
   if(title == "") title = "plannerPDF";
 
   $("#realMainBox").css("transform", "scale(1)");
+  $("#realMainBox").parent().css("transform", "scale(1)");
+
+  window.scrollTo(0,0);
 
   html2canvas(document.querySelector("#realMainBox"), {
-    dpi: 300,
+    dpi: 100,
     onrendered: function(canvas) {
       var imgData = canvas.toDataURL('image/png');
       //console.log('Report Image URL: '+imgData);
@@ -325,14 +377,25 @@ function savePDF() {
       var imgWidth = 148.5;
       var imgHeight = 210;
 
+      console.log("saving...");
+
       doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       doc.addImage(imgData, 'PNG', 148.5, 0, imgWidth, imgHeight);
-      doc.save(title + '.pdf');
+
+      $.when(doc.save(title + '.pdf')).then(function() {
+        console.log("success");
+      });
+
+      // pdf 로딩화면 부분 임시
+
     }
   });
 
   $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")");
 }
+
+
+
 
 // 중간저장: getElementList 해서 구한 배열을 텍스트 파일로 저장하는 거
 function saveTxt() {
@@ -383,7 +446,8 @@ function read() {
     console.log("settingColor is "+settingColor);
     colorPicker.addColor(settingColor, 0);
     colorPicker.removeColor(1);
-    document.querySelector("#realMainBox").style.backgroundColor = settingColor;
+    setColor(settingColor);
+    prevColor = settingColor;
     if(eleList.length === 0) return false;
 
     if(eleList[eleList.length - 1].indexOf('/') != -1)
@@ -462,10 +526,23 @@ function read() {
     }
 
     $(".draggable").draggable({
-      revert: "invalid"
+      start: function(event, ui) {
+        originPosition = {
+          top: ui.position.top.toString() + 'px',
+          left: ui.position.left.toString() + 'px'
+        }
+        console.log("originPosition.top is " + originPosition.top);
+      },
+      revert: 'invalid'
     });
-
-    $(".resizable").resizable();
+    $(".resizable").resizable({
+      start: function(event, ui) {
+        originSize = getSize(getType(ui.element[0]), ui.element[0]);
+      },
+      stop: function(event, ui) {
+        historyy.resized(ui.element[0], originSize);
+      }
+    });
 
 
   };
@@ -519,6 +596,7 @@ document.querySelector('#upload').addEventListener('change', read);
 // 새로운 기능 추가하기 버튼
 document.querySelector('#addNewTag').addEventListener('click', addNewTag);
 
+
 // 예시 동영상 버튼
 // document.querySelector('#video').addEventListener('click', function() {
 //   window.open("https://youtu.be/s_Gw9Y71V7k", "_blank");
@@ -556,12 +634,22 @@ var colorPicker = new iro.ColorPicker('#iroColorPicker', {
   color: "FFFFFF"//"#B3001F"
 });
 
-colorPicker.on('color:change', function(color) {
+colorPicker.on('input:change', function(color) {
   // log the current color as a HEX string
   // console.log(color.hexString);
   bgColor = color.hexString;
-  document.querySelector("#realMainBox").style.backgroundColor = bgColor;
-  document.querySelector("caption").style.backgroundColor = bgColor;
+  setColor(bgColor);
+});
+
+// colorPicker.on('input:start', function(color) {
+//   prevColor = color.hexString;
+// })
+
+colorPicker.on('input:end', function(color) {
+  bgColor = color.hexString;
+  historyy.colored(bgColor);
+
+  prevColor = color.hexString;
 });
 
 window.addEventListener('resize', function(){
@@ -596,7 +684,8 @@ function readfromserver(event) {
     console.log("settingColor is "+settingColor);
     colorPicker.addColor(settingColor, 0);
     colorPicker.removeColor(1);
-    document.querySelector("#realMainBox").style.backgroundColor = settingColor;
+    setColor(settingColor);
+    prevColor = settingColor;
     if(eleList.length === 0) return false;
 
     if(eleList[eleList.length - 1].indexOf('/') != -1)
@@ -675,10 +764,23 @@ function readfromserver(event) {
     }
 
     $(".draggable").draggable({
-      revert: "invalid"
+      start: function(event, ui) {
+        originPosition = {
+          top: ui.position.top.toString() + 'px',
+          left: ui.position.left.toString() + 'px'
+        }
+        console.log("originPosition.top is " + originPosition.top);
+      },
+      revert: 'invalid'
     });
-
-    $(".resizable").resizable();
+    $(".resizable").resizable({
+      start: function(event, ui) {
+        originSize = getSize(getType(ui.element[0]), ui.element[0]);
+      },
+      stop: function(event, ui) {
+        historyy.resized(ui.element[0], originSize);
+      }
+    });
 
 
   var input = this;
@@ -686,5 +788,392 @@ function readfromserver(event) {
 
 }
 
+// 서버에서 불러오기 버튼
 
-//서버에서 불러오기 버튼
+/*
+var text = {
+  content: "hello",
+  size: {
+    width: "100px",
+    height: "200px"
+  },
+  position: {
+    top: 25,
+    left: 50
+  },
+  add: function(element){
+    //추가
+  },
+  resize: {
+    //사이즈 변경
+  },
+  drag: {
+    //위치 변경
+  },
+  remove: {
+    //삭제
+  }
+}
+*/
+
+/*
+
+element의 state 값을 변경시키고 그 엘리먼트를 stack에 넣자.
+add 이벤트 발생(drop으로 볼 수 있겠네..) -> state = add, stack 추가
+드롭 -> state=drop, stack 추가
+resize -> state=resize, stack 추가
+삭제 -> state = remove, stack 추가, 진짜로 remove
+
+*/
+
+/*
+
+var img = {
+  src: "",
+  size: {
+    width:,
+    height:
+  },
+  position: {
+    top:,
+    left:
+  },
+  add: function(element){
+    //추가, addnewtag 반영..
+  },
+  resize: {
+    //사이즈 변경
+  },
+  drag: {
+    //위치 변경
+  },
+  remove: {
+    //삭제
+  }
+}
+
+*/
+
+// var a = new history.add();
+// getelementlist = 문자열 말고 객체를 만들어서 JSON으로 저장하자 관리하기 쉬움
+
+
+var historyy = {
+  stack: [], //스택, 객체 보관용!
+  tempstack: [], //undo한 것들
+
+  undo: function() {
+
+    if(this.stack.length == 0) {
+      console.log("undo is not available.");
+      return;
+    }
+
+    stackobj = this.stack.pop();
+
+    console.log(stackobj);
+
+    //역과정
+    switch(stackobj.state) {
+      case('add'):
+        //대충 table 찾아서 크기 바꿈..
+        this.remove(stackobj);
+        break;
+
+      case('resize'):
+        var targetWidth = stackobj.prevWidth;
+        var targetHeight = stackobj.prevHeight;
+        this.resize(stackobj, targetWidth, targetHeight);
+        break;
+
+      case('drag'):
+        var targetTop = stackobj.prevTop;
+        var targetLeft = stackobj.prevLeft;
+        this.drag(stackobj, targetTop, targetLeft);
+        break;
+
+      case('remove'):
+        this.drag(stackobj, stackobj.prevTop, stackobj.prevLeft); //삭제 전 위치
+        this.add(stackobj);
+        break;
+
+      case('color'):
+        this.color(stackobj.prevColor);
+        prevColor = stackobj.prevColor;
+        break;
+
+      //case('default'):
+        //색상 변경
+    }
+
+    this.tempstack.push(stackobj);
+    //tempstack.push(element);
+
+    $(".draggable").draggable({
+      start: function(event, ui) {
+        originPosition = {
+          top: ui.position.top.toString() + 'px',
+          left: ui.position.left.toString() + 'px'
+        }
+        console.log("originPosition.top is " + originPosition.top);
+      },
+      revert: 'invalid'
+    });
+    $(".resizable").resizable({
+      start: function(event, ui) {
+        originSize = getSize(getType(ui.element[0]), ui.element[0]);
+      },
+      stop: function(event, ui) {
+        historyy.resized(ui.element[0], originSize);
+      }
+    });
+
+
+  },
+  redo: function() {
+    //순과정
+    if(this.tempstack.length == 0) {
+      console.log("redo is not available.");
+      return;
+    }
+
+    var stackobj = this.tempstack.pop();
+    switch(stackobj.state) {
+      case('add'):
+        this.add(stackobj);
+        break;
+
+      case('resize'):
+        this.resize(stackobj, stackobj.width, stackobj.height);
+        break;
+
+      case('drag'):
+        this.drag(stackobj, stackobj.top, stackobj.left);
+        break;
+
+      case('remove'):
+        this.remove(stackobj);
+        break;
+
+      case('color'):
+        this.color(stackobj.color);
+        break;
+    }
+
+    this.stack.push(stackobj);
+
+    $(".draggable").draggable({
+      start: function(event, ui) {
+        originPosition = {
+          top: ui.position.top.toString() + 'px',
+          left: ui.position.left.toString() + 'px'
+        }
+        console.log("originPosition.top is " + originPosition.top);
+      },
+      revert: 'invalid'
+    });
+    $(".resizable").resizable({
+      start: function(event, ui) {
+        originSize = getSize(getType(ui.element[0]), ui.element[0]);
+      },
+      stop: function(event, ui) {
+        historyy.resized(ui.element[0], originSize);
+      }
+    });
+
+  },
+
+  push2stack: function(obj) {
+    // stack에 넣기
+    // element, colorpicker가 element로 들어옴
+    //tempstack 있으면 비울 것
+    this.stack.push(obj);
+    this.tempstack = [];
+  },
+
+  add: function(obj) { //스택에 있는 오브젝트를 생성
+    //추가, addnewtag 반영..
+    // 카피해서 새로운 엘리먼트를 만들고
+    // this.resize(element), this.drag(element)
+    $('#realMainBox').append(obj.ele);
+  },
+  resize: function(obj, width, height) { //스택에 있는 오브젝트의 크기 변경
+    setSize(obj.type, obj.ele, width, height);
+  },
+  drag: function(obj, top, left) { //스택에 있는 오브젝트의 위치 변경
+    obj.ele.style.top = top;
+    obj.ele.style.left = left;
+  },
+  remove: function(obj) { //스택에 있는 오브젝트를 삭제
+    $(obj.ele).remove();
+  },
+  color: function(color) {
+    setColor(color);
+  },
+
+  added: function(element) {
+    var obj = {
+      ele: element,
+      // clone: element.cloneNode(true),
+      // type: getType(element),
+      width: getSize(getType(element), element).width,
+      height: getSize(getType(element), element).height,
+      top: element.style.top,
+      left: element.style.left,
+      type: getType(element),
+      state: 'add'
+    }
+    this.push2stack(obj);
+  },
+  resized: function(element, prevSize) {
+    var obj = {
+      ele: element,
+      width: getSize(getType(element), element).width,
+      height: getSize(getType(element), element).height,
+      prevWidth: prevSize.width,
+      prevHeight: prevSize.height,
+      type: getType(element),
+      state: 'resize'
+    }
+    this.push2stack(obj);
+  },
+  dragged: function(element, prevPosition) {
+    //위치 변경
+    var obj = {
+      ele: element,
+      top: element.style.top,
+      left: element.style.left,
+      prevTop: prevPosition.top,
+      prevLeft: prevPosition.left,
+      type: getType(element),
+      state: 'drag'
+    }
+    this.push2stack(obj);
+  },
+  removed: function(element, prevPosition) {
+    //삭제
+    var obj = {
+      ele: element,
+      prevTop: prevPosition.top,
+      prevLeft: prevPosition.left,
+      state: 'remove'
+    }
+    this.push2stack(obj);
+  },
+  colored: function(color) {
+    var obj = {
+      ele: colorPicker,
+      prevColor: prevColor,
+      color: color,
+      state: 'color'
+    }
+
+    this.push2stack(obj);
+  }
+
+}
+
+var prevColor = colorPicker.color.hexString;
+
+function getType(ele) {
+  if(ele.classList.contains('plan' || 'reflection' || 'time-table' || 'weekPlan'))
+    return 'table';
+  else if(ele.classList.contains('memo'))
+    return 'div';
+  else if(ele.classList.contains('logo'))
+    return 'img';
+  else {
+    return 'text';
+  }
+}
+
+function getSize(type, ele) { //return size 객체
+  //걍 만들어봄...
+  // width 있으면 반환, 없으면 offsetwidth 반환
+
+  var childobj;
+
+  switch(type) {
+    case('table'):
+      childobj = $(ele).children('table')[0];
+      break;
+    case('div'):
+      childobj = $(ele).children('div')[0];
+      break;
+    case('img'):
+      childobj = $(ele).children('img')[0];
+      break;
+    default: //text 포함
+      childobj = $(ele)[0];
+      break;
+  }
+
+  var size = {
+    width: "",
+    height: ""
+  }
+
+  size.width = childobj.getBoundingClientRect().width.toString() + "px";
+  size.height = childobj.getBoundingClientRect().height.toString() + "px";
+
+  // if(childobj.style.width == "")
+  //   size.width = ele.getBoundingClientRect().width.toString() + "px";
+  // else
+  //   size.width = ele.style.width;
+  //
+  // if(childobj.css('height') == "")
+  //   size.height = ele.getBoundingClientRect().height.toString() + "px";
+  // else
+  //   size.height = ele.style.height;
+
+  return size;
+}
+
+function getHeight(ele) {
+  //걍 만들어봄...
+  // width 있으면 반환, 없으면 offsetwidth 반환
+  if(ele.style.height == "")
+    return ele.getBoundingClientRect().height.toString() + "px";
+  else
+    return ele.style.height;
+}
+
+function setSize(type, ele, width, height) {
+  switch(type) {
+    case('table'):
+      $(ele).children('table').css('width', width);
+      $(ele).children('table').css('height', height);
+      break;
+    case('div'):
+      $(ele).children('div').css('width', width);
+      $(ele).children('div').css('height', height);
+      break;
+    case('img'):
+      $(ele).children('img').css('width', width);
+      $(ele).children('img').css('height', height);
+      break;
+    default: //text 포함
+      $(ele).css('width', width);
+      $(ele).css('height', height);
+  }
+}
+
+function setColor(color) {
+  colorPicker.addColor(color, 0);
+  colorPicker.removeColor(1);
+  document.querySelector("#realMainBox").style.backgroundColor = color;
+  document.querySelector("caption").style.backgroundColor = color;
+}
+
+function selectObj(type, ele) { //resize 가능한 개체를 선택
+  switch(type) {
+    case('table'):
+      return ele.children('table')[0];
+      break;
+    default:
+      return ele;
+      //sdfsdfsd
+  }
+}
+
+//약간 함수 떡칠

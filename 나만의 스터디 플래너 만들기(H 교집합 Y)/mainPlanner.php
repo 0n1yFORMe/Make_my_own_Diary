@@ -9,10 +9,22 @@
       <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
+     <!-- The Modal -->
+     <div id="myModal" class="modal">
 
-    <div id="dialog" title="*주의사항*">
-      <p>왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에 <br> 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요!<br>요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요!<br>요소를 삭제하기 위해서는 기능란 위에 드래그하세요!</p>
-    </div>
+       <!-- Modal content -->
+           <div class="modal-content">
+                     <p style="text-align: center; font-family: 'BRBA_B';"><span style="font-size: 3em;"><b><span style="font-size: 24pt;">주의사항!</span></b></span></p><br>
+                     <p style="text-align: center; line-height: 1.5; font-family: 'Nanum Gothic', sans-serif;"><br>왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에 <br> 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요!<br>요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요!<br>요소를 삭제하기 위해서는 기능란 위에 드래그하세요!<br><br></p>
+                 <div style="cursor:pointer;background-color:#DDDDDD;text-align: center; margin-top: 10px; padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                     <span class="pop_bt" style="font-size: 13pt;" >
+                          닫기
+                     </span>
+                 </div>
+           </div>
+
+         </div>
+      <!--End Modal-->
 
     <link href="https://fonts.googleapis.com/css?family=Gaegu|Nanum+Gothic|Nanum+Myeongjo|Nanum+Pen+Script|Noto+Serif+KR|Poor+Story|Yeon+Sung&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -66,7 +78,7 @@
 
 
     <div class = "align">
-      <div style="width: 70vw; display: flex; justify-content:center; background-color: transparent; transform-origin: top;">
+      <div style="width: 50vw; display: flex; justify-content:center; background-color: transparent; transform-origin: top;">
         <div id = "realMainBox" class = "droppable_mainBox" style = "position: relative; width: 148.5mm; height: 210mm; min-width: 148.5mm; background-color: white; display: flex; align-items: center; justify-content: center; margin: 0; z-index: 2; transform-origin: top;">
           <!-- 컨테이너에 배경을 줄 경우 transform-origin: center -->
          <!-- <div id = "realMainBox" class = "droppable_mainBox" style = "width: 125.1mm; height: 203.2mm; background-color: white; border: 2px solid black; z-index: 1;"> -->
@@ -77,9 +89,9 @@
 
 
      <div id="functions">
+       <h3>바탕색</h3>
        <div id="iroColorPicker"></div>
-       <div class = "button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">
-       글꼴 정하기 <!--글꼴은 다른 걸로 해도 됩니다-->
+       <h3>글꼴</h3> <!--글꼴은 다른 걸로 해도 됩니다-->
        <select name = "fonts" onchange = "changeFont()" id = "mySelect" style="">
          <option value = "Nanum Gothic" style="font-family:'Nanum Gothic';">나눔고딕</option>
          <option value = "Nanum Myeongjo" style="font-family:'Nanum Myeongjo';">나눔명조</option>
@@ -89,11 +101,10 @@
          <option value = 'Yeon Sung' style="font-family:'Yeon Sung';">연성체</option>
          <option value = 'Poor Story' style="font-family:'Poor Story';">서툰 이야기</option>
        </select>
-       </div>
        <div>
-         <button class="button" id = "saveTxt"> <p>파일로 중간 저장 </p></button>
-         <button class="button" id = "savePDF"> <p>pdf로 저장 </p></button>
-         <button class="button"> <p style = "display: inline;">불러오기 :&nbsp;</p><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
+         <h3>파일로 중간 저장</h3> <button class="button-hidden" id = "saveTxt"> <p>(저장하기)</p></button><br>
+         <h3>최종 PDF 저장</h3><button class="button-hidden" id = "savePDF"> <p>(저장하기) </p></button><br>
+         <h3>파일 중간 저장 불러오기</h3><button class="button-hidden"><input type="file" id="upload" accept = ".txt" style =  "font-size: 15px;"></button>
        </div>
      </div>
 
@@ -102,14 +113,14 @@
         <caption style = "/* style.css에 정의 */">기능</caption>
         <tbody>
           <tr id="hover">
-            <td style = "border-bottom: black 2px dotted; padding: 10px; border-top: 0;">
+            <!-- <td style = "border-bottom: black 2px dotted; padding: 10px; border-top: 0;">
               [안내] 이렇게 만들면 됩니다! (마우스 올리기)
               <div id = "example" style = "display: none;">
                 <img style = "margin-top: 15px; margin-bottom: 15px;" src = "https://live.staticflickr.com/65535/49007065268_c57ccc55cb.jpg">
                 <br>
                 <button class="button" id = "video">동영상 가이드</button>
               </div>
-            </td>
+            </td> -->
           </tr>
 
           <tr>
@@ -578,12 +589,13 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
-  $( function() {
-    $( "#dialog" ).dialog({
-      width:435
-    });
-  } );
-
+  jQuery(document).ready(function() {
+       $('#myModal').show();
+  });
+  //팝업 Close 기능
+  function close_pop(flag) {
+       $('#myModal').fadeOut();
+  };
   </script>
   <script src = "js/planner.js"></script>
   <script src = "js/img_src.js"></script>

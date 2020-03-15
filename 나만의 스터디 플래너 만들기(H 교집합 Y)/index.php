@@ -97,66 +97,12 @@
        font-family: 'BRBA_B', cursive;
      }
      </style>
-     <script>
-      window.onload = function() {
-        const startBtn = document.querySelector("#btn");
-        startBtn.addEventListener("click", function() {
-          var body = document.getElementsByTagName('body')[0];
-        	//$(body).animate({opacity: '0'}, {complete: d(body)}, 'slow');
-    			body.outerHTML = '<h1 class="container" style="text-align:center;">Study Planner<br> Only For You<br></h1>'
-          <?php
-          echo "
-  <script>
-            function test(imageName) {
-          LoadingWithMask('https://loading.io/icon/u7gkq3\');
-          setTimeout("closeLoadingWithMask()", 2000);
-        }
-          function LoadingWithMask() {
-
-          //화면의 높이와 너비를 구합니다.
-          var maskHeight = $(document).height();
-          var maskWidth  = window.document.body.clientWidth;
-
-          //화면에 출력할 마스크를 설정해줍니다.
-          var mask       ="<div id='mask' style='position:absolute; z-index:9000; display:none; left:0; top:0;'></div>";
-          var loadingImg ='';
-
-          loadingImg +=" <img src='"+ gif +"' style='position: absolute; display: block; margin: 0px auto;'/>";
-
-          //화면에 레이어 추가
-          $('body')
-              .append(mask)
-              .append(loadingImg)
-
-          //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채웁니다.
-          $('#mask').css({
-                  'width' : maskWidth
-                  ,'height': maskHeight
-                  ,'opacity' :'0.3'
-          });
-
-          //마스크 표시
-          $('#mask').show();
-
-          //로딩중 이미지 표시
-          $('#loadingImg').show();
-      }
-
-      function closeLoadingWithMask() {
-          $('#mask, #loadingImg').hide();
-          $('#mask, #loadingImg').empty();
-      }
-            </script>
-"
-          ?>
-       		setTimeout('window.open("mainPlanner.php", "_self")', 2000);
-        });
-      }
-    </script>
     <!-- Optional Javascirpt -->
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <script src = "js/login.js"></script>
+
   </body>
 </html>

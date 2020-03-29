@@ -61,6 +61,7 @@
               echo $_SESSION['username']."님의 플래너";
             ?></a></li>
         <li style="float:right"><a href="#" onclick="location.href = 'http://3.17.25.159/logout.php'">로그아웃</a></li>
+        <!--<li style="float:right"><a id="feedback">feedback</a><li>-->
         <li id="default" style="float:right"><a><p><p id="scale">100</p>%</p></a></li>
         <!-- 나중에 scale 누르면 100%로 돌아오게 하는 기능 추가 할 것 -->
         <li style="float:right"><a id = "zoomOut">-</a></li>
@@ -70,6 +71,37 @@
         <li style="float:right"><a onclick="historyy.redo();">REDO</a></li>
         <li style="float:right"><a onclick="historyy.undo();">UNDO</a></li>
       </ul>
+
+    <!--  feedback 창 구현
+      <div id="feedback-main">
+        <div id="feedback-div">
+          <form action="contact.php" method="post" class="form" id="feedback-form1" name="form1" enctype="multipart/form-data">
+
+            <p class="name">
+              <input name="name" type="name" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" required placeholder="ID" id="feedback-name" />
+            </p>
+
+            <p class="email">
+              <input name="email" type="email" class="validate[required,custom[email]] feedback-input" id="feedback-email" placeholder="Email" required />
+            </p>
+
+            <p class="text">
+              <textarea name="comment" type="comment" class="validate[required,length[6,300]] feedback-input" id="feedback-comment" required placeholder="Comment"></textarea>
+            </p>
+
+            <div class="feedback-submit">
+              <input type="submit" value="SEND" id="feedback-button-blue" />
+              <div class="feedback-ease"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <button id="popup" class="feedback-button" onclick="toggle_visibility()">Feedback</button>
+      <script src="_include/js/feedback.js"></script><div id="feedback-main">-->
+
+
+
 
     <!-- <div class="button" style="box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;">여백 색상 정하기&nbsp;<input type="color" value = "#B3001F" id = "colorPicker"></div> -->
 
@@ -92,15 +124,21 @@
        <h3>바탕색</h3>
        <div id="iroColorPicker"></div>
        <h3>글꼴</h3> <!--글꼴은 다른 걸로 해도 됩니다-->
-       <select name = "fonts" onchange = "changeFont()" id = "mySelect" style="">
-         <option value = "Nanum Gothic" style="font-family:'Nanum Gothic';">나눔고딕</option>
-         <option value = "Nanum Myeongjo" style="font-family:'Nanum Myeongjo';">나눔명조</option>
-         <option value = 'Nanum Pen Script' style="font-family:'Nanum Pen Script';">나눔손글씨 펜</option>
-         <option value = 'Noto Serif KR' style="font-family:'Noto Serif KR';">본명조</option>
-         <option value = 'Gaegu' style="font-family:'Gaegu';">개구쟁이</option>
-         <option value = 'Yeon Sung' style="font-family:'Yeon Sung';">연성체</option>
-         <option value = 'Poor Story' style="font-family:'Poor Story';">서툰 이야기</option>
-       </select>
+       <!-- Surround the select box within a "custom-select" DIV element.
+       Remember to set the width: -->
+        <div class="selectbox">
+          <label for="select">글꼴</label>
+          <select name = "fonts" onchange = "changeFont()" id = "mySelect"  style="">
+            <option value = "Nanum Myeongjo" style="font-family:'Nanum Myeongjo';">나눔명조</option>
+            <option value = 'Nanum Pen Script' style="font-family:'Nanum Pen Script';">나눔손글씨 펜</option>
+            <option value = "Nanum Gothic" style="font-family:'Nanum Gothic';">나눔고딕</option>
+            <option value = 'Noto Serif KR' style="font-family:'Noto Serif KR';">본명조</option>
+            <option value = 'Gaegu' style="font-family:'Gaegu';">개구쟁이</option>
+            <option value = 'Yeon Sung' style="font-family:'Yeon Sung';">연성체</option>
+            <option value = 'Poor Story' style="font-family:'Poor Story';">서툰 이야기</option>
+          </select>
+        </div>
+
        <div>
          <h3>파일로 중간 저장</h3> <button class="button-hidden" id = "saveTxt"> <p>(저장하기)</p></button><br>
          <h3>최종 PDF 저장</h3><button class="button-hidden" id = "savePDF"> <p>(저장하기) </p></button><br>

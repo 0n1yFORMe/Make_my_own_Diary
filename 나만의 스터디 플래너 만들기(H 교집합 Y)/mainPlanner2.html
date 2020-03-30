@@ -23,7 +23,7 @@
                  </div>
            </div>
 
-      </div>
+         </div>
       <!--End Modal-->
 
     <link href="https://fonts.googleapis.com/css?family=Gaegu|Nanum+Gothic|Nanum+Myeongjo|Nanum+Pen+Script|Noto+Serif+KR|Poor+Story|Yeon+Sung&display=swap" rel="stylesheet">
@@ -61,7 +61,7 @@
               echo $_SESSION['username']."님의 플래너";
             ?></a></li>
         <li style="float:right"><a href="#" onclick="location.href = 'http://3.17.25.159/logout.php'">로그아웃</a></li>
-        <li style="float:right"><a id="default"><p><p id="scale">100</p>%</p></a></li>
+        <li id="default" style="float:right"><a><p><p id="scale">100</p>%</p></a></li>
         <!-- 나중에 scale 누르면 100%로 돌아오게 하는 기능 추가 할 것 -->
         <li style="float:right"><a id = "zoomOut">-</a></li>
         <li style="float:right"><a id = "zoomIn">+</a></li>
@@ -86,8 +86,8 @@
    <!--End Modal-->
 
     <div class = "align">
-      <div style="width: 50vw; background-color: transparent; transform-origin: top;">
-        <div id = "realMainBox" class = "droppable_mainBox" style = "position: relative; width: 148.5mm; height: 210mm; min-width: 148.5mm; background-color: white; display: flex; align-items: center; justify-content: center; margin: auto; z-index: 2; transform-origin: top;">
+      <div style="width: 50vw; display: flex; justify-content:center; background-color: transparent; transform-origin: top;">
+        <div id = "realMainBox" class = "droppable_mainBox" style = "position: relative; width: 148.5mm; height: 210mm; min-width: 148.5mm; background-color: white; display: flex; align-items: center; justify-content: center; margin: 0; z-index: 2; transform-origin: top;">
           <!-- 컨테이너에 배경을 줄 경우 transform-origin: center -->
          <!-- <div id = "realMainBox" class = "droppable_mainBox" style = "width: 125.1mm; height: 203.2mm; background-color: white; border: 2px solid black; z-index: 1;"> -->
          <!-- </div> -->
@@ -141,14 +141,14 @@
             <td>
               <div id="accordion">
                 <h3>즐겨찾기</h3>
-                <div class = "accordion-title" id = "favorite">
-
+                <div class = "accordion-title">
+                  으핫핫 즐겨찾기 기능 같은 건 만들지 않았다
                 </div>
 
                 <h3>사용자가 추가한 기능</h3>
-                <div class = "accordion-title" id = "madebyuser">
+                <div class = "accordion-title" id = "favorite">
 
-                    <div id = "anything-text" class='inTagBox-hover' style = "display: none;">
+                    <div id = "anything-text" style = "display: none;">
                       <span class = "inTagBox elements anything-text"></span>
                     </div>
 
@@ -157,42 +157,42 @@
                 <h3>기본</h3>
                 <div class = "accordion-title">
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = "inTagBox elements studyTime"> 공부 시간: </span>
                   </div>
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = " inTagBox elements phrase" style = "padding-right: 20px;"> 공부 자극 문구:
                     </span>
                   </div>
 
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = " inTagBox elements date"> 날짜: </span>
 
                   </div>
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = "inTagBox sticker"> <p style = "position: relative; top: 43%; left: 3%; font-size: 10pt;">스티커</p> </span>
                   </div>
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = " inTagBox elements d-day"> D&nbsp;- </span>
                   </div>
 
 
 
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = "inTagBox elements memo"> Memo <br>
-                      <div style = "width: 100px; height: 100px; border: 1px solid black; margin-top: 10px;"></div>
+                      <div style = "width: 100px; height: 100px; border: 1px solid black; margin-top: 10px; background-color: white;"></div>
                     </span>
                   </div>
                 </div>
 
                 <h3>표</h3>
                 <div class = "accordion-title">
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = " inTagBox elements plan">계획 <br>
                       <table border = "1" summary = "sbs" style = "flex-grow: 1; table-layout: fixed; width: 200px; height: 50px;">
                         <tbody id = "planTable">
@@ -225,7 +225,7 @@
                   </div>
 
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = " inTagBox elements reflection"> *오늘의 나, 성찰*<br>
                       <table border = "1" summary = "sbs" style = "flex-grow: 1; table-layout: fixed; width: 200px; height: 50px;">
                         <tbody id = "reflectionTable">
@@ -259,7 +259,7 @@
                     </span>
                   </div>
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class="inTagBox elements weekPlan"> 한 주 계획 <br>
                       <table border = "1" summary = "sbs" style = "flex-grow: 1; table-layout: fixed; width: 300px; height: 50px;" id = "weekPlanTable">
 
@@ -312,7 +312,7 @@
 
                 <h3>타임테이블</h3>
                 <div class = "accordion-title">
-                  <div class='inTagBox-hover'>
+                  <div>
 
 
                         <span class = "inTagBox elements time-table"> Time-Table <br>
@@ -531,23 +531,23 @@
                 <h3>스페셜 기능</h3>
                 <div class="accordion-title">
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = "inTagBox elements"> <img src='data:image/png;base64,<?php echo encode_image("images/cat.png");?>' alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;오늘의 고양이 일지: </span></span>
                   </div>
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = "inTagBox elements sun"> <img src='data:image/png;base64,<?php echo encode_image("images/img_sun_60.png");?>' alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;: </span></span>
                   </div>
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = "inTagBox elements night"> <img src='data:image/png;base64,<?php echo encode_image("images/img_night_50.png");?>' alt=""><span style="vertical-align: 100%;">&nbsp;&nbsp;: </span></span>
                   </div>
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = "inTagBox elements shine-time" style="border:0;"> <span style="vertical-align: 100%;">걸린</span><img src='data:image/png;base64,<?php echo encode_image("images/img_shine2_25.png")?>' alt="" style="vertical-align: 130%;"><span style="vertical-align: 100%;">시간: </span></span>
                   </div>
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = "inTagBox elements waterdrop-time" style="border:0;"> <span style="vertical-align: 100%;">걸린</span><img src='data:image/png;base64,<?php echo encode_image("images/img_waterdrop_20.png")?>' alt="" style="vertical-align: 130%;"><span style="vertical-align: 100%;">시간: </span></span>
                   </div>
 
@@ -555,18 +555,18 @@
 
                 <h3>대학 로고</h3>
                 <div class="accordion-title">
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = "inTagBox logo logo-seoul" name = "logo-seoul" style="display:inline-block"><img src='data:image/png;base64,<?php echo encode_image("images/s_dae.png")?>' style="width: 300px;" alt=""></span>
 
                   </div>
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = "inTagBox logo logo-korea" style="display:inline-block">
                       <img src='data:image/png;base64,<?php echo encode_image("images/k_dae.png")?>' style="width: 300px;" alt="">
                     </span>
                   </div>
 
-                  <div class='inTagBox-hover'>
+                  <div>
                     <span class = "inTagBox logo logo-yonsei" style="display:inline-block">
                       <img src='data:image/png;base64,<?php echo encode_image("images/y_dae.png")?>' style="width: 300px;" alt="">
 
@@ -574,58 +574,6 @@
                   </div>
 
                 </div>
-
-                <h3>추가한 파츠들(귀찮아서 미분류)</h3>
-                <div class="accordion-title">
-                  <div class='inTagBox-hover'>
-                    <span class = "inTagBox img-only" name = "img_bit_clock" style="display:inline-block"><img src='images/img_bit_clock.png' style="width: 200px;" alt=""></span>
-                  </div>
-                  <div class='inTagBox-hover'>
-                    <span class = "inTagBox img-only" name = "img_bit_clock2" style="display:inline-block"><img src='data:image/png;base64,<?php echo encode_image("images/img_bit_clock2.png")?>' style="width: 200px;" alt=""></span>
-                  </div>
-                  <div class='inTagBox-hover'>
-                    <span class = "inTagBox img-only" name = "img_bit_date" style="display:inline-block"><img src='data:image/png;base64,<?php echo encode_image("images/img_bit_date.png")?>' style="width: 200px;" alt=""></span>
-                  </div>
-                  <div class='inTagBox-hover'>
-                    <span class = "inTagBox img-only" name = "img_bit_dday" style="display:inline-block"><img src='data:image/png;base64,<?php echo encode_image("images/img_bit_dday.png")?>' style="width: 200px;" alt=""></span>
-                  </div>
-                  <div class='inTagBox-hover'>
-                    <span class = "inTagBox elements todo-list"> TO DO LIST <br>
-                      <div style = "width: 100px; height: fit-content; border: 1px solid black; margin-top: 10px;">
-                        <ul class="todo-list-ul" id="todolist">
-                          <li id="li1">&nbsp;</li>
-                          <li>&nbsp;</li>
-                          <li>&nbsp;</li>
-                        </ul>
-                      </div>
-                    </span>
-                    <span style="border: 0; float: left;">
-                      <input type = "button" class = "button" value = "+" name = "#todolist" onclick = "addColumn(this)">
-                      <input type = "button" class = "button" value = "-" name = "#todolist" onclick = "removeColumn(this)">
-                    </span>
-                  </div>
-                  <div class='inTagBox-hover'>
-                    <span class = " inTagBox elements plan">
-                      <table border = "1" summary = "sbs" style = "flex-grow: 1; table-layout: fixed; width: 340px; height: 43px;">
-                        <tbody>
-
-                          <tr>
-                            <td style="text-align: center;">Sun</td>
-                            <td style="text-align: center;">Mon</td>
-                            <td style="text-align: center;">Tue</td>
-                            <td style="text-align: center;">Wed</td>
-                            <td style="text-align: center;">Thu</td>
-                            <td style="text-align: center;">Fri</td>
-                            <td style="text-align: center;">Sat</td>
-                          </tr>
-
-                        </tbody>
-                      </table>
-                    </span>
-                  </div>
-
-                </div>
-
 
 
               </div>

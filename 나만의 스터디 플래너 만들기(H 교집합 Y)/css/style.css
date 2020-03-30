@@ -30,11 +30,11 @@ z-index (#: 바뀔 가능성 있음)
 
       /* 스티커 동그랗게 만들기 */
       .sticker {
-        border-radius: 50%;
-
         width: 100px;
         height: 100px;
+
         border: 1.5px solid black;
+        border-radius: 50%;
 
         float: left;
         margin: 10px 10px 10px 0;
@@ -279,7 +279,7 @@ z-index (#: 바뀔 가능성 있음)
 
         @font-face { font-family: 'BRBA_B'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/BRBA_B.woff') format('woff'); font-weight: normal; font-style: normal; }
 
-        ul {
+        ul:not(.todo-list-ul) {
           list-style-type: none;
           margin-bottom: 1%;
           padding: 0;
@@ -287,7 +287,7 @@ z-index (#: 바뀔 가능성 있음)
           background-color: #333;
         }
 
-        li {
+        li:not(.todo-list-ul > li) {
           float: left;
         }
 
@@ -344,3 +344,34 @@ z-index (#: 바뀔 가능성 있음)
            font-family: 'BRBA_B';
            font-size: 1.5em;
          }
+
+        .inTagBox-hover {
+          position: relative;
+        }
+
+        .inTagBox-hover:hover {
+           background-color: #00000059;
+           transition: 0.5s;
+        }
+
+        .setFavBtn {
+           position: absolute;
+           top: 2%;
+           right:0;
+           display: none;
+        }
+
+        .setLineBtn {
+           position: absolute;
+           bottom: 2%;
+           right: 0;
+           display: none;
+        }
+
+        .fav {
+          /* color: yellow; */
+        }
+
+        .not-fav {
+          /* color: gray; */
+        }

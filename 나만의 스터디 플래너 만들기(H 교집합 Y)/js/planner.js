@@ -1,6 +1,7 @@
 // <----------------------------------------- jQuery UI 영역 --------------------------------------------------->
 
 var originPosition; //draggable이 drag 시작할 때 값이 들어옴
+var originSize;
 
 // inTagBox: 기능 박스에 있는 파츠들(이미 A4 위에 놓여있는 애들은 포함 x), 속성: 자기를 복제해서 드래그되게 하되 이상한 데 가면 제자리로 돌아옴.(revert)
 $( function() {
@@ -10,12 +11,6 @@ $( function() {
      helper: "clone",
      appendTo: "#realMainBox"
   });
-
-  $( "#accordion" ).accordion({
-    collapsible: true,
-    heightStyle: "content"
-  });
-
 
 
   // 왜 클래스로 했지 암튼 droppable이라는 건 용지 위에 파츠들(draggable)을 드롭할 수 있게 만드는 코드
@@ -28,11 +23,6 @@ $( function() {
       if(isCopieable == -1) {
         console.log("input originposition is "+ originPosition.top)
         historyy.dragged(ui.draggable[0], originPosition);
-
-        // var element = ui.draggable[0];
-        // element.state = 'drop';
-        //
-        // historyy.push(element);
         return 0;
       }
 
@@ -40,7 +30,25 @@ $( function() {
       var newClone = $(ui.helper).clone();
       newClone.removeClass('inTagBox').addClass('draggable');
 
+      var type = getType(newClone[0]);
+      // console.log(type);
+
       // 표일 경우에는 표만, 메모칸일 경우에는 네모만 사이즈 조절하게 하는 코드
+      switch(type) {
+
+        case('table'):
+          $(newClone).children('table').addClass('resizable');
+          break;
+        case('div'):
+          $(newClone).children('div').addClass('resizable');
+          break;
+        case('img'):
+          $(newClone).children('img').addClass('resizable');
+          break;
+        default:
+          $(newClone).addClass('resizable');
+      }
+      /*
       if($.inArray('memo', newClone.prop('classList')) != -1)
       {
         var child = $(newClone).children('div');
@@ -67,34 +75,11 @@ $( function() {
         child.addClass('resizable');
       }
       else newClone.addClass('resizable');
+      */
 
-      // newClone[0].state = 'add';
       $(this).append(newClone);
 
-      var originSize;
-      $(".resizable").resizable({
-        start: function(event, ui) {
-          originSize = getSize(getType(ui.element[0]), ui.element[0]);
-        },
-        stop: function(event, ui) {
-          historyy.resized(ui.element[0], originSize);
-        }
-      });
-
-      $(".draggable").draggable({
-        start: function(event, ui) {
-          originPosition = {
-            top: ui.position.top.toString() + 'px',
-            left: ui.position.left.toString() + 'px'
-          }
-          console.log("originPosition.top is " + originPosition.top);
-        },
-        revert: 'invalid'
-      });
-
-      //draggable과 resizable 클래스를 굳이 부여하는 코드에 의문이 들지만 넘어가자
-
-      // historyy.push(newClone[0]);
+      parts_refresh();
       historyy.added(newClone[0]);
 
     }
@@ -124,15 +109,33 @@ $( function() {
 
   $( "#accordion" ).accordion({
     collapsible: true,
-    heightStyle: "auto" //조금 생각해봐야...
+    heightStyle: "content" //조금 생각해봐야... content
   });
+
+  var setFavBtn = "<input type='button' class='setFavBtn not-fav' value='*' onclick='setFav(this);'>"
+  var setLineBtn = "<input type='button' class='setLineBtn lined' value='선' onclick='setLine(this);'>"
+  $(".inTagBox-hover").append(setFavBtn);
+  $(".elements").parent(".inTagBox-hover").append(setLineBtn);
+  $(".sticker").parent(".inTagBox-hover").append(setLineBtn);
+
+  $(".inTagBox-hover").hover(function() {
+    $(this).children(".setFavBtn").show();
+    $(this).children(".setLineBtn").show();
+  }, function() {
+    $(this).children(".setFavBtn").hide();
+    $(this).children(".setLineBtn").hide();
+  });
+
+  $(".elements").addClass("lined");
+
+
 
 });
 
 // <----------------------------------------- 자바스크립트 함수 영역 --------------------------------------------------->
 
 
-const classList = ['studyTime', 'phrase', 'date', 'sticker', 'plan', 'reflection', 'time-table', 'memo', 'd-day', 'anything-text', 'anything-table', 'anything-img', 'weekPlan', 'sun', 'night', 'shine-time', 'waterdrop_time', 'logo'];
+const classList = ['studyTime', 'phrase', 'date', 'sticker', 'plan', 'reflection', 'time-table', 'memo', 'd-day', 'anything-text', 'anything-table', 'anything-img', 'weekPlan', 'sun', 'night', 'shine-time', 'waterdrop_time', 'logo', 'todo-list'];
 let children = []; //a4지 위에 배치된 파츠들
 
 let eleList; // 불러오기로 불러온 내용
@@ -140,30 +143,32 @@ let newCloneList; // 불러온 내용으로 만든 파츠들
 
 let bgColor = "#B3001F"; // 여백 색깔
 
-let tagBoxOn = false;
+let tagBoxOn = false; //아코디언 창 열려있는가?
 
 
 // 표에서 버튼 누르면 행 추가하는 거
 function addColumn(btn) {
   var btnName = btn.name;
-  var table = document.querySelectorAll(btnName)[document.querySelectorAll(btnName).length - 1];
+  var target = document.querySelectorAll(btnName)[document.querySelectorAll(btnName).length - 1];
   var column;
   if(btnName == '#planTable')
-  column = document.querySelector('#column');
+    column = document.querySelector('#column');
   else if(btnName == '#reflectionTable')
-  column = document.querySelector('#column2');
+    column = document.querySelector('#column2');
+  else if(btnName == '#todolist')
+    column = document.querySelector('#li1');
   var newColumn = column.cloneNode(true);
-  table.appendChild(newColumn);
+  target.appendChild(newColumn);
 }
 
 // 표에서 버튼 누르면 행 삭제하는 거
 function removeColumn(btn) {
   var btnName = btn.name;
-  var table = document.querySelectorAll(btnName)[document.querySelectorAll(btnName).length - 1];
-  var lastColumn = table.lastChild;
+  var target = document.querySelectorAll(btnName)[document.querySelectorAll(btnName).length - 1];
+  var lastColumn = target.lastChild;
   //console.log(table.children);
-  if(table.children.length <=3) return 0;
-  table.removeChild(lastColumn);
+  if(target.children.length <=3) return 0;
+  target.removeChild(lastColumn);
 }
 
 // 현재 A4 위에 있는 아이들의 [클래스명, 가로, 세로, left, top] 불러오는 거 (표는 행 개수, 새로운 기능은 기능 이름을 추가로 불러옴)
@@ -246,13 +251,13 @@ function getElementList() {
         //console.log('if cleared '+classList[k]);
         newList.push(child.style.left, child.style.top);
         if(currentClass == 'plan' || currentClass == 'reflection')
-          newList.push($(childObject).children()[0].childElementCount);
+          newList.push($(child).find('tbody')[0].childElementCount);
 
         if(currentClass == 'anything-text')
           newList.push(child.innerText);
 
         if(currentClass == 'logo')
-          newList.push(child.src);
+          newList.push(child.getAttribute('name')); //undefined
 
         newList.push('/');
         elementList.push(newList);
@@ -269,7 +274,99 @@ function getElementList() {
   }
 
   // elementList.push(document.querySelector("#colorPicker").value);
-  elementList.push(bgColor);
+  elementList.push(prevColor);
+
+// className, width, height, left, top, (column)
+  /*
+  클래스 이름이랑 클래스 리스트랑 대조해서 일치하는 걸 뽑아내야 함.
+
+  */
+
+  return elementList;
+}
+
+function getElementList2() { //just for test
+  // let elementList = Array();
+
+  const c = document.getElementById("realMainBox").children;
+  children = [];
+
+  for(i=0; i<c.length; i++) {
+    if(c[i].tagName == 'SPAN')
+    children.push(c[i]);
+  }
+
+  var elementList = {};
+
+  for(i = 0; i < children.length; i++) {
+    const child = children[i]; //현재 선택한 자식
+
+    for(k = 0; k < classList.length; k++) {
+      const currentClass = classList[k]; // 클래스 목록에서 한 놈 고른 거
+
+      if(child.className.includes(currentClass)) { // 현재 선택한 자식의 클래스들 중 클래스 목록과 겹치는 걸 찾읍시다
+
+        //뉴리스트는 현재 선택한 엘리먼트의 클래스 이름, 크기 등의 정보를 담은 배열입니다
+        // let newList = Array();
+
+        var type = getType(child);
+
+        var newList = {
+          "design_type": "", //구분 가능한 요소(text,  plantable, reflectable, logo, memo, ...)
+          "width": "",
+          "height": "",
+          "top": "",
+          "left": ""
+          // "column": "",
+          // "content": "",
+          // "img_name": "",
+        };
+
+        newList.design_type = currentClass;
+
+        size = getSize(type, child);
+        newList.width = size.width;
+        newList.height = size.height;
+
+        // 뉴리스트에 들어가는 거: 클래스명, 가로, 세로, left, top, (선택)(행 또는 이름 또는 이미지 링크 또는 ...)
+
+        //console.log('if cleared '+classList[k]);
+        newList.left = child.style.left;
+        newList.top = child.style.top;
+
+        switch(type){
+          case('table'):
+            newList.column = $(child).find('tbody')[0].childElementCount;
+            break;
+          case('div'):
+            // newList.content = $(child)[0].innerText; // 보류(오류)
+            break;
+          case('img'):
+            newList.img_name = $(child)[0].getAttribute("name");
+            break;
+          case('text'):
+            newList.content = $(child)[0].innerText;
+            break;
+          default:
+            console.log("error occured while disticting type");
+            return;
+        }
+
+        elementList.push
+
+      }
+
+
+    }
+    // 임시로 array를 만들어서 정보들 다 넣고 그걸 elementList에 넣어야 함.
+
+    // elementList 보면 대충 클래스명, 크기, 위치, (행 개수)가 담긴 배열이 나올 거임
+
+
+  }
+
+  // elementList.push(document.querySelector("#colorPicker").value);
+  elementList.push(prevColor);
 
 // className, width, height, left, top, (column)
   /*
@@ -367,8 +464,10 @@ function savePDF() {
 
   window.scrollTo(0,0);
 
+  $('#myModal2').show();
+
   html2canvas(document.querySelector("#realMainBox"), {
-    dpi: 100,
+    dpi: 300,
     onrendered: function(canvas) {
       var imgData = canvas.toDataURL('image/png');
       //console.log('Report Image URL: '+imgData);
@@ -384,6 +483,7 @@ function savePDF() {
 
       $.when(doc.save(title + '.pdf')).then(function() {
         console.log("success");
+        $('#myModal2').fadeOut();
       });
 
       // pdf 로딩화면 부분 임시
@@ -442,7 +542,7 @@ function read() {
       eleList[i] = eleList[i].split(',');
     }
 
-    settingColor = eleList.pop().toString();
+    settingColor = eleList.pop().toString(); //color
     console.log("settingColor is "+settingColor);
     colorPicker.addColor(settingColor, 0);
     colorPicker.removeColor(1);
@@ -451,7 +551,7 @@ function read() {
     if(eleList.length === 0) return false;
 
     if(eleList[eleList.length - 1].indexOf('/') != -1)
-    eleList[eleList.length - 1].splice(eleList[eleList.length - 1].indexOf('/'));
+      eleList[eleList.length - 1].splice(eleList[eleList.length - 1].indexOf('/'));
 
     newCloneList = Array(eleList.length);
 
@@ -463,39 +563,34 @@ function read() {
       $(newCloneList[i]).addClass("draggable");
       $(newCloneList[i]).removeClass("inTagBox");
 
-      switch(eleList[i][0]) {
-        case("plan"):
-          $(newCloneList[i]).children("table").css('width',eleList[i][1]);
-          $(newCloneList[i]).children("table").css('height',eleList[i][2]);
+      var type = getType(newCloneList[i]);
+
+      setSize(type, newCloneList[i], eleList[i][1], eleList[i][2]); //width, height
+
+      switch(type) {
+        case("table"):
+
           $(newCloneList[i]).children("table").addClass("resizable");
           break;
-        case("reflection"):
-          $(newCloneList[i]).children("table").css('width',eleList[i][1]);
-          $(newCloneList[i]).children("table").css('height',eleList[i][2]);
-          $(newCloneList[i]).children("table").addClass("resizable");
-          break;
-        case("memo"):
-          $(newCloneList[i]).children("div").css('width',eleList[i][1]);
-          $(newCloneList[i]).children("div").css('height',eleList[i][2]);
+        case("div"):
+
           $(newCloneList[i]).children("div").addClass("resizable");
           break;
-        case("time-table"):
-          $(newCloneList[i]).children("table").css('width',eleList[i][1]);
-          $(newCloneList[i]).children("table").css('height',eleList[i][2]);
-          $(newCloneList[i]).children("table").addClass("resizable");
+        case("img"):
+
+          $(newCloneList[i]).children("img").addClass("resizable");
           break;
         default:
-          $(newCloneList[i]).css('width',eleList[i][1]);
-          $(newCloneList[i]).css('height',eleList[i][2]);
+
           $(newCloneList[i]).addClass("resizable");
       }
 
-      newCloneList[i].style.left = eleList[i][3];
+      newCloneList[i].style.left = eleList[i][3]; //left, top
       newCloneList[i].style.top = eleList[i][4];
 
       if(eleList[i][5]) {
         switch(eleList[i][0]) {
-          case("plan"):
+          case("plan"): //column
             for(j=0; j<eleList[i][5]-3; j++) {
               const columnClone = document.querySelector('#column').cloneNode(true);
               $(newCloneList[i]).find('tbody').append(columnClone);
@@ -509,11 +604,11 @@ function read() {
             }
             break;
 
-          case("anything-text"):
+          case("anything-text"): //content
             newCloneList[i].innerHTML = eleList[i][5];
             break;
 
-          case("logo"):
+          case("logo"): //src
             newCloneList[i].src = eleList[i][5];
             break;
         }
@@ -525,24 +620,7 @@ function read() {
       document.querySelector("#realMainBox").appendChild(newCloneList[i]);
     }
 
-    $(".draggable").draggable({
-      start: function(event, ui) {
-        originPosition = {
-          top: ui.position.top.toString() + 'px',
-          left: ui.position.left.toString() + 'px'
-        }
-        console.log("originPosition.top is " + originPosition.top);
-      },
-      revert: 'invalid'
-    });
-    $(".resizable").resizable({
-      start: function(event, ui) {
-        originSize = getSize(getType(ui.element[0]), ui.element[0]);
-      },
-      stop: function(event, ui) {
-        historyy.resized(ui.element[0], originSize);
-      }
-    });
+    parts_refresh();
 
 
   };
@@ -557,7 +635,7 @@ function read() {
 
 }
 
-// 새로운 기능 추가하는 거(원리: 사실.. 기능란에 안 보이게 해놓은 파츠 하나 있어서 그거 복제해서 만듦)
+// 새로운 기능 추가하는 거(원리: 사실.. 기능란에 안 보이게 해놓은 파츠 하나 있어서 그거 복제해서 만듦) 미완성!!
 function addNewTag() {
   var value = prompt('기능의 내용을 입력하세요.')
   if(value == "" || value == null) return 0;
@@ -565,8 +643,9 @@ function addNewTag() {
 
   newClone.style.display = "";
   newClone.removeAttribute("id");
+  newClone.setAttribute("class", randomstring);
   newClone.children[0].innerHTML = value; //이 부분을 바꿔야 함.
-  document.querySelector('#favorite').appendChild(newClone);
+  document.querySelector('#madebyuser').appendChild(newClone);
 
   $( ".inTagBox" ).draggable({
     revert: "invalid",
@@ -626,6 +705,12 @@ function zoomOut() {
 
 document.querySelector("#zoomIn").addEventListener('click', zoomIn);
 document.querySelector("#zoomOut").addEventListener('click', zoomOut);
+
+document.querySelector("#default").addEventListener('click', function() {
+  $("#realMainBox").css("transform", "scale(1)");
+  $("#realMainBox").parent().css("transform", "scale(1)");
+  $("#scale").html(parseInt(mainBoxScale*100));
+})
 
 var colorPicker = new iro.ColorPicker('#iroColorPicker', {
   // Set the size of the color picker
@@ -701,30 +786,25 @@ function readfromserver(event) {
       $(newCloneList[i]).addClass("draggable");
       $(newCloneList[i]).removeClass("inTagBox");
 
-      switch(eleList[i][0]) {
-        case("plan"):
-          $(newCloneList[i]).children("table").css('width',eleList[i][1]);
-          $(newCloneList[i]).children("table").css('height',eleList[i][2]);
+      var type = getType(newCloneList[i]);
+
+      setSize(type, newCloneList[i], eleList[i][1], eleList[i][2]);
+
+      switch(type) {
+        case("table"):
+
           $(newCloneList[i]).children("table").addClass("resizable");
           break;
-        case("reflection"):
-          $(newCloneList[i]).children("table").css('width',eleList[i][1]);
-          $(newCloneList[i]).children("table").css('height',eleList[i][2]);
-          $(newCloneList[i]).children("table").addClass("resizable");
-          break;
-        case("memo"):
-          $(newCloneList[i]).children("div").css('width',eleList[i][1]);
-          $(newCloneList[i]).children("div").css('height',eleList[i][2]);
+        case("div"):
+
           $(newCloneList[i]).children("div").addClass("resizable");
           break;
-        case("time-table"):
-          $(newCloneList[i]).children("table").css('width',eleList[i][1]);
-          $(newCloneList[i]).children("table").css('height',eleList[i][2]);
-          $(newCloneList[i]).children("table").addClass("resizable");
+        case("img"):
+
+          $(newCloneList[i]).children("img").addClass("resizable");
           break;
         default:
-          $(newCloneList[i]).css('width',eleList[i][1]);
-          $(newCloneList[i]).css('height',eleList[i][2]);
+
           $(newCloneList[i]).addClass("resizable");
       }
 
@@ -763,24 +843,7 @@ function readfromserver(event) {
       document.querySelector("#realMainBox").appendChild(newCloneList[i]);
     }
 
-    $(".draggable").draggable({
-      start: function(event, ui) {
-        originPosition = {
-          top: ui.position.top.toString() + 'px',
-          left: ui.position.left.toString() + 'px'
-        }
-        console.log("originPosition.top is " + originPosition.top);
-      },
-      revert: 'invalid'
-    });
-    $(".resizable").resizable({
-      start: function(event, ui) {
-        originSize = getSize(getType(ui.element[0]), ui.element[0]);
-      },
-      stop: function(event, ui) {
-        historyy.resized(ui.element[0], originSize);
-      }
-    });
+    parts_refresh();
 
 
   var input = this;
@@ -907,26 +970,8 @@ var historyy = {
     }
 
     this.tempstack.push(stackobj);
-    //tempstack.push(element);
 
-    $(".draggable").draggable({
-      start: function(event, ui) {
-        originPosition = {
-          top: ui.position.top.toString() + 'px',
-          left: ui.position.left.toString() + 'px'
-        }
-        console.log("originPosition.top is " + originPosition.top);
-      },
-      revert: 'invalid'
-    });
-    $(".resizable").resizable({
-      start: function(event, ui) {
-        originSize = getSize(getType(ui.element[0]), ui.element[0]);
-      },
-      stop: function(event, ui) {
-        historyy.resized(ui.element[0], originSize);
-      }
-    });
+    parts_refresh();
 
 
   },
@@ -938,6 +983,7 @@ var historyy = {
     }
 
     var stackobj = this.tempstack.pop();
+
     switch(stackobj.state) {
       case('add'):
         this.add(stackobj);
@@ -962,24 +1008,7 @@ var historyy = {
 
     this.stack.push(stackobj);
 
-    $(".draggable").draggable({
-      start: function(event, ui) {
-        originPosition = {
-          top: ui.position.top.toString() + 'px',
-          left: ui.position.left.toString() + 'px'
-        }
-        console.log("originPosition.top is " + originPosition.top);
-      },
-      revert: 'invalid'
-    });
-    $(".resizable").resizable({
-      start: function(event, ui) {
-        originSize = getSize(getType(ui.element[0]), ui.element[0]);
-      },
-      stop: function(event, ui) {
-        historyy.resized(ui.element[0], originSize);
-      }
-    });
+    parts_refresh();
 
   },
 
@@ -992,21 +1021,25 @@ var historyy = {
   },
 
   add: function(obj) { //스택에 있는 오브젝트를 생성
-    //추가, addnewtag 반영..
-    // 카피해서 새로운 엘리먼트를 만들고
-    // this.resize(element), this.drag(element)
     $('#realMainBox').append(obj.ele);
   },
+
   resize: function(obj, width, height) { //스택에 있는 오브젝트의 크기 변경
     setSize(obj.type, obj.ele, width, height);
+    // if(obj.ele.classList.contains('ui-wrapper')){ //ele로 span이 아니라 다른 게 들어온 경우의 처리
+    //   setSize('text', obj.ele.children[0], width, height);
+    // }
   },
+
   drag: function(obj, top, left) { //스택에 있는 오브젝트의 위치 변경
     obj.ele.style.top = top;
     obj.ele.style.left = left;
   },
+
   remove: function(obj) { //스택에 있는 오브젝트를 삭제
     $(obj.ele).remove();
   },
+
   color: function(color) {
     setColor(color);
   },
@@ -1024,7 +1057,9 @@ var historyy = {
       state: 'add'
     }
     this.push2stack(obj);
+    console.log(obj.ele);
   },
+
   resized: function(element, prevSize) {
     var obj = {
       ele: element,
@@ -1036,7 +1071,12 @@ var historyy = {
       state: 'resize'
     }
     this.push2stack(obj);
+    console.log('width is '+getSize(getType(element), element).width);
+    console.log('height is '+getSize(getType(element), element).height);
+
+    console.log(obj.ele);
   },
+
   dragged: function(element, prevPosition) {
     //위치 변경
     var obj = {
@@ -1049,7 +1089,9 @@ var historyy = {
       state: 'drag'
     }
     this.push2stack(obj);
+    console.log(obj.ele);
   },
+
   removed: function(element, prevPosition) {
     //삭제
     var obj = {
@@ -1059,7 +1101,9 @@ var historyy = {
       state: 'remove'
     }
     this.push2stack(obj);
+    console.log(obj.ele);
   },
+
   colored: function(color) {
     var obj = {
       ele: colorPicker,
@@ -1076,11 +1120,16 @@ var historyy = {
 var prevColor = colorPicker.color.hexString;
 
 function getType(ele) {
-  if(ele.classList.contains('plan' || 'reflection' || 'time-table' || 'weekPlan'))
-    return 'table';
-  else if(ele.classList.contains('memo'))
+  //ele.classList.contains('plan') || ele...contains('reflection') || ...
+  if(ele.classList.contains('plan') ||
+   ele.classList.contains('reflection') ||
+    ele.classList.contains('weekPlan') ||
+    ele.classList.contains('time-table')) {
+      return 'table';
+    }
+  else if(ele.classList.contains('memo') || ele.classList.contains('todo-list'))
     return 'div';
-  else if(ele.classList.contains('logo'))
+  else if(ele.classList.contains('logo') || ele.classList.contains('img-only'))
     return 'img';
   else {
     return 'text';
@@ -1091,8 +1140,6 @@ function getSize(type, ele) { //return size 객체
   //걍 만들어봄...
   // width 있으면 반환, 없으면 offsetwidth 반환
 
-  var childobj;
-
   switch(type) {
     case('table'):
       childobj = $(ele).children('table')[0];
@@ -1101,20 +1148,27 @@ function getSize(type, ele) { //return size 객체
       childobj = $(ele).children('div')[0];
       break;
     case('img'):
-      childobj = $(ele).children('img')[0];
+      childobj = $(ele).find('img')[0];
       break;
     default: //text 포함
       childobj = $(ele)[0];
       break;
   }
 
+  console.log('childobj is '+childobj);
+
   var size = {
     width: "",
     height: ""
   }
 
+
   size.width = childobj.getBoundingClientRect().width.toString() + "px";
   size.height = childobj.getBoundingClientRect().height.toString() + "px";
+
+
+
+
 
   // if(childobj.style.width == "")
   //   size.width = ele.getBoundingClientRect().width.toString() + "px";
@@ -1129,15 +1183,6 @@ function getSize(type, ele) { //return size 객체
   return size;
 }
 
-function getHeight(ele) {
-  //걍 만들어봄...
-  // width 있으면 반환, 없으면 offsetwidth 반환
-  if(ele.style.height == "")
-    return ele.getBoundingClientRect().height.toString() + "px";
-  else
-    return ele.style.height;
-}
-
 function setSize(type, ele, width, height) {
   switch(type) {
     case('table'):
@@ -1149,12 +1194,16 @@ function setSize(type, ele, width, height) {
       $(ele).children('div').css('height', height);
       break;
     case('img'):
-      $(ele).children('img').css('width', width);
-      $(ele).children('img').css('height', height);
+      $(ele).find('img').css('width', width);
+      $(ele).find('img').css('height', height);
+      $(ele).find('.ui-wrapper').css('width', width).css('height', height);
       break;
-    default: //text 포함
+    case('text'): //text 포함
       $(ele).css('width', width);
       $(ele).css('height', height);
+      break;
+    default:
+      console.log('타입 값이 똑바로 안 들어와서 에러가 걸렸읍니다. ㅅㄱ');
   }
 }
 
@@ -1165,7 +1214,7 @@ function setColor(color) {
   document.querySelector("caption").style.backgroundColor = color;
 }
 
-function selectObj(type, ele) { //resize 가능한 개체를 선택
+function selectObj(type, ele) { //버려진 함수...
   switch(type) {
     case('table'):
       return ele.children('table')[0];
@@ -1176,4 +1225,136 @@ function selectObj(type, ele) { //resize 가능한 개체를 선택
   }
 }
 
-//약간 함수 떡칠
+function setFav(btn) { //사용자별로 저장되면 좋겠당~ 아님 local storage
+  var targetDiv = btn.parentElement;
+
+  if(btn.classList.contains('not-fav')) {
+    var newClone = targetDiv.cloneNode(true);
+    $(newClone).children(".setFavBtn").css('display', 'none');
+    // $(newClone).children(".setFavBtn").switchClass('not-fav', 'fav');
+    $(newClone).children(".setLineBtn").css('display', 'none');
+    document.querySelector("#favorite").appendChild(newClone);
+
+    $( ".inTagBox" ).draggable({
+      revert: "invalid",
+      helper: "clone",
+      appendTo: "#realMainBox"
+    });
+
+    $(".inTagBox-hover").hover(function() {
+      $(this).children(".setFavBtn").show();
+      $(this).children(".setLineBtn").show();
+    }, function() {
+      $(this).children(".setFavBtn").hide();
+      $(this).children(".setLineBtn").hide();
+    });
+
+    console.log("짜잔~ 즐겨찾기 추가!");
+
+    for(k = 0; k < classList.length; k++) {
+      if(targetDiv.children[0].classList.contains(classList[k])) {
+        $("."+classList[k]).parent(".inTagBox-hover").children(".not-fav").switchClass('not-fav', 'fav');
+        return;
+      }
+    }
+
+    // btn.removeAttribute('class', 'not-fav');
+    // btn.setAttribute('class', 'fav');
+  }
+  else if(btn.classList.contains('fav')) {
+    var targetSpan = btn.parentElement.children[0];
+    for(k = 0; k < classList.length; k++) {
+      if(targetSpan.classList.contains(classList[k])) {
+        var targetDiv = $("#favorite").find("."+classList[k]).parent(".inTagBox-hover")[0];
+        document.querySelector("#favorite").removeChild(targetDiv);
+        // $("#favorite").remove(targetDiv);
+        $("."+classList[k]).parent(".inTagBox-hover").children(".fav").switchClass('fav', 'not-fav');
+        // btn.removeAttribute('class', 'fav');
+        // btn.setAttribute('class', 'not-fav');
+        // $(btn).switchClass('fav', 'not-fav');
+      }
+    }
+
+    console.log("띠용~ 즐겨찾기 삭제!");
+
+  }
+}
+
+//1. 제이쿼리 렉 걸리는 거 그냥 cdn 안 쓰면 해결 가능하지 않을까 미분가능.. 아..
+//2. fav는 한 엘리끼리 다 공유해야 하니까......(귀찮음)
+//3. ui-resizable-handle 수정?
+//4. 코드 최적화(귀찮음2)
+
+function setLine(btn) {
+  var targetSpan = btn.parentElement.children[0];
+
+  if(targetSpan.classList.contains('lined')) {
+    // targetSpan.style.border = 0;
+
+    for(k = 0; k < classList.length; k++) {
+      if(targetSpan.classList.contains(classList[k])) {
+        $("."+classList[k]).switchClass('lined', 'not-lined');
+        // console.log($("."+classList[k]).parent(".inTagBox-hover").children(".lined"));
+        $("."+classList[k]).css('border', '0');
+        break;
+      }
+    }
+  }
+  else if(targetSpan.classList.contains('not-lined')) {
+
+    for(k = 0; k < classList.length; k++) {
+      if(targetSpan.classList.contains(classList[k])) {
+
+        if(targetSpan.classList.contains('elements')) {
+          $("."+classList[k]).css('border-top', '1.5px solid black');
+          $("."+classList[k]).css('border-bottom', '1.5px solid black');
+          // $(targetSpan).css('border-top', '1.5px solid black');
+          // $(targetSpan).css('border-bottom', '1.5px solid black');
+        }
+        else if(targetSpan.classList.contains('sticker')) {
+          $("."+classList[k]).css('border', '1.5px solid black');
+        }
+        else {
+          alert("띠용? 얘는 선 버튼이 생기면 안 되는데");
+          return;
+        }
+
+        $("."+classList[k]).switchClass('not-lined', 'lined');
+        break;
+      }
+    }
+  }
+
+
+}
+
+function parts_refresh() { //클론을 만들든가 하면 드래그가 안 되는 등의 문제로..
+  $(".resizable").resizable({
+    start: function(event, ui) {
+      originSize = getSize(getType(ui.element[0]), ui.element[0]);
+    },
+    stop: function(event, ui) {
+      var resizeTarget; //should be span element
+      console.log($(ui.element[0]).find('img')[0])
+      if(ui.element[0].classList.contains('ui-wrapper')) {
+        resizeTarget = ui.element[0].parentElement;
+      }
+      else {
+        resizeTarget = ui.element[0];
+      }
+      historyy.resized(resizeTarget, originSize);
+    }
+  });
+
+  $(".draggable").draggable({
+    start: function(event, ui) {
+      originPosition = {
+        top: ui.position.top.toString() + 'px',
+        left: ui.position.left.toString() + 'px'
+      }
+      console.log("originPosition.top is " + originPosition.top);
+    },
+    revert: 'invalid'
+  });
+}
+//약간 함수 떡칠잼

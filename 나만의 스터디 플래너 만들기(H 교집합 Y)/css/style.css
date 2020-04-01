@@ -68,7 +68,7 @@ z-index (#: 바뀔 가능성 있음)
       }
 
       /* tagBox 안에 들어있는 애들의 테두리와 내부 간격 */
-      .elements:not(.sticker) {
+      .elements:not(.sticker):not(.logo) {
         border-top:1.5px solid black;
         border-bottom:1.5px solid black;
         padding-top: 15px;
@@ -349,23 +349,47 @@ z-index (#: 바뀔 가능성 있음)
           position: relative;
         }
 
+        .btnDiv {
+          position: absolute;
+          top: 2%;
+          right:0;
+        }
+
         .inTagBox-hover:hover {
            background-color: #00000059;
            transition: 0.5s;
         }
 
         .setFavBtn {
-           position: absolute;
+           /* position: absolute;
            top: 2%;
-           right:0;
+           right:0; */
            display: none;
+           background-color: transparent;
+           border: 0;
+        }
+
+        .setFavBtn:focus {
+          outline: none;
+        }
+
+        .setFavBtn > img {
+          width: 30px;
+          height: 30px;
         }
 
         .setLineBtn {
-           position: absolute;
+           /* position: absolute;
            bottom: 2%;
-           right: 0;
+           right: 0; */
            display: none;
+           background-color: transparent;
+           border: 0;
+        }
+
+        .setLineBtn > img {
+          width: 30px;
+          height: 30px;
         }
 
         .fav {

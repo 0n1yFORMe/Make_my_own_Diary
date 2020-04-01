@@ -48,34 +48,6 @@ $( function() {
         default:
           $(newClone).addClass('resizable');
       }
-      /*
-      if($.inArray('memo', newClone.prop('classList')) != -1)
-      {
-        var child = $(newClone).children('div');
-        child.addClass('resizable');
-      }
-      else if ($.inArray('plan', newClone.prop('classList')) != -1) {
-        var child = $(newClone).children('table');
-        child.addClass('resizable');
-      }
-      else if ($.inArray('reflection', newClone.prop('classList')) != -1) {
-        var child = $(newClone).children('table');
-        child.addClass('resizable');
-      }
-      else if ($.inArray('time-table', newClone.prop('classList')) != -1) {
-        var child = $(newClone).children('table');
-        child.addClass('resizable');
-      }
-      else if ($.inArray('weekPlan', newClone.prop('classList')) != -1) {
-        var child = $(newClone).children('table');
-        child.addClass('resizable');
-      }
-      else if ($.inArray('logo', newClone.prop('classList')) != -1) {
-        var child = $(newClone).children('img');
-        child.addClass('resizable');
-      }
-      else newClone.addClass('resizable');
-      */
 
       $(this).append(newClone);
 
@@ -112,21 +84,24 @@ $( function() {
     heightStyle: "content" //조금 생각해봐야... content
   });
 
-  var setFavBtn = "<input type='button' class='setFavBtn not-fav' value='*' onclick='setFav(this);'>"
-  var setLineBtn = "<input type='button' class='setLineBtn lined' value='선' onclick='setLine(this);'>"
-  $(".inTagBox-hover").append(setFavBtn);
-  $(".elements").parent(".inTagBox-hover").append(setLineBtn);
-  $(".sticker").parent(".inTagBox-hover").append(setLineBtn);
+  var setFavBtn = "<button type='button' class='setFavBtn not-fav' onclick='setFav(this);'><img src='images/img_star_inactive.png'></button>"
+  var setLineBtn = "<button type='button' class='setLineBtn lined' onclick='setLine(this);'><img src='images/line_active.png'></button>"
+  var btnDiv = document.createElement("div");
+  btnDiv.setAttribute("class", "btnDiv");
+
+  $(btnDiv).append(setFavBtn);
+  $(btnDiv).append(setLineBtn);
+
+  $(".inTagBox-hover").append(btnDiv);
 
   $(".inTagBox-hover").hover(function() {
-    $(this).children(".setFavBtn").show();
-    $(this).children(".setLineBtn").show();
+    $(this).find(".setFavBtn").css("display", "block");
+    $(this).find(".setLineBtn").css("display", "block");
   }, function() {
-    $(this).children(".setFavBtn").hide();
-    $(this).children(".setLineBtn").hide();
+    $(this).find(".setFavBtn").hide();
+    $(this).find(".setLineBtn").hide();
   });
 
-  $(".elements").addClass("lined");
 
 
 
@@ -135,7 +110,7 @@ $( function() {
 // <----------------------------------------- 자바스크립트 함수 영역 --------------------------------------------------->
 
 
-const classList = ['studyTime', 'phrase', 'date', 'sticker', 'plan', 'reflection', 'time-table', 'memo', 'd-day', 'anything-text', 'anything-table', 'anything-img', 'weekPlan', 'sun', 'night', 'shine-time', 'waterdrop_time', 'logo', 'todo-list'];
+const classList = ['studyTime', 'phrase', 'date', 'sticker', 'plan', 'reflection', 'time-table', 'memo', 'd-day', 'anything-text', 'anything-table', 'anything-img', 'weekPlan', 'sun', 'night', 'shine-time', 'waterdrop_time', 'logo-seoul', 'logo-korea', 'logo-yonsei', 'img_bit_clock', 'this-week', 'todo-list'];
 let children = []; //a4지 위에 배치된 파츠들
 
 let eleList; // 불러오기로 불러온 내용
@@ -311,8 +286,9 @@ function getElementList2() { //just for test
 
         var type = getType(child);
 
-        var newList = {
+        var newele = {
           "design_type": "", //구분 가능한 요소(text,  plantable, reflectable, logo, memo, ...)
+          "class": "",
           "width": "",
           "height": "",
           "top": "",
@@ -322,30 +298,30 @@ function getElementList2() { //just for test
           // "img_name": "",
         };
 
-        newList.design_type = currentClass;
+        newele.design_type = currentClass;
 
         size = getSize(type, child);
-        newList.width = size.width;
-        newList.height = size.height;
+        newele.width = size.width;
+        newele.height = size.height;
 
         // 뉴리스트에 들어가는 거: 클래스명, 가로, 세로, left, top, (선택)(행 또는 이름 또는 이미지 링크 또는 ...)
 
         //console.log('if cleared '+classList[k]);
-        newList.left = child.style.left;
-        newList.top = child.style.top;
+        newele.left = child.style.left;
+        newele.top = child.style.top;
 
         switch(type){
           case('table'):
-            newList.column = $(child).find('tbody')[0].childElementCount;
+            newele.column = $(child).find('tbody')[0].childElementCount;
             break;
           case('div'):
-            // newList.content = $(child)[0].innerText; // 보류(오류)
+            // newele.content = $(child)[0].innerText; // 보류(오류)
             break;
           case('img'):
-            newList.img_name = $(child)[0].getAttribute("name");
+            newele.img_name = $(child)[0].getAttribute("name");
             break;
           case('text'):
-            newList.content = $(child)[0].innerText;
+            newele.content = $(child)[0].innerText;
             break;
           default:
             console.log("error occured while disticting type");
@@ -707,9 +683,11 @@ document.querySelector("#zoomIn").addEventListener('click', zoomIn);
 document.querySelector("#zoomOut").addEventListener('click', zoomOut);
 
 document.querySelector("#default").addEventListener('click', function() {
+  mainBoxScale = 1;
+
   $("#realMainBox").css("transform", "scale(1)");
   $("#realMainBox").parent().css("transform", "scale(1)");
-  $("#scale").html(parseInt(mainBoxScale*100));
+  $("#scale").html(100);
 })
 
 var colorPicker = new iro.ColorPicker('#iroColorPicker', {
@@ -1166,20 +1144,6 @@ function getSize(type, ele) { //return size 객체
   size.width = childobj.getBoundingClientRect().width.toString() + "px";
   size.height = childobj.getBoundingClientRect().height.toString() + "px";
 
-
-
-
-
-  // if(childobj.style.width == "")
-  //   size.width = ele.getBoundingClientRect().width.toString() + "px";
-  // else
-  //   size.width = ele.style.width;
-  //
-  // if(childobj.css('height') == "")
-  //   size.height = ele.getBoundingClientRect().height.toString() + "px";
-  // else
-  //   size.height = ele.style.height;
-
   return size;
 }
 
@@ -1226,13 +1190,13 @@ function selectObj(type, ele) { //버려진 함수...
 }
 
 function setFav(btn) { //사용자별로 저장되면 좋겠당~ 아님 local storage
-  var targetDiv = btn.parentElement;
+  var targetDiv = $(btn).parent("div").parent(".inTagBox-hover")[0];
 
   if(btn.classList.contains('not-fav')) {
     var newClone = targetDiv.cloneNode(true);
-    $(newClone).children(".setFavBtn").css('display', 'none');
+    $(newClone).find(".setFavBtn").css('display', 'none');
     // $(newClone).children(".setFavBtn").switchClass('not-fav', 'fav');
-    $(newClone).children(".setLineBtn").css('display', 'none');
+    $(newClone).find(".setLineBtn").css('display', 'none');
     document.querySelector("#favorite").appendChild(newClone);
 
     $( ".inTagBox" ).draggable({
@@ -1242,84 +1206,101 @@ function setFav(btn) { //사용자별로 저장되면 좋겠당~ 아님 local st
     });
 
     $(".inTagBox-hover").hover(function() {
-      $(this).children(".setFavBtn").show();
-      $(this).children(".setLineBtn").show();
+      $(this).find(".setFavBtn").css("display", "block");
+      $(this).find(".setLineBtn").css("display", "block");
     }, function() {
-      $(this).children(".setFavBtn").hide();
-      $(this).children(".setLineBtn").hide();
+      $(this).find(".setFavBtn").hide();
+      $(this).find(".setLineBtn").hide();
     });
 
     console.log("짜잔~ 즐겨찾기 추가!");
 
+    var myclass;
+
     for(k = 0; k < classList.length; k++) {
+      myclass = classList[k];
       if(targetDiv.children[0].classList.contains(classList[k])) {
-        $("."+classList[k]).parent(".inTagBox-hover").children(".not-fav").switchClass('not-fav', 'fav');
-        return;
+        $("."+myclass).parent(".inTagBox-hover").find(".not-fav").switchClass('not-fav', 'fav');
+        break;
       }
     }
+
+    $("."+myclass).parent(".inTagBox-hover").find(".fav").children("img").attr("src", "images/img_star_active.png");
+
+
 
     // btn.removeAttribute('class', 'not-fav');
     // btn.setAttribute('class', 'fav');
   }
   else if(btn.classList.contains('fav')) {
-    var targetSpan = btn.parentElement.children[0];
+    var targetSpan = $(btn).parent("div").parent(".inTagBox-hover").children("span")[0];
+    var myclass;
     for(k = 0; k < classList.length; k++) {
-      if(targetSpan.classList.contains(classList[k])) {
-        var targetDiv = $("#favorite").find("."+classList[k]).parent(".inTagBox-hover")[0];
+      myclass = classList[k];
+      if(targetSpan.classList.contains(myclass)) {
+        var targetDiv = $("#favorite").find("."+myclass).parent(".inTagBox-hover")[0];
         document.querySelector("#favorite").removeChild(targetDiv);
         // $("#favorite").remove(targetDiv);
-        $("."+classList[k]).parent(".inTagBox-hover").children(".fav").switchClass('fav', 'not-fav');
+        $("."+myclass).parent(".inTagBox-hover").find(".fav").switchClass('fav', 'not-fav');
         // btn.removeAttribute('class', 'fav');
         // btn.setAttribute('class', 'not-fav');
         // $(btn).switchClass('fav', 'not-fav');
+        break;
       }
     }
 
     console.log("띠용~ 즐겨찾기 삭제!");
+    $("."+myclass).parent(".inTagBox-hover").find(".not-fav").children("img").attr("src", "images/img_star_inactive.png");
+
 
   }
 }
 
-//1. 제이쿼리 렉 걸리는 거 그냥 cdn 안 쓰면 해결 가능하지 않을까 미분가능.. 아..
-//2. fav는 한 엘리끼리 다 공유해야 하니까......(귀찮음)
-//3. ui-resizable-handle 수정?
-//4. 코드 최적화(귀찮음2)
-
 function setLine(btn) {
-  var targetSpan = btn.parentElement.children[0];
+  var targetSpan = $(btn).parent("div").parent(".inTagBox-hover").children("span")[0];
 
-  if(targetSpan.classList.contains('lined')) {
+  if(btn.classList.contains('lined')) {
     // targetSpan.style.border = 0;
 
+    var myclass;
+
     for(k = 0; k < classList.length; k++) {
-      if(targetSpan.classList.contains(classList[k])) {
-        $("."+classList[k]).switchClass('lined', 'not-lined');
-        // console.log($("."+classList[k]).parent(".inTagBox-hover").children(".lined"));
-        $("."+classList[k]).css('border', '0');
+      myclass = classList[k];
+      if(targetSpan.classList.contains(myclass)) {
+        $("."+myclass).parent(".inTagBox-hover").find(".lined").switchClass('lined', 'not-lined');
+        // console.log($("."+myclass).parent(".inTagBox-hover").children(".lined"));
+        $("."+myclass).css('border', '0');
         break;
       }
     }
+    $("."+myclass).parent(".inTagBox-hover").find(".not-lined").children("img").attr("src", "images/line_inactive.png");
   }
-  else if(targetSpan.classList.contains('not-lined')) {
+  else if(btn.classList.contains('not-lined')) {
+
+    var myclass;
 
     for(k = 0; k < classList.length; k++) {
-      if(targetSpan.classList.contains(classList[k])) {
+      myclass = classList[k];
+      if(targetSpan.classList.contains(myclass)) {
 
-        if(targetSpan.classList.contains('elements')) {
-          $("."+classList[k]).css('border-top', '1.5px solid black');
-          $("."+classList[k]).css('border-bottom', '1.5px solid black');
+        if(targetSpan.classList.contains('sticker')) {
+          $("."+myclass).css('border', '1.5px solid black');
+        }
+
+        else if(targetSpan.classList.contains('elements')) {
+          $("."+myclass).css('border-top', '1.5px solid black');
+          $("."+myclass).css('border-bottom', '1.5px solid black');
           // $(targetSpan).css('border-top', '1.5px solid black');
           // $(targetSpan).css('border-bottom', '1.5px solid black');
         }
-        else if(targetSpan.classList.contains('sticker')) {
-          $("."+classList[k]).css('border', '1.5px solid black');
-        }
+
         else {
           alert("띠용? 얘는 선 버튼이 생기면 안 되는데");
           return;
         }
 
-        $("."+classList[k]).switchClass('not-lined', 'lined');
+        $("."+myclass).parent(".inTagBox-hover").find(".not-lined").switchClass('not-lined', 'lined');
+        $("."+myclass).parent(".inTagBox-hover").find(".lined").children("img").attr("src", "images/line_active.png");
         break;
       }
     }
@@ -1354,7 +1335,8 @@ function parts_refresh() { //클론을 만들든가 하면 드래그가 안 되�
       }
       console.log("originPosition.top is " + originPosition.top);
     },
-    revert: 'invalid'
+    revert: 'invalid',
+    stack: ".elements"
   });
 }
 //약간 함수 떡칠잼

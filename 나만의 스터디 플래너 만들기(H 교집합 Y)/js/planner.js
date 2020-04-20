@@ -17,6 +17,7 @@ $( function() {
   });
 
 
+
   // 왜 클래스로 했지 암튼 droppable이라는 건 용지 위에 파츠들(draggable)을 드롭할 수 있게 만드는 코드
   $( ".droppable_mainBox" ).droppable({
     tolerance: 'fit', //테두리 안에 완전히 들어와야 drop으로 인식(걸치는 거 허용 ㄴ)
@@ -357,6 +358,16 @@ function getElementList2() { //just for test
   return elementList;
 }
 
+/* feedback
+function toggle_visibility() {
+   var e = document.getElementById('feedback-main');
+   if(e.style.display == 'block')
+      e.style.display = 'none';
+   else
+      e.style.display = 'block';
+}
+*/
+
 // 여백 색 바꾸는 거
 function watchColorPicker(event) {
   targetColor = event.target.value;
@@ -424,12 +435,32 @@ function changeFont() {
   */
 
   $('span').css("font-family", fFamily);
-  $('#myselect').css("font-family", fFamily);
+  $('#mySelect').css("font-family", fFamily);
   //도대체 왜 안되는 것일까 -> stackoverflow에 검색해보니 해결책이 없다...
   //select 말고 다른 방법으로 구현하는 걸 검토해봅시다
   //$('td').css("font-size", fSize);
+  }
 
-}
+  /*select*/
+  $(function() {
+  var selectTarget = $('.selectbox select');
+
+  // focus 가 되었을 때와 focus 를 잃었을 때
+  selectTarget.on({
+    'focus': function() {
+      $(this).parent().addClass('focus');
+    },
+    'blur': function() {
+      $(this).parent().removeClass('focus');
+    }
+  });
+
+  selectTarget.change(function() {
+    var select_name = $(this).children('option:selected').text();
+    $(this).siblings('label').text(select_name);
+    $(this).parent().removeClass('focus');
+  });
+});
 
 // pdf 파일로 저장하는 거(html2canvas로 캡처를 떠서 jspdf 이용해서 저장)
 function savePDF() {

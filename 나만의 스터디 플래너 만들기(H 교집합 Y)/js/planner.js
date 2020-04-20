@@ -2,6 +2,10 @@
 
 var originPosition; //draggable이 drag 시작할 때 값이 들어옴
 var originSize;
+var click = {
+  x: 0,
+  y: 0
+};
 
 // inTagBox: 기능 박스에 있는 파츠들(이미 A4 위에 놓여있는 애들은 포함 x), 속성: 자기를 복제해서 드래그되게 하되 이상한 데 가면 제자리로 돌아옴.(revert)
 $( function() {
@@ -21,7 +25,7 @@ $( function() {
       var isCopieable = $.inArray('inTagBox', ui.draggable.prop('classList'));
 
       if(isCopieable == -1) {
-        console.log("input originposition is "+ originPosition.top)
+        // console.log("input originposition is "+ originPosition.top)
         historyy.dragged(ui.draggable[0], originPosition);
         return 0;
       }
@@ -64,7 +68,7 @@ $( function() {
     drop: function(event, ui) {
       var isCopieable = $.inArray('inTagBox', ui.draggable.prop('classList'));
       if(isCopieable !== -1) return 0;
-      console.log("remove originposition is "+originPosition.top);
+      // console.log("remove originposition is "+originPosition.top);
       historyy.removed(ui.draggable[0], originPosition);
       $(ui.draggable).remove();
 
@@ -665,18 +669,22 @@ function zoomIn() { // 머리 쓰기 싫어서 함수를 두 개 썼는데 머�
   if(mainBoxScale>=1) return;
 
   mainBoxScale += 0.1;
-  $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")");
+  // $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")");
   $("#realMainBox").parent().css("transform", "scale("+mainBoxScale.toString()+")");
   $("#scale").html(parseInt(mainBoxScale*100));
+
+  parts_refresh();
 }
 
 function zoomOut() {
   if(mainBoxScale<=0.6) return;
 
   mainBoxScale -= 0.1;
-  $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")");
+  // $("#realMainBox").css("transform", "scale("+mainBoxScale.toString()+")");
   $("#realMainBox").parent().css("transform", "scale("+mainBoxScale.toString()+")");
   $("#scale").html(parseInt(mainBoxScale*100));
+
+  parts_refresh();
 }
 
 document.querySelector("#zoomIn").addEventListener('click', zoomIn);
@@ -685,9 +693,11 @@ document.querySelector("#zoomOut").addEventListener('click', zoomOut);
 document.querySelector("#default").addEventListener('click', function() {
   mainBoxScale = 1;
 
-  $("#realMainBox").css("transform", "scale(1)");
+  // $("#realMainBox").css("transform", "scale(1)");
   $("#realMainBox").parent().css("transform", "scale(1)");
   $("#scale").html(100);
+
+  parts_refresh();
 })
 
 var colorPicker = new iro.ColorPicker('#iroColorPicker', {
@@ -1332,8 +1342,22 @@ function parts_refresh() { //클론을 만들든가 하면 드래그가 안 되�
       originPosition = {
         top: ui.position.top.toString() + 'px',
         left: ui.position.left.toString() + 'px'
-      }
-      console.log("originPosition.top is " + originPosition.top);
+      };
+      click.x = event.clientX;
+      click.y = event.clientY;
+      // console.log("originPosition.top is " + originPosition.top);
+    },
+    drag: function(event, ui) {
+        // This is the parameter for scale()
+        var zoom = mainBoxScale;
+
+        var original = ui.originalPosition;
+
+        // jQuery will simply use the same object we alter here
+        ui.position = {
+            left: (event.clientX - click.x + original.left) / zoom,
+            top:  (event.clientY - click.y + original.top ) / zoom
+        };
     },
     revert: 'invalid',
     stack: ".elements"

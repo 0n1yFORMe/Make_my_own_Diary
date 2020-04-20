@@ -10,10 +10,10 @@
     </head>
     <body>
      <!-- The Modal -->
-     <!-- <div id="myModal" class="modal"> -->
+     <div id="myModal" class="modal">
 
        <!-- Modal content -->
-           <!-- <div class="modal-content">
+           <div class="modal-content">
                      <p style="text-align: center; font-family: 'BRBA_B';"><span style="font-size: 3em;"><b><span style="font-size: 24pt;">주의사항!</span></b></span></p><br>
                      <p style="text-align: center; line-height: 1.5; font-family: 'Nanum Gothic', sans-serif;"><br>왼쪽 작업란(A4 절반)에서 붉은색 부분(인쇄 여백)을 제외한 흰색 부분에 <br> 추가하고 싶은 요소를 오른쪽 기능란에서 클릭하고 끌고 와 붙여주세요!<br>요소의 오른쪽 모서리를 잡아당겨 크기를 조절하세요!<br>요소를 삭제하기 위해서는 기능란 위에 드래그하세요!<br><br></p>
                  <div style="cursor:pointer;background-color:#DDDDDD;text-align: center; margin-top: 10px; padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
@@ -21,9 +21,9 @@
                           닫기
                      </span>
                  </div>
-           </div> -->
+           </div>
 
-      <!-- </div> -->
+      </div>
       <!--End Modal-->
 
     <link href="https://fonts.googleapis.com/css?family=Gaegu|Nanum+Gothic|Nanum+Myeongjo|Nanum+Pen+Script|Noto+Serif+KR|Poor+Story|Yeon+Sung&display=swap" rel="stylesheet">
